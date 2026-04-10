@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import DragonIcon from '../components/DragonIcon';
+
 
 const sections = [
     {
         path: '/lore',
-        icon: '🐉',
+        icon: <DragonIcon size={45} />,
         title: 'Crónica',
         subtitle: 'Historia de Ancalagon Oblivion Fleet',
         description: 'Los registros del origen de la hermandad. Desde los fragmentos del orden hasta el nacimiento de la flota. La verdad del Vacío, preservada en tinta y fuego.',
@@ -99,7 +101,9 @@ const Home: React.FC = () => {
                     <div style={{ width: '80px', height: '1px', background: 'linear-gradient(to left, transparent, var(--secondary))' }} />
                 </div>
 
-                <div style={{ fontSize: '5rem', marginBottom: '1.5rem', filter: 'drop-shadow(0 0 30px rgba(196,30,58,0.7))' }}>🐉</div>
+                <div style={{ marginBottom: '1.5rem', filter: 'drop-shadow(0 0 30px rgba(196,30,58,0.7))' }}>
+                    <DragonIcon size={100} />
+                </div>
 
                 <h1 style={{
                     fontFamily: 'var(--cinzel-font)',

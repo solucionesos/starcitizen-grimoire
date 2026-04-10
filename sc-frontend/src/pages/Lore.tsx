@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Calendar, ArrowUpDown, Scroll, Download, Loader2 } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
+import DragonIcon from '../components/DragonIcon';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Chronicle {
@@ -11,7 +12,7 @@ interface Chronicle {
     date: string;           // "DD MMM YYYY" en formato SC (930a en el futuro)
     dateSort: number;       // timestamp para ordenamiento
     classification: string;
-    icon: string;
+    icon: React.ReactNode;
     color: string;
     content: React.ReactNode;
 }
@@ -104,7 +105,7 @@ const CHRONICLES: Chronicle[] = [
         date: '01 Sep 2855',
         dateSort: new Date('2855-09-01').getTime(),
         classification: 'Registro Fundacional',
-        icon: '🐉',
+        icon: <DragonIcon size={30} />,
         color: 'var(--secondary)',
         content: (
             <>
@@ -154,7 +155,7 @@ const CHRONICLES: Chronicle[] = [
                 <Quote>"El orden no colapsa cuando es atacado.<br /><span style={{ color: 'var(--text-main)', fontSize: '0.9rem' }}>Colapsa cuando se ve obligado a revelar lo que teme."</span></Quote>
                 <div style={{ textAlign: 'center', padding: '1rem 0 0' }}>
                     <span style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.8rem', letterSpacing: '4px', color: 'var(--secondary)', opacity: 0.7 }}>
-                        🐉 IN NOMINI OBLIVIONIS 🐉
+                        <DragonIcon size={20} /> IN NOMINI OBLIVIONIS <DragonIcon size={20} />
                     </span>
                 </div>
             </>
@@ -167,7 +168,7 @@ const CHRONICLES: Chronicle[] = [
         date: '07 Apr 2956',
         dateSort: new Date('2956-04-07').getTime(),
         classification: 'Evento de Quiebre',
-        icon: '🐉',
+        icon: <DragonIcon size={32} />,
         color: 'var(--primary)',
         content: (
             <>
@@ -259,7 +260,7 @@ const CHRONICLES: Chronicle[] = [
                     </Quote>
                     <div style={{ textAlign: 'center', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(212,175,55,0.15)' }}>
                         <span style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.75rem', letterSpacing: '4px', color: 'var(--secondary)', opacity: 0.8 }}>
-                            IN NOMINI OBLIVIONIS 🐉
+                            IN NOMINI OBLIVIONIS <DragonIcon size={16} />
                         </span>
                     </div>
                 </FragmentBlock>
@@ -487,7 +488,9 @@ const Lore: React.FC = () => {
                     backgroundImage: 'radial-gradient(ellipse at 50% 0%, rgba(196,30,58,0.15) 0%, transparent 70%)',
                     pointerEvents: 'none'
                 }} />
-                <div style={{ fontSize: '4rem', marginBottom: '1rem', filter: 'drop-shadow(0 0 20px rgba(196,30,58,0.6))' }}>🐉</div>
+                <div style={{ marginBottom: '1rem', filter: 'drop-shadow(0 0 20px rgba(196,30,58,0.6))' }}>
+                    <DragonIcon size={80} />
+                </div>
                 <h1 style={{
                     fontFamily: 'var(--cinzel-font)',
                     fontSize: 'clamp(1.8rem, 5vw, 3rem)',

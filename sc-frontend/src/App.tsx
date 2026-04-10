@@ -13,6 +13,8 @@ import LocationDetail from './pages/LocationDetail';
 import Breadcrumbs from './components/Breadcrumbs';
 import { AltarProvider, useAltar } from './context/AltarContext';
 import Altar from './pages/Altar';
+import Footer from './components/Footer';
+
 
 const NavCartBadge: React.FC<{ closeMenu: () => void }> = ({ closeMenu }) => {
   const { cart } = useAltar();
@@ -68,6 +70,7 @@ const App: React.FC = () => {
         <Route path="/rituales" element={<Rituales />} />
         <Route path="/altar" element={<Altar />} />
       </Routes>
+      <Footer />
     </Router>
     </AltarProvider>
   );

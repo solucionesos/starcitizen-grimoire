@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import DragonIcon from '../components/DragonIcon';
 
 const GlyphDivider: React.FC<{ text?: string }> = ({ text = '✦' }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '2.5rem 0', opacity: 0.45 }}>
@@ -57,7 +58,7 @@ const ranks = [
     {
         from: 'Profetas de la Ruina',
         to: 'Heraldos de Ancalagon',
-        icon: '🐉',
+        icon: <DragonIcon size={32} />,
         number: 'V',
         color: '#d4af37',
         steps: [
@@ -330,7 +331,9 @@ const Rituales: React.FC = () => {
                     background: 'linear-gradient(180deg, rgba(196,30,58,0.06) 0%, transparent 100%)',
                 }}
             >
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem', opacity: 0.7 }}>🐉</div>
+                <div style={{ marginBottom: '1rem', opacity: 0.7 }}>
+                    <DragonIcon size={60} />
+                </div>
                 <p style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.9rem', letterSpacing: '3px', color: 'var(--secondary)', marginBottom: '0.5rem' }}>
                     HERALDOS DE ANCALAGON
                 </p>
