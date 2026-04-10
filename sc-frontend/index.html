@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Star Grimoire v4.7.0 | Tecnomilagros, Ofrendas & Edictos</title>
+    <meta name="description" content="Archivo sagrado de crafteo para Star Citizen Alpha 4.7. Encuentra tecnomilagros, ofrendas al Vacío y edictos imperiales para Pyro y Stanton." />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#c41e3a" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>

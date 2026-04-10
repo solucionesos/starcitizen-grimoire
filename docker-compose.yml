@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ancalagon_backend
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend/data:/app/data
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    deploy:
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+
+  frontend:
+    build:
+      context: ./sc-frontend
+      dockerfile: Dockerfile
+    container_name: ancalagon_frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'      # Máximo 15% de un núcleo
+          memory: 64M       # Límite estricto de 64MB para Nginx
+        reservations:
+          cpus: '0.05'
+          memory: 32M
