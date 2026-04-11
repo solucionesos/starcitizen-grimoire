@@ -35,6 +35,11 @@ app.get('/api/resources', async (req, res) => {
   res.json(resources);
 });
 
+app.get('/api/chronicles', async (req, res) => {
+  const chronicles = await repository.getAllChronicles();
+  res.json(chronicles);
+});
+
 app.listen(port, () => {
   console.log(`Star Cat Backend running at http://localhost:${port}`);
 });

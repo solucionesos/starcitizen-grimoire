@@ -33,4 +33,10 @@ export class JSONFileRepository implements IGameDataRepository {
     const data = await fs.readJSON(this.filePath);
     return data.resources || [];
   }
+
+  async getAllChronicles(): Promise<any[]> {
+    const cronPath = path.join(process.cwd(), 'data/chronicles.json');
+    if (!(await fs.pathExists(cronPath))) return [];
+    return await fs.readJSON(cronPath);
+  }
 }

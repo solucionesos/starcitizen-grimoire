@@ -6,4 +6,5 @@ export interface IGameDataRepository {
   getAllMissions(): Promise<any[]>;
   getAllBlueprints(): Promise<any[]>;
   getAllResources(): Promise<any[]>;
+  getAllChronicles(): Promise<any[]>;
 }
