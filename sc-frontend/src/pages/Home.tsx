@@ -68,6 +68,15 @@ const sections = [
         color: '#d4af37',
         label: 'ACTIVAR RITO',
     },
+    {
+        path: '/wikelo',
+        icon: '🏴‍☠️',
+        title: 'El Estafador',
+        subtitle: 'Mercado Negro / Wikelo',
+        description: 'Accede al catálogo clandestino de los mercaderes Banu. Naves especiales, armamento pesado y armaduras restringidas a cambio de favores corporativos y materiales comerciales.',
+        color: '#f87171',
+        label: 'VER CATÁLOGO',
+    },
 ];
 
 const Home: React.FC = () => {
