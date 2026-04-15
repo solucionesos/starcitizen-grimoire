@@ -7,9 +7,11 @@ import Missions from './pages/Missions';
 import Recipes from './pages/Recipes';
 import Resources from './pages/Resources';
 import Lore from './pages/Lore';
+import StarMap from './pages/StarMap';
 import Rituales from './pages/Rituales';
 import ResourceDetail from './pages/ResourceDetail';
 import LocationDetail from './pages/LocationDetail';
+import Wikelo from './pages/Wikelo';
 import Breadcrumbs from './components/Breadcrumbs';
 import { AltarProvider, useAltar } from './context/AltarContext';
 import Altar from './pages/Altar';
@@ -51,8 +53,10 @@ const App: React.FC = () => {
           <NavLink to="/lore" className="nav-link" style={{ color: 'var(--secondary)' }} onClick={closeMenu}>CRÓNICA</NavLink>
           <NavLink to="/rituales" className="nav-link" style={{ color: 'var(--secondary)' }} onClick={closeMenu}>RITUALES</NavLink>
           <NavLink to="/missions" className="nav-link" onClick={closeMenu}>EDICTOS</NavLink>
+          <NavLink to="/nexo" className="nav-link" onClick={closeMenu}>NEXO ESTELAR</NavLink>
           <NavLink to="/mapa" className="nav-link" onClick={closeMenu}>OFRENDAS</NavLink>
           <NavLink to="/recipes" className="nav-link" onClick={closeMenu}>TECNOMILAGROS</NavLink>
+          <NavLink to="/wikelo" className="nav-link" style={{ color: '#ff4444' }} onClick={closeMenu}>ESTAFADOR</NavLink>
           <NavCartBadge closeMenu={closeMenu} />
         </div>
       </nav>
@@ -63,11 +67,13 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/missions" element={<Missions />} />
+        <Route path="/nexo" element={<StarMap />} />
         <Route path="/mapa" element={<Resources />} />
         <Route path="/recurso/:id" element={<ResourceDetail />} />
         <Route path="/locacion/:system/:name" element={<LocationDetail />} />
         <Route path="/lore" element={<Lore />} />
         <Route path="/rituales" element={<Rituales />} />
+        <Route path="/wikelo" element={<Wikelo />} />
         <Route path="/altar" element={<Altar />} />
       </Routes>
       <Footer />

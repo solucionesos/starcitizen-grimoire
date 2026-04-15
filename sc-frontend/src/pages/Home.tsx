@@ -33,6 +33,15 @@ const sections = [
         label: 'VER EDICTOS',
     },
     {
+        path: '/nexo',
+        icon: '🌠',
+        title: 'Nexo Estelar',
+        subtitle: 'Cartografía Orbital de Stanton',
+        description: 'El mapa sagrado de los cuatro mundos corporativos. Planetas, lunas, estaciones, cinturones de asteroides y puntos de salto: todas las coordenadas del Vacío en un solo nexo interactivo.',
+        color: '#4FC3F7',
+        label: 'ABRIR NEXO',
+    },
+    {
         path: '/mapa',
         icon: '🌌',
         title: 'Ofrendas',

@@ -1,0 +1,1056 @@
+{
+  "version": "4.7.2",
+  "descripcion": "Catalogo maestro de cartografia estelar — Ancalagon Oblivion Fleet",
+  "sistemas": [
+    {
+      "id": "STANTON",
+      "nombre": "Stanton",
+      "estrella": "STANTON",
+      "afiliacion": "UEE / Corporativo",
+      "descripcion": "Sistema bajo control de cuatro megacorporaciones que compraron los derechos sobre cada planeta al gobierno de la UEE. Escenario principal de operaciones de la Flota.",
+      "color_estrella": "#FFD54F",
+      "planetas": [
+        {
+          "id": "hurston",
+          "nombre": "Hurston",
+          "color": "#8B4513",
+          "glowColor": "rgba(139, 69, 19, 0.6)",
+          "orbitRadius": 130,
+          "orbitAngle": 20,
+          "threat": "MEDIO",
+          "faction": "Hurston Dynamics",
+          "ciudad_lz": "Lorville",
+          "estacion_orbital": "Everus Harbor",
+          "visual": "Mundo industrial con atmosfera toxica color cafe rojiza.",
+          "descripcion": "Mundo industrial bajo el ferreo control de Hurston Dynamics. Atmosfera venenosa y ciudades blindadas. Lorville es su capital, una metropolis de acero y desesperacion donde los trabajadores son consumidos por la maquinaria corporativa.",
+          "lunas": [
+            {
+              "nombre": "Aberdeen",
+              "tipo": "moon",
+              "threat": "ALTO",
+              "faction": "UEE",
+              "visual": "Niebla sulfurosa densa",
+              "descripcion": "Luna prision con atmosfera toxica de alta temperatura. Aberdeen Correctional Facility alberga los criminales mas peligrosos de la UEE.",
+              "servicios": [
+                "Prision"
+              ]
+            },
+            {
+              "nombre": "Arial",
+              "tipo": "moon",
+              "threat": "BAJO",
+              "faction": "No controlada",
+              "visual": "Terreno volcanico brillante, rico en hierro",
+              "descripcion": "Luna desertica con terreno volcanico brillante. Rica en depositos de hierro y recursos minerales subterraneos.",
+              "servicios": [
+                "Mineria"
+              ]
+            },
+            {
+              "nombre": "Ita",
+              "tipo": "moon",
+              "threat": "BAJO",
+              "faction": "No controlada",
+              "visual": "Desierto grisaceo con llanuras y crateres",
+              "descripcion": "Luna exterior con recursos basicos dispersos. Paisaje de llanuras y crateres. Exploracion limitada.",
+              "servicios": [
+                "Mineria"
+              ]
+            },
+            {
+              "nombre": "Magda",
+              "tipo": "moon",
+              "threat": "BAJO",
+              "faction": "No controlada",
+              "visual": "Lagos de sedimentos azules y formaciones cristalinas",
+              "descripcion": "Luna rocosa con actividad geologica moderada y lagos de sedimentos azules. Formaciones cristalinas unicas de alto valor cientifico.",
+              "servicios": [
+                "Mineria"
+              ]
+            }
+          ],
+          "estaciones": [
+            {
+              "nombre": "Lorville",
+              "tipo": "city",
+              "threat": "MEDIO",
+              "faction": "Hurston Dynamics",
+              "descripcion": "Capital industrial de Hurston. Ciudad blindada de acero y tuberias enterrada bajo la atmosfera toxica. Gobernada por Hurston Dynamics con mano de hierro. Incluye el distrito comercial de Central Business, Workers District, el hospital y la zona de hangares L19. Acceso por monorriel interior.",
+              "servicios": [
+                "Comercio",
+                "Medico",
+                "Habs",
+                "Armeria",
+                "Reparacion",
+                "Repostaje"
+              ]
+            },
+            {
+              "nombre": "Everus Harbor",
+              "tipo": "station",
+              "threat": "BAJO",
+              "faction": "Hurston Dynamics",
+              "descripcion": "Estacion orbital principal de Hurston. Hub de comercio y transito entre la superficie y el espacio.",
+              "servicios": [
+                "Reparacion",
+                "Repostaje",
+                "Comercio",
+                "Medico"
+              ]
+            }
+          ],
+          "lagrange": [
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "L5"
+          ],
+          "hijos": []
+        },
+        {
+          "id": "crusader",
+          "nombre": "Crusader",
+          "color": "#2E8B8B",
+          "glowColor": "rgba(46, 139, 139, 0.6)",
+          "orbitRadius": 195,
+          "orbitAngle": 140,
+          "threat": "BAJO",
+          "faction": "Crusader Industries",
+          "ciudad_lz": "Orison",
+          "estacion_orbital": "Seraphim Station",
+          "visual": "Gigante gaseoso rosado y blanco con plataformas flotantes.",
+          "descripcion": "Gigante gaseoso turquesa cuya atmosfera es explotada por Crusader Industries para extraer combustible. Su ciudad flotante, Orison, es una maravilla de ingenieria suspendida entre nubes doradas.",
+          "lunas": [
+            {
+              "nombre": "Cellin",
+              "tipo": "moon",
+              "threat": "MEDIO",
+              "faction": "No controlada",
+              "visual": "Superficie blanca con crateres masivos",
+              "descripcion": "Luna volcanica con actividad inactiva. Terreno hostil con crateres y recursos igniferos. Contiene varios puestos avanzados.",
+              "servicios": [
+                "Mineria",
+                "Combustible"
+              ]
+            },
+            {
+              "nombre": "Daymar",
+              "tipo": "moon",
+              "threat": "MEDIO",
+              "faction": "No controlada",
+              "visual": "Desierto arenoso con tormentas y cavernas de cristal",
+              "descripcion": "Luna arida con cavernas de cristal y puestos de contrabandistas. Alto trafico de comercio no regulado.",
+              "servicios": [
+                "Mineria",
+                "Comercio"
+              ]
+            },
+            {
+              "nombre": "Yela",
+              "tipo": "moon",
+              "threat": "ALTO",
+              "faction": "No controlada",
+              "visual": "Mundo helado rodeado por un denso cinturon de asteroides",
+              "descripcion": "Luna helada rodeada por el Cinturon de Yela. Punto de encuentro del hampa. Hogar de Grim HEX, estacion ilegal escondida entre los asteroides.",
+              "servicios": [
+                "Mineria",
+                "Salvamento"
+              ]
+            }
+          ],
+          "estaciones": [
+            {
+              "nombre": "Orison",
+              "tipo": "city",
+              "threat": "BAJO",
+              "faction": "Crusader Industries",
+              "descripcion": "Ciudad flotante sobre Crusader. Hub principal de Crusader Industries. Plataformas suspendidas entre las nubes doradas del gigante gaseoso.",
+              "servicios": [
+                "Reparacion",
+                "Repostaje",
+                "Comercio",
+                "Medico"
+              ]
+            },
+            {
+              "nombre": "Seraphim Station",
+              "tipo": "station",
+              "threat": "BAJO",
+              "faction": "Crusader Industries",
+              "descripcion": "Estacion orbital de Crusader en punto de Lagrange. Servicio completo para naves en transito.",
+              "servicios": [
+                "Reparacion",
+                "Repostaje",
+                "Comercio"
+              ]
+            },
+            {
+              "nombre": "Grim HEX",
+              "tipo": "station",
+              "threat": "EXTREMO",
+              "faction": "Proscritos",
+              "descripcion": "Estacion ilegal escondida en el cinturon de asteroides de Yela. Refugio de criminales, piratas y fugitivos. El lugar mas peligroso de Stanton.",
+              "servicios": [
+                "Comercio ilegal",
+                "Reparacion",
+                "Habs"
+              ]
+            },
+            {
+              "nombre": "Cinturon de Yela",
+              "tipo": "belt",
+              "threat": "ALTO",
+              "faction": "Ilegal",
+              "descripcion": "Campo de asteroides denso que rodea a Yela. Territorio plagado de piratas y emboscadas. Escondite de Grim HEX.",
+              "servicios": [
+                "Mineria",
+                "Salvamento"
+              ]
+            }
+          ],
+          "lagrange": [
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "L5"
+          ],
+          "hijos": []
+        },
+        {
+          "id": "aaronhalo",
+          "tipo": "belt",
+          "nombre": "Aaron Halo",
+          "color": "#7B5E3A",
+          "glowColor": "rgba(123, 94, 58, 0.5)",
+          "orbitRadius": 248,
+          "orbitAngle": 90,
+          "threat": "ALTO",
+          "faction": "Sin gobierno",
+          "ciudad_lz": "",
+          "estacion_orbital": "",
+          "visual": "Cinturon toroidal denso de asteroides entre Crusader y ArcCorp, con bandas diferenciadas de densidad variable.",
+          "descripcion": "El Aaron Halo es un masivo cinturon de asteroides toroidal ubicado entre las orbitas de Crusader y ArcCorp. Uno de los campos mineros mas ricos de Stanton, con depositos de Heastite, Laranite, Titanio, Diamante y Oro. El viaje cuantico directo es imposible por su densidad. ArcCorp mantiene pasadizos de navegacion seguros. Zona favorita de piratas y mineros.",
+          "lunas": [],
+          "estaciones": [],
+          "lagrange": []
+        },
+        {
+          "id": "arccorp",
+          "nombre": "ArcCorp",
+          "color": "#6B6BFF",
+          "glowColor": "rgba(107, 107, 255, 0.6)",
+          "orbitRadius": 300,
+          "orbitAngle": 260,
+          "threat": "BAJO",
+          "faction": "ArcCorp",
+          "ciudad_lz": "Area18",
+          "estacion_orbital": "Baijini Point",
+          "visual": "Ecumenopolis con estructuras metalicas y luces rojas. Superficie 100% urbanizada.",
+          "descripcion": "El planeta mas urbanizado del universo conocido. Cada centimetro de su superficie esta cubierto por edificios. ArcCorp ha convertido un mundo entero en su fabrica de produccion tecnologica.",
+          "lunas": [
+            {
+              "nombre": "Lyria",
+              "tipo": "moon",
+              "threat": "MEDIO",
+              "faction": "No controlada",
+              "visual": "Criovolcanismo y depositos de hielo brillante",
+              "descripcion": "Luna con depositos de cuantanio y materiales raros. Muy preciada por los mineros. Criovolcanismo activo y extraccion de materiales energeticos.",
+              "servicios": [
+                "Mineria"
+              ]
+            },
+            {
+              "nombre": "Wala",
+              "tipo": "moon",
+              "threat": "BAJO",
+              "faction": "No controlada",
+              "visual": "Baja gravedad y vetas verdosas de minerales raros",
+              "descripcion": "Luna con terreno accidentado y escombros de construccion antigua. Geologia rica en minerales raros en baja gravedad.",
+              "servicios": [
+                "Salvamento",
+                "Mineria"
+              ]
+            }
+          ],
+          "estaciones": [
+            {
+              "nombre": "Area 18",
+              "tipo": "city",
+              "threat": "BAJO",
+              "faction": "ArcCorp",
+              "descripcion": "Hub principal de ArcCorp en la superficie del planeta. Comercio masivo, hangares enormes, el bullicio interminable de millones de habitantes.",
+              "servicios": [
+                "Comercio",
+                "Reparacion",
+                "Repostaje",
+                "Medico"
+              ]
+            },
+            {
+              "nombre": "Baijini Point",
+              "tipo": "station",
+              "threat": "BAJO",
+              "faction": "ArcCorp",
+              "descripcion": "Estacion orbital de ArcCorp. Punto de transito para naves que no aterrizan en la superficie.",
+              "servicios": [
+                "Reparacion",
+                "Repostaje",
+                "Comercio"
+              ]
+            }
+          ],
+          "lagrange": [
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "L5"
+          ],
+          "hijos": []
+        },
+        {
+          "id": "microtech",
+          "nombre": "microTech",
+          "color": "#4FC3F7",
+          "glowColor": "rgba(79, 195, 247, 0.6)",
+          "orbitRadius": 355,
+          "orbitAngle": 195,
+          "threat": "BAJO",
+          "faction": "microTech",
+          "ciudad_lz": "New Babbage",
+          "estacion_orbital": "Port Tressler",
+          "visual": "Tundra blanca, bosques de pinos y tormentas de nieve perpetuas.",
+          "descripcion": "Paraiso blanco de tecnologia y silicio. La corporacion microTech convirtio este mundo helado en su imperio de innovacion. New Babbage es su ciudad de cupulas de cristal, limpia y fria como sus servidores. Centro de I+D afectado por fallo de terraformacion.",
+          "lunas": [
+            {
+              "nombre": "Calliope",
+              "tipo": "moon",
+              "threat": "BAJO",
+              "faction": "No controlada",
+              "visual": "Superficie helada con criovulcanismo azul",
+              "descripcion": "Luna con extensos depositos de hielo y criovulcanismo activo. Recursos minerales bajo capas de hielo.",
+              "servicios": [
+                "Mineria"
+              ]
+            },
+            {
+              "nombre": "Clio",
+              "tipo": "moon",
+              "threat": "MEDIO",
+              "faction": "No controlada",
+              "visual": "Oceanos liquidos rosados con flora alienigena",
+              "descripcion": "Luna semitropical con flora alienigena y ruinas xenos. Atmosfera cargada de compuestos quimicos no catalogados.",
+              "servicios": [
+                "Exploracion"
+              ]
+            },
+            {
+              "nombre": "Euterpe",
+              "tipo": "moon",
+              "threat": "BAJO",
+              "faction": "No controlada",
+              "visual": "Picos de hielo afilados y depositos de metano",
+              "descripcion": "Luna exterior con mineria profunda de silicatos. Topografia accidentada con picos de hielo y depositos de metano.",
+              "servicios": [
+                "Mineria"
+              ]
+            }
+          ],
+          "estaciones": [
+            {
+              "nombre": "New Babbage",
+              "tipo": "city",
+              "threat": "BAJO",
+              "faction": "microTech",
+              "descripcion": "Ciudad de microTech bajo cupulas de cristal resistentes a tormentas de nieve. Tecnologia de vanguardia y precios acordes.",
+              "servicios": [
+                "Comercio",
+                "Reparacion",
+                "Repostaje",
+                "Medico",
+                "Tecnologia"
+              ]
+            },
+            {
+              "nombre": "Port Tressler",
+              "tipo": "station",
+              "threat": "BAJO",
+              "faction": "microTech",
+              "descripcion": "Estacion orbital de microTech. Puerta de entrada al planeta para naves de carga y pasajeros.",
+              "servicios": [
+                "Reparacion",
+                "Repostaje",
+                "Comercio"
+              ]
+            }
+          ],
+          "lagrange": [
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "L5"
+          ],
+          "hijos": []
+        }
+      ],
+      "estaciones_lagrange": [
+        {
+          "nombre": "CRU-L1 Ambitious Dream",
+          "especialidad": "Refinado de Quantainium"
+        },
+        {
+          "nombre": "CRU-L4 Shallow Fields",
+          "especialidad": "Apoyo a mineria en cinturon de Yela"
+        },
+        {
+          "nombre": "CRU-L5 Beautiful Glen",
+          "especialidad": "Servicios de flota en ruta Crusader"
+        },
+        {
+          "nombre": "HUR-L1 Green Glade",
+          "especialidad": "Logistica de carga pesada"
+        },
+        {
+          "nombre": "HUR-L2 Faithful Dream",
+          "especialidad": "Apoyo de defensa en orbita de Hurston"
+        },
+        {
+          "nombre": "HUR-L3 Thundering Express",
+          "especialidad": "Transporte rapido de mercancias"
+        },
+        {
+          "nombre": "HUR-L4 Melodic Fields",
+          "especialidad": "Servicios de flota en orbita exterior"
+        },
+        {
+          "nombre": "HUR-L5 High Course",
+          "especialidad": "Puesto de control en orbita alta de Hurston"
+        },
+        {
+          "nombre": "ARC-L1 Wide Forest",
+          "especialidad": "Comercio en orbita de ArcCorp"
+        },
+        {
+          "nombre": "MIC-L1 Shallow Frontier",
+          "especialidad": "Apoyo militar y servicios de flota"
+        },
+        {
+          "nombre": "MIC-L2 Long Forest",
+          "especialidad": "Servicio a exploradores de microTech"
+        }
+      ],
+      "jump_points": [
+        {
+          "nombre": "Punto de Salto → Pyro",
+          "threat": "EXTREMO",
+          "descripcion": "La puerta al infierno. Enlace cuantico hacia el sistema Pyro, tierra sin ley donde hasta las estrellas parecen rabiosas."
+        },
+        {
+          "nombre": "Punto de Salto → Terra",
+          "threat": "BAJO",
+          "descripcion": "Corredor hacia Terra, el sistema mas poblado del Imperio. Zona de alta seguridad UEE."
+        },
+        {
+          "nombre": "Punto de Salto → Magnus",
+          "threat": "MEDIO",
+          "descripcion": "Salto hacia Magnus, sistema minero en decadencia."
+        },
+        {
+          "nombre": "Punto de Salto → Nyx",
+          "threat": "ALTO",
+          "descripcion": "La ruta hacia Nyx, refugio de rebeldes y excluidos del sistema. Territorio de Ancalagon."
+        }
+      ]
+    },
+    {
+      "id": "PYRO",
+      "nombre": "Pyro",
+      "estrella": "PYRO",
+      "afiliacion": "Anarquico / Sin gobierno",
+      "descripcion": "Estrella inestable tipo M flare que emite periodicamente radiacion letal. Sin gobierno, sin ley. Controlado por facciones rivales: Rough & Ready, Citizens for Prosperity y XenoThreat. Solo los mas fuertes o astutos sobreviven.",
+      "color_estrella": "#FF6B2B",
+      "planetas": [
+        {
+          "id": "pyro1",
+          "nombre": "Pyro I",
+          "color": "#CC4411",
+          "glowColor": "rgba(204, 68, 17, 0.6)",
+          "orbitRadius": 80,
+          "orbitAngle": 15,
+          "threat": "EXTREMO",
+          "faction": "Sin gobierno",
+          "ciudad_lz": "",
+          "estacion_orbital": "",
+          "visual": "Mundo silicato de alta presion y temperatura extrema, cercano a la estrella.",
+          "descripcion": "Pyro I. Planeta silicato de alta presion y temperatura extrema. Orbita peligrosamente proxima a la estrella flare. Hogar del Akiro Cluster, formacion de asteroides chamuscados ricos en materiales raros.",
+          "lunas": [],
+          "estaciones": [
+            {
+              "nombre": "PYAM-FARSTAT-1-3",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Abandonada (PYAM)",
+              "descripcion": "Antigua estacion de Pyrotechnic Amalgamated en el punto L3 de Pyro I. Derelicta y parcialmente desintegrada por la radiacion estelar.",
+              "servicios": []
+            }
+          ],
+          "lagrange": [
+            "L3"
+          ]
+        },
+        {
+          "id": "monox",
+          "nombre": "Monox",
+          "color": "#5C6B4A",
+          "glowColor": "rgba(92, 107, 74, 0.6)",
+          "orbitRadius": 140,
+          "orbitAngle": 70,
+          "threat": "ALTO",
+          "faction": "Rough & Ready",
+          "ciudad_lz": "",
+          "estacion_orbital": "Checkmate Station",
+          "visual": "Planeta sin nucleo con atmosfera toxica de monoxido de carbono gris-verdosa.",
+          "descripcion": "Pyro II. Planeta sin nucleo con atmosfera densa de monoxido de carbono. Inhabitable sin traje presurizado. Checkmate Station en el punto L4 sirve como base logistica de Rough & Ready en este sector.",
+          "lunas": [],
+          "estaciones": [
+            {
+              "nombre": "Checkmate Station",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Rough & Ready",
+              "descripcion": "Estacion de Rough & Ready en el punto Lagrange L4 de Monox. Hub de control de recursos y operaciones en el sector interior de Pyro.",
+              "servicios": [
+                "Comercio",
+                "Repostaje",
+                "Reparacion",
+                "Habs"
+              ]
+            }
+          ],
+          "lagrange": [
+            "L4"
+          ]
+        },
+        {
+          "id": "bloom",
+          "nombre": "Bloom",
+          "color": "#6B9E7A",
+          "glowColor": "rgba(107, 158, 122, 0.6)",
+          "orbitRadius": 200,
+          "orbitAngle": 150,
+          "threat": "ALTO",
+          "faction": "Multiple facciones",
+          "ciudad_lz": "",
+          "estacion_orbital": "Orbituary",
+          "visual": "Mundo helado terrestre con atmosfera de nitrogeno y oxigeno. Unico planeta con aire respirable en Pyro.",
+          "descripcion": "Pyro III. Mundo helado terrestre con atmosfera de nitrogeno/oxigeno — el unico planeta con aire respirable en Pyro. La competencia entre Rough & Ready, Citizens for Prosperity y XenoThreat por controlarlo es feroz. Multiples estaciones en sus puntos Lagrange.",
+          "lunas": [],
+          "estaciones": [
+            {
+              "nombre": "Orbituary",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Rough & Ready",
+              "descripcion": "Estacion principal de Rough & Ready en orbita de Bloom. Centro logistico y de operaciones de la faccion en Pyro III.",
+              "servicios": [
+                "Comercio",
+                "Repostaje",
+                "Reparacion",
+                "Habs",
+                "Medico"
+              ]
+            },
+            {
+              "nombre": "Patch City",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Rough & Ready",
+              "descripcion": "Estacion de Rough & Ready en el punto L3 de Bloom. Mercado semiformal con servicios basicos para proscriptos y mercenarios.",
+              "servicios": [
+                "Comercio",
+                "Repostaje",
+                "Habs"
+              ]
+            },
+            {
+              "nombre": "Starlight Service Station",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Citizens for Prosperity",
+              "descripcion": "Estacion de servicio de Citizens for Prosperity en el punto L1 de Bloom. Ofrece servicios esenciales a viajeros y residentes del sector.",
+              "servicios": [
+                "Reparacion",
+                "Repostaje",
+                "Medico",
+                "Suministros"
+              ]
+            },
+            {
+              "nombre": "PYAM-SUPVISR-3-4",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Abandonada (PYAM)",
+              "descripcion": "Antigua estacion supervisora de Pyrotechnic Amalgamated en el punto L4 de Bloom. Abandonada y saqueada.",
+              "servicios": []
+            },
+            {
+              "nombre": "PYAM-FARSTAT-3-5",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Abandonada (PYAM)",
+              "descripcion": "Estacion remota de PYAM en el punto L5 de Bloom. Derelicta.",
+              "servicios": []
+            }
+          ],
+          "lagrange": [
+            "L1",
+            "L3",
+            "L4",
+            "L5"
+          ]
+        },
+        {
+          "id": "pyro4",
+          "nombre": "Pyro IV",
+          "color": "#A0522D",
+          "glowColor": "rgba(160, 82, 45, 0.6)",
+          "orbitRadius": 260,
+          "orbitAngle": 220,
+          "threat": "EXTREMO",
+          "faction": "Sin gobierno",
+          "ciudad_lz": "",
+          "estacion_orbital": "",
+          "visual": "Cuerpo rocoso capturado gravitacionalmente por Pyro V tras una colision catastrofica prehistorica.",
+          "descripcion": "Pyro IV. Cuerpo rocoso capturado por la gravedad de Pyro V tras una antigua colision planetaria. Superficie fracturada, sismicidad extrema y sin atmosfera. Sin asentamientos conocidos.",
+          "lunas": [],
+          "estaciones": [],
+          "lagrange": []
+        },
+        {
+          "id": "pyro5",
+          "nombre": "Pyro V",
+          "color": "#C8941A",
+          "glowColor": "rgba(200, 148, 26, 0.6)",
+          "orbitRadius": 310,
+          "orbitAngle": 310,
+          "threat": "EXTREMO",
+          "faction": "Multiple facciones",
+          "ciudad_lz": "",
+          "estacion_orbital": "Gaslight",
+          "visual": "Gigante gaseoso amarillo-verdoso con tormentas perpetuas y cinco lunas de naturaleza extrema.",
+          "descripcion": "Pyro V. Gigante gaseoso dominante. Su campo gravitacional alberga cinco lunas extremas (Fairo, Fuego, Ignis, Vatra, Vuur) y varios puntos Lagrange con estaciones de Rough & Ready, Citizens for Prosperity y PYAM abandonadas.",
+          "lunas": [
+            {
+              "nombre": "Fairo",
+              "tipo": "moon",
+              "threat": "EXTREMO",
+              "faction": "Sin gobierno",
+              "visual": "Oceanos de lava naranja y actividad sismica constante",
+              "descripcion": "Volcanismo extremo con oceanos de lava que cubren gran parte de la superficie. Imposible establecer base permanente.",
+              "servicios": []
+            },
+            {
+              "nombre": "Fuego",
+              "tipo": "moon",
+              "threat": "EXTREMO",
+              "faction": "Sin gobierno",
+              "visual": "Suelo amarillo y negro de sulfuro de hierro",
+              "descripcion": "Masiva presencia de sulfuro de hierro. Atmosfera irrespirable y temperatura letal.",
+              "servicios": []
+            },
+            {
+              "nombre": "Ignis",
+              "tipo": "moon",
+              "threat": "ALTO",
+              "faction": "Sin gobierno",
+              "visual": "Canones profundos y rios secos calcinados por la estrella",
+              "descripcion": "Mundo desertico calcinado. Topografia de canones profundos ideal para emboscadas y operaciones encubiertas.",
+              "servicios": []
+            },
+            {
+              "nombre": "Vatra",
+              "tipo": "moon",
+              "threat": "ALTO",
+              "faction": "Sin gobierno",
+              "visual": "Lagos de metano liquido azulado bajo cielo naranja",
+              "descripcion": "Lagos de hidrocarburos de metano liquido. Potencial energetico enorme sin explotar bajo condiciones letales.",
+              "servicios": []
+            },
+            {
+              "nombre": "Vuur",
+              "tipo": "moon",
+              "threat": "MEDIO",
+              "faction": "Sin gobierno",
+              "visual": "Vegetacion cristalina y formaciones negras de carbono",
+              "descripcion": "La luna mas habitable de Pyro V. Rica en carbono con formaciones cristalinas organicas unicas en el universo conocido.",
+              "servicios": [
+                "Mineria"
+              ]
+            }
+          ],
+          "estaciones": [
+            {
+              "nombre": "Gaslight",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Rough & Ready",
+              "descripcion": "Hub de repostaje y logistica de Rough & Ready en el punto L2 de Pyro V. Centro de operaciones para la zona del gigante gaseoso.",
+              "servicios": [
+                "Repostaje",
+                "Comercio",
+                "Reparacion",
+                "Habs"
+              ]
+            },
+            {
+              "nombre": "Rat's Nest",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Rough & Ready",
+              "descripcion": "Base operacional y escondite de Rough & Ready en el punto L5 de Pyro V. Zona de reclutamiento y planificacion de operaciones.",
+              "servicios": [
+                "Habs",
+                "Comercio",
+                "Armeria"
+              ]
+            },
+            {
+              "nombre": "Rod's Fuel 'N Supplies",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Citizens for Prosperity",
+              "descripcion": "Estacion de suministro y combustible de Citizens for Prosperity en el punto L4 de Pyro V. Servicio amigable para viajeros en transito.",
+              "servicios": [
+                "Repostaje",
+                "Suministros",
+                "Medico"
+              ]
+            },
+            {
+              "nombre": "PYAM-FARSTAT-5-1",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Abandonada (PYAM)",
+              "descripcion": "Estacion remota abandonada de Pyrotechnic Amalgamated en el punto L1 de Pyro V.",
+              "servicios": []
+            },
+            {
+              "nombre": "PYAM-FARSTAT-5-3",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Abandonada (PYAM)",
+              "descripcion": "Estacion remota abandonada de Pyrotechnic Amalgamated en el punto L3 de Pyro V.",
+              "servicios": []
+            }
+          ],
+          "lagrange": [
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "L5"
+          ]
+        },
+        {
+          "id": "terminus",
+          "nombre": "Terminus",
+          "color": "#4A7A5A",
+          "glowColor": "rgba(74, 122, 90, 0.6)",
+          "orbitRadius": 370,
+          "orbitAngle": 60,
+          "threat": "EXTREMO",
+          "faction": "XenoThreat / Multiple",
+          "ciudad_lz": "",
+          "estacion_orbital": "Ruin Station",
+          "visual": "Planeta terrestre con atmosfera densa de metano. Verde oscuro bajo las nubes toxicas.",
+          "descripcion": "Pyro VI. Planeta terrestre con atmosfera densa de metano. Hogar de la infame Ruin Station controlada por XenoThreat. Rough & Ready y Citizens for Prosperity tambien tienen presencia en sus puntos Lagrange. El destino mas peligroso del sistema.",
+          "lunas": [],
+          "estaciones": [
+            {
+              "nombre": "Ruin Station",
+              "tipo": "station",
+              "threat": "EXTREMO",
+              "faction": "XenoThreat",
+              "descripcion": "Antigua estacion corporativa ahora en manos de XenoThreat. Mercado negro, armamento pesado y tripulaciones desesperadas. Todo tiene precio en sangre.",
+              "servicios": [
+                "Comercio ilegal",
+                "Reparacion",
+                "Habs",
+                "Armeria",
+                "Medico"
+              ]
+            },
+            {
+              "nombre": "Endgame",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Rough & Ready",
+              "descripcion": "Principal fortaleza de Rough & Ready en el punto L3 de Terminus. Centro de mando para operaciones en el sector exterior de Pyro.",
+              "servicios": [
+                "Comercio",
+                "Repostaje",
+                "Reparacion",
+                "Habs",
+                "Armeria"
+              ]
+            },
+            {
+              "nombre": "Megumi Refueling",
+              "tipo": "station",
+              "threat": "ALTO",
+              "faction": "Rough & Ready",
+              "descripcion": "Estacion de repostaje critica de Rough & Ready en el punto L5 de Terminus. Ultimo punto de abastecimiento antes del borde del sistema.",
+              "servicios": [
+                "Repostaje",
+                "Suministros"
+              ]
+            },
+            {
+              "nombre": "Dudley & Daughters",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Citizens for Prosperity",
+              "descripcion": "Estacion comunitaria de Citizens for Prosperity en el punto L4 de Terminus. Ambiente relativamente civil en un sistema sin ley.",
+              "servicios": [
+                "Comercio",
+                "Medico",
+                "Suministros",
+                "Habs"
+              ]
+            },
+            {
+              "nombre": "PYAM-FARSTAT-6-2",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "Abandonada (PYAM)",
+              "descripcion": "Estacion remota abandonada de Pyrotechnic Amalgamated en el punto L2 de Terminus.",
+              "servicios": []
+            }
+          ],
+          "lagrange": [
+            "L2",
+            "L3",
+            "L4",
+            "L5"
+          ]
+        }
+      ],
+      "estaciones_lagrange": [
+        {
+          "nombre": "PYAM-EXHANG-0-1",
+          "especialidad": "Antigua estacion de intercambio PYAM cerca de la estrella Pyro. Derelicta."
+        }
+      ],
+      "jump_points": [
+        {
+          "nombre": "Stanton Gateway",
+          "threat": "ALTO",
+          "descripcion": "Estacion gateway en el punto de salto hacia Stanton. Controlada por facciones locales. Puerta de entrada/salida al sistema corporativo."
+        },
+        {
+          "nombre": "Nyx Gateway",
+          "threat": "ALTO",
+          "descripcion": "Estacion gateway en el punto de salto hacia Nyx. Zona de transito entre los dos sistemas mas peligrosos del borde."
+        }
+      ]
+    },
+    {
+      "id": "NYX",
+      "nombre": "Nyx",
+      "estrella": "NYX",
+      "afiliacion": "No reclamado / People's Alliance",
+      "descripcion": "Sistema no reclamado en el borde de una nebulosa oscura. Estrella tipo F con 3 planetas y 2 cinturones de asteroides. Refugio historico de disidentes, proscritos y libre pensadores que huyen de la UEE. Territorio preferencial de la Ancalagon Oblivion Fleet. Controlado de facto por la People's Alliance of Levski.",
+      "color_estrella": "#C8D8E8",
+      "planetas": [
+        {
+          "id": "nyx1",
+          "nombre": "Nyx I",
+          "color": "#6B4C3B",
+          "glowColor": "rgba(107, 76, 59, 0.6)",
+          "orbitRadius": 100,
+          "orbitAngle": 40,
+          "threat": "ALTO",
+          "faction": "Sin gobierno",
+          "ciudad_lz": "",
+          "estacion_orbital": "",
+          "visual": "Cascara rocosa vacia, suelo erosionado y gris. Sin atmosfera visible.",
+          "descripcion": "Nyx I. Mundo sin nucleo (coreless world). Explotado agresivamente por Gold Horizon hasta quedar vacio de recursos geologicos. Orbita interior proxima a la estrella. Temperatura extrema durante el dia, frio letal de noche. Sin recursos de interes.",
+          "lunas": [],
+          "estaciones": [],
+          "lagrange": []
+        },
+        {
+          "id": "nyx2",
+          "nombre": "Nyx II",
+          "color": "#8B6B43",
+          "glowColor": "rgba(139, 107, 67, 0.6)",
+          "orbitRadius": 175,
+          "orbitAngle": 165,
+          "threat": "ALTO",
+          "faction": "Sin gobierno",
+          "ciudad_lz": "",
+          "estacion_orbital": "",
+          "visual": "Planeta con atmosfera densa amarillo-naranja de acido sulfurico y dioxido de carbono.",
+          "descripcion": "Nyx II. Atmosfera de altisima presion con nubes de acido sulfurico y CO2 denso. La presion en superficie triplicaria cualquier nave estandar. No apto para terraformacion. Sin valor economico significativo.",
+          "lunas": [],
+          "estaciones": [],
+          "lagrange": []
+        },
+        {
+          "id": "glaciem_ring",
+          "tipo": "belt",
+          "nombre": "Glaciem Ring",
+          "color": "#4A6E90",
+          "glowColor": "rgba(74, 110, 144, 0.55)",
+          "orbitRadius": 235,
+          "orbitAngle": 100,
+          "threat": "MEDIO",
+          "faction": "People's Alliance",
+          "ciudad_lz": "Levski",
+          "estacion_orbital": "",
+          "visual": "Anillo denso de asteroides helados azul-grisaceo a unas 8 AU de la estrella.",
+          "descripcion": "Glaciem Ring (Nyx Belt Alpha). El mayor cinturon de asteroides del sistema, situado entre Nyx II y Nyx III a ~8 AU. Extremadamente vasto, sirve de escondite para Delamar y multiples bases de forajidos. Alberga a Delamar, el mayor asteroide del cinturon y hogar de Levski, principal asentamiento del sistema.",
+          "lunas": [],
+          "estaciones": [
+            {
+              "nombre": "Levski",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "People's Alliance",
+              "descripcion": "Asentamiento principal del sistema Nyx en el asteroide Delamar. Fundado como sociedad igualitaria libre de la UEE. Distribuido en 4 niveles: L00 (Aduana, estatua de Anthony Tanaka), Sub 01 (Residencial), Sub 02 (Grand Barter Bazaar, Cafe Musain, Borehole Station), Sub 03 (Refineria). Servicios: Mercy Hospital, Liberty Maintenance, Teach's Ship Shop, Conscientious Objects, Cordry's.",
+              "servicios": [
+                "Comercio",
+                "Reparacion",
+                "Habs",
+                "Medico",
+                "Mineria",
+                "Armeria",
+                "Refineria",
+                "Repostaje"
+              ]
+            }
+          ],
+          "lagrange": []
+        },
+        {
+          "id": "nyx3",
+          "nombre": "Nyx III",
+          "color": "#5B78A0",
+          "glowColor": "rgba(91, 120, 160, 0.6)",
+          "orbitRadius": 305,
+          "orbitAngle": 280,
+          "threat": "BAJO",
+          "faction": "Sin gobierno",
+          "ciudad_lz": "",
+          "estacion_orbital": "",
+          "visual": "Gigante de hielo masivo con anillos tenues y atmosfera blanco-azulada de amoniaco.",
+          "descripcion": "Nyx III. Gigante de hielo masivo en orbita exterior. Sin materiales valiosos conocidos. Campo gravitacional fuerte con anillos de hielo tenues. Temperatura extremadamente fria. Sin asentamientos.",
+          "lunas": [],
+          "estaciones": [],
+          "lagrange": []
+        },
+        {
+          "id": "keeger_belt",
+          "tipo": "belt",
+          "nombre": "Keeger Belt",
+          "color": "#3D3D52",
+          "glowColor": "rgba(61, 61, 82, 0.5)",
+          "orbitRadius": 380,
+          "orbitAngle": 230,
+          "threat": "MEDIO",
+          "faction": "People's Alliance / QV Breakers",
+          "ciudad_lz": "",
+          "estacion_orbital": "",
+          "visual": "Cinturon exterior oscuro, denso y frio con poca luz estelar.",
+          "descripcion": "Keeger Belt (Nyx Belt Beta). Cinturon periferico a ~1700 GM de Levski. Estaciones construidas por QV Planet Services y ahora operadas por la People's Alliance. Acceso via contratos 'Mining Rights' en mobiGlas.",
+          "lunas": [],
+          "estaciones": [
+            {
+              "nombre": "People's Service Station Alpha",
+              "tipo": "station",
+              "threat": "BAJO",
+              "faction": "People's Alliance",
+              "descripcion": "Primera estacion de servicio del Keeger Belt, construida por QV Planet Services. Apoyo minero y de transito.",
+              "servicios": [
+                "Mineria",
+                "Repostaje",
+                "Suministros"
+              ]
+            },
+            {
+              "nombre": "People's Service Station Delta",
+              "tipo": "station",
+              "threat": "BAJO",
+              "faction": "People's Alliance",
+              "descripcion": "Segunda estacion de servicio del Keeger Belt. Soporte tecnico y repostaje.",
+              "servicios": [
+                "Soporte tecnico",
+                "Repostaje"
+              ]
+            },
+            {
+              "nombre": "People's Service Station Theta",
+              "tipo": "station",
+              "threat": "BAJO",
+              "faction": "People's Alliance",
+              "descripcion": "Tercera estacion del Keeger Belt. Apoyo en sectores intermedios del cinturon.",
+              "servicios": [
+                "Soporte tecnico",
+                "Repostaje"
+              ]
+            },
+            {
+              "nombre": "People's Service Station Lambda",
+              "tipo": "station",
+              "threat": "MEDIO",
+              "faction": "People's Alliance",
+              "descripcion": "Cuarta estacion del Keeger Belt, la mas alejada. Ultimo punto de repostaje antes de los saltos hacia Pyro u Odin.",
+              "servicios": [
+                "Navegacion",
+                "Repostaje",
+                "Suministros"
+              ]
+            }
+          ],
+          "lagrange": []
+        }
+      ],
+      "estaciones_lagrange": [],
+      "jump_points": [
+        {
+          "nombre": "→ Stanton",
+          "threat": "MEDIO",
+          "descripcion": "Punto de salto large bidireccional hacia Stanton. Ruta principal de la Flota para operaciones entre el sistema corporativo y territorio libre de Nyx."
+        },
+        {
+          "nombre": "→ Pyro",
+          "threat": "ALTO",
+          "descripcion": "Punto de salto medium bidireccional hacia Pyro. Ruta de exiliados y contrabandistas entre los dos sistemas mas peligrosos del borde."
+        },
+        {
+          "nombre": "→ Bremen",
+          "threat": "BAJO",
+          "descripcion": "Punto de salto large bidireccional hacia Bremen. Sistema de la UEE con presencia comercial moderada."
+        },
+        {
+          "nombre": "→ Odin",
+          "threat": "MEDIO",
+          "descripcion": "Punto de salto large bidireccional hacia Odin. Sistema fronterizo con historia de conflictos con los Vanduul."
+        },
+        {
+          "nombre": "→ Tohil",
+          "threat": "ALTO",
+          "descripcion": "Punto de salto large bidireccional hacia Tohil. Sistema periferico con escasa presencia de la UEE."
+        },
+        {
+          "nombre": "→ Virgil",
+          "threat": "EXTREMO",
+          "descripcion": "Punto de salto medium bidireccional hacia Virgil. Conduce a territorio Vanduul. Extraordinariamente peligroso."
+        }
+      ]
+    }
+  ]
+}

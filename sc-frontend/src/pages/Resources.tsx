@@ -10,10 +10,10 @@ const Resources: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [resources, setResources] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
+    const [selectedSystem, setSelectedSystem] = useState<string | null>(searchParams.get('system'));
     const [selectedMiningType, setSelectedMiningType] = useState<string | null>(null);
     const [selectedLocType, setSelectedLocType] = useState<string | null>(null);
-    const [selectedBody, setSelectedBody] = useState<string | null>(null);
+    const [selectedBody, setSelectedBody] = useState<string | null>(searchParams.get('body'));
     
     // Multi-tag search state
     const initialTags = useMemo(() => {
@@ -38,14 +38,18 @@ const Resources: React.FC = () => {
 
     // Sync tags with URL
     useEffect(() => {
-        if (searchTags.length > 0) {
-            setSearchParams({ tags: searchTags.join(',') });
-        } else {
-            const newParams = new URLSearchParams(searchParams);
-            newParams.delete('tags');
-            setSearchParams(newParams);
-        }
-    }, [searchTags]);
+        const newParams = new URLSearchParams(searchParams);
+        if (searchTags.length > 0) newParams.set('tags', searchTags.join(','));
+        else newParams.delete('tags');
+        
+        if (selectedSystem) newParams.set('system', selectedSystem);
+        else newParams.delete('system');
+        
+        if (selectedBody) newParams.set('body', selectedBody);
+        else newParams.delete('body');
+        
+        setSearchParams(newParams);
+    }, [searchTags, selectedSystem, selectedBody]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ',') {

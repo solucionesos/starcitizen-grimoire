@@ -1,5 +1,5 @@
 {
-  "version": "4.7.1-live.11592622",
+  "version": "4.7.1-live.11617053",
   "missions": [
     {
       "id": "b663a2f6-a889-47eb-821d-194da213a9ed",
@@ -10116,6 +10116,31 @@
       ]
     },
     {
+      "id": "04571ad9-f3e2-454a-9cf5-62f6c6089675",
+      "name": "FTL Courier Stanton LocalDC Any Rank0",
+      "system": "Stanton",
+      "mission_type": "Courier",
+      "faction": "FTL Courier",
+      "reputation_required": "Neutral",
+      "credits": 16000,
+      "standing": 500,
+      "has_script": false,
+      "script_items": [],
+      "overview": "AVAILABLE FTL CONTRACT\\nFOR IMMEDIATE ASSIGNMENT\\n\\n**CONTRACT DETAILS** \\nA reliable and hardworking entry-level courier is needed to ferry a delivery in Stanton.\\nYou will be responsible for providing your own transportation.\\nInterested contractors need the <EM4>ability to lift up to .25 SCU boxes</EM4>.\\nContractors are employed on an independent basis and therefore not covered by FTL's company insurance.\\n\\nGood luck and good speed, courier!",
+      "probability_rewards": [],
+      "tips": "@FTL_SignOff_001",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
       "id": "04eabfdd-ab02-43d9-864d-1d5163e870e5",
       "name": "Eradicate All Traces of Headhunter Data",
       "system": "Pyro",
@@ -12918,6 +12943,36 @@
       "faction": "Headhunters",
       "reputation_required": "Rank III",
       "credits": 173000,
+      "standing": 2000,
+      "has_script": true,
+      "script_items": [
+        {
+          "name": "Council Scrip",
+          "amount": 14
+        }
+      ],
+      "overview": "Got word that Headhunters ships heading to <EM4>[LOCATION]</EM4> are coming under attack. Scans have revealed enemy forces in the wider region intent on targeting our ops. \\n\\nThere’s enough of them that it’s gonna take more than one person to clear away all that trash. If you can grab your gear and a few friends, I could really use you out there.  \\n\\nThe specific attack areas and targets are evolving. Don’t worry about the details now. Just get there and I’ll let you know where you’re needed.  \\n\\nHandle this right and I’ll give the main contractor a bonus <EM4>14 Council Scrip</EM4>.\\n\\n- Stows",
+      "probability_rewards": [],
+      "tips": "Standard operation procedures apply.",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
+      "id": "6b6e8d28-73b3-430f-a13b-adcc115a4748",
+      "name": "HeadHunters EscortShips Stanton Hard",
+      "system": "Stanton",
+      "mission_type": "Mercenary",
+      "faction": "Headhunters",
+      "reputation_required": "Rank III",
+      "credits": 222500,
       "standing": 2000,
       "has_script": true,
       "script_items": [
@@ -19207,6 +19262,31 @@
       ]
     },
     {
+      "id": "d437b432-f18b-4cd8-b932-c9e3e72b1d34",
+      "name": "HaulCargo AToB Interstellar Bulk Ag Med Iodine",
+      "system": "Desconocido",
+      "mission_type": "Hauling - Interstellar",
+      "faction": "Covalex",
+      "reputation_required": "Master",
+      "credits": 123000,
+      "standing": 0,
+      "has_script": false,
+      "script_items": [],
+      "overview": "Hiya, \\n\\nHere’s the deal, I need someone good for a special run. We’ve got an important client that’s threatening to take their business elsewhere, because their deliveries are consistently missing cargo. They’re demanding that 100% of the cargo be delivered on this run, or they won’t pay. Since this was before my time and my supervisor wants to show that it won’t happen again, they agreed with this. Anyway, I think you might be a good fit. \\n\\nIf you’re willing to take that risk too, here are all the pertinent details. The cargo can be collected from <EM4>[LOCATION]</EM4> and delivered to <EM4>[DESTINATION]</EM4>. Looks like the largest cargo container you’ll need to handle is <EM4>24 SCU</EM4>, so be sure to bring a ship big enough and a <EM4>handheld tractor beam</EM4> to help you move those containers around.  \\n \\nThanks in advance for ensuring prompt service, \\n\\nElla Tieno \\nJr. Logistics Coordinator \\nCovalex Shipping   \\n'Anything you need, anywhere you need it.'\\n\\nCovalex Shipping is a limited liability corporation. To encourage timely deliveries and prevent fraud on cargo hauls, Covalex Shipping will set a delivery time limit and upon expiration, any undelivered cargo will be considered stolen and treated as such. Total payment will be prorated according to the percentage of cargo successfully delivered.",
+      "probability_rewards": [],
+      "tips": "@Covalex_SignOff_001",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
       "id": "69a17b80-b5cd-4644-8598-f6bdea857fe3",
       "name": "Master Rank - Direct Bulk Cargo Haul",
       "system": "Desconocido",
@@ -19284,6 +19364,31 @@
     {
       "id": "416b5ed7-5e08-47e4-afa7-da00eef0a5fe",
       "name": "Master Rank - Direct Bulk Cargo Haul",
+      "system": "Desconocido",
+      "mission_type": "Hauling - Interstellar",
+      "faction": "Covalex",
+      "reputation_required": "Master",
+      "credits": 119500,
+      "standing": 0,
+      "has_script": false,
+      "script_items": [],
+      "overview": "Hiya, \\n\\nLooking for a hauler willing to make a run to Ruin Station. Know hauls to Pyro can give some people pause, but this is one we do regularly to help supply the station. I’ve also confirmed that everything on the cargo manifest is above board. \\n\\nIf you’re interested, the cargo is ready for pick up at <EM4>[LOCATION]</EM4>.  Make sure you bring a <EM4>handheld tractor beam</EM4> and a ship that can hold <EM4>24 SCU cargo containers</EM4> otherwise it might be a little rough.\\n\\nThanks in advance for ensuring prompt service,\\n\\nElla Tieno \\nJr. Logistics Coordinator \\nCovalex Shipping   \\n'Anything you need, anywhere you need it.' \\n\\nCovalex Shipping is a limited liability corporation. To encourage timely deliveries and prevent fraud on cargo hauls, Covalex Shipping will set a delivery time limit and upon expiration, any undelivered cargo will be considered stolen and treated as such. Total payment will be prorated according to the percentage of cargo successfully delivered.",
+      "probability_rewards": [],
+      "tips": "@Covalex_SignOff_001",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
+      "id": "c4de1ea8-9853-4caf-9e49-a6f35e0a6c72",
+      "name": "HaulCargo AToB Interstellar Bulk Plas Scra Cob",
       "system": "Desconocido",
       "mission_type": "Hauling - Interstellar",
       "faction": "Covalex",
@@ -19668,6 +19773,31 @@
       "faction": "Covalex",
       "reputation_required": "Neutral",
       "credits": 18250,
+      "standing": 100,
+      "has_script": false,
+      "script_items": [],
+      "overview": "Hi,\\n\\nLooking for a contractor with a ship that can carry <EM4>[MAX_SCU] cargo containers</EM4> to run a delivery for us across Stanton.\\n\\nThis isn't a particularly long delivery route, but you will be moving between couple of different locations. To make sure things go smoothly, bring enough fuel and a <EM4>handheld tractor beam</EM4> to speed up moving the boxes.\\n\\nThanks in advance for ensuring prompt service,\\n\\nElla Tieno\\nJr. Logistics Coordinator\\nCovalex Shipping\\n'Anything you need, anywhere you need it.'\\n\\nCovalex Shipping is a limited liability corporation. To encourage timely deliveries and prevent fraud on cargo hauls, Covalex Shipping will set a delivery time limit and upon expiration, any undelivered cargo will be considered stolen and treated as such. Total payment will be prorated according to the percentage of cargo successfully delivered.",
+      "probability_rewards": [],
+      "tips": "@Covalex_SignOff_001",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
+      "id": "142316e9-3494-477d-93bc-e30789ce1634",
+      "name": "Covalex DeliveryPilot Stanton SampleMedicalTreatment Rank0",
+      "system": "Stanton",
+      "mission_type": "Delivery",
+      "faction": "Covalex",
+      "reputation_required": "Neutral",
+      "credits": 39000,
       "standing": 100,
       "has_script": false,
       "script_items": [],
@@ -30923,6 +31053,36 @@
       ]
     },
     {
+      "id": "8b68db1f-1b83-44f0-9627-8fa5377a95bf",
+      "name": "HeadHunters EscortShips Stanton Super",
+      "system": "Stanton",
+      "mission_type": "Mercenary",
+      "faction": "Headhunters",
+      "reputation_required": "Rank V",
+      "credits": 495250,
+      "standing": 16000,
+      "has_script": true,
+      "script_items": [
+        {
+          "name": "Council Scrip",
+          "amount": 24
+        }
+      ],
+      "overview": "Our crew at <EM4>[LOCATION]</EM4> needs help. Enemy ships are swarming the area and attacking anything and everything they can find. That’d be bad enough as is, but this site has some absolutely crucial gear and personnel that we can’t have destroyed or compromised. \\n\\nConsidering the size and scale of the attack, you’re gonna need a fully supplied ship and some reliable wingmen. Gather your crew, fly out to the site, and I’ll send you specifics on where you’re needed most.\\n\\nTo prove just how serious we are about getting this done right, the main contractor will earn a bonus <EM4>24 Council Scrip</EM4> for making sure absolutely nothing goes wrong.\\n\\n- Stow",
+      "probability_rewards": [],
+      "tips": "Standard operation procedures apply.",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
       "id": "ef25b98a-e749-4151-a54b-c97600b393f7",
       "name": "Retaking Outposts from Headhunters",
       "system": "Pyro",
@@ -36053,6 +36213,36 @@
       "faction": "Headhunters",
       "reputation_required": "Rank IV",
       "credits": 267000,
+      "standing": 8000,
+      "has_script": true,
+      "script_items": [
+        {
+          "name": "Council Scrip",
+          "amount": 18
+        }
+      ],
+      "overview": "Looking for someone who can not only dogfight but recruit others to the Headhunters cause. Our operations center at <EM4>[LOCATION]</EM4>, along with any ships going to and from it, are being targeted by hostile forces. We need support there pronto. \\n\\nNot gonna lie, but there’s lots of heat around there. That’s why you’ll need to be fully supplied and find some trustworthy friends to fly at your wing. When you get your crew together, head out there and I’ll update you if there’s any flare ups in the area that need your attention.\\n\\nThis op needs to go off without a hitch, so I’m offering the main contractor a bonus <EM4>18 Council Scrip</EM4> for a job well done. \\n\\nStows out.",
+      "probability_rewards": [],
+      "tips": "Standard operation procedures apply.",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
+      "id": "b12fc8c1-e24a-413f-a21c-f7ccebb8d264",
+      "name": "HeadHunters EscortShips Stanton VeryHard",
+      "system": "Stanton",
+      "mission_type": "Mercenary",
+      "faction": "Headhunters",
+      "reputation_required": "Rank IV",
+      "credits": 333500,
       "standing": 8000,
       "has_script": true,
       "script_items": [

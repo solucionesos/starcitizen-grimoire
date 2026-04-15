@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { getBlueprints } from '../api/client';
+import { getBlueprints, getMissions } from '../api/client';
 import Pagination from '../components/Pagination';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Target, Filter, ChevronDown, Flame } from 'lucide-react';
@@ -12,6 +12,7 @@ const Recipes: React.FC = () => {
     const { addToAltar } = useAltar();
     const [searchParams] = useSearchParams();
     const [recipes, setRecipes] = useState<any[]>([]);
+    const [allMissions, setAllMissions] = useState<Record<string, any>>({});
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
     const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -20,12 +21,17 @@ const Recipes: React.FC = () => {
     const itemsPerPage = 10;
 
     useEffect(() => {
-        getBlueprints()
-            .then(data => {
-                const list = Array.isArray(data) ? data : (data.blueprints || []);
+        Promise.all([getBlueprints(), getMissions()])
+            .then(([bpsData, msData]) => {
+                const list = Array.isArray(bpsData) ? bpsData : (bpsData.blueprints || []);
                 setRecipes(list);
+                
+                const mList = Array.isArray(msData) ? msData : (msData.missions || []);
+                const mDict: Record<string, any> = {};
+                mList.forEach((m: any) => { mDict[m.id] = m; });
+                setAllMissions(mDict);
             })
-            .catch(err => console.error("Error loading recipes:", err))
+            .catch(err => console.error("Error loading recipes/missions:", err))
             .finally(() => setLoading(false));
     }, []);
 
@@ -174,25 +180,29 @@ const Recipes: React.FC = () => {
                             </h4>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                                 {recipe.missions && recipe.missions.length > 0 ? (
-                                    recipe.missions.map((m: any, mIdx: number) => (
-                                        <button 
-                                            key={mIdx}
-                                            className="filter-btn"
-                                            onClick={() => navigate(`/missions?id=${m.id}`, { state: { breadcrumbLabel: `EDICTO: ${m.name?.replaceAll('_', ' ')}` } })}
-                                            style={{ 
-                                                fontSize: '0.65rem', 
-                                                maxWidth: '100%', 
-                                                overflow: 'hidden', 
-                                                textOverflow: 'ellipsis', 
-                                                whiteSpace: 'nowrap',
-                                                display: 'inline-block',
-                                                textAlign: 'left'
-                                            }}
-                                            title={m.name?.replaceAll('_', ' ') || 'EDICTO'}
-                                        >
-                                            {m.name?.replaceAll('_', ' ') || 'EDICTO'}
-                                        </button>
-                                    ))
+                                    recipe.missions.map((m: any, mIdx: number) => {
+                                        const fullMission = allMissions[m.id] || {};
+                                        const friendlyName = fullMission.friendly_name || fullMission.name?.replaceAll('_', ' ') || m.name?.replaceAll('_', ' ') || 'EDICTO';
+                                        return (
+                                            <button 
+                                                key={mIdx}
+                                                className="filter-btn"
+                                                onClick={() => navigate(`/missions?id=${m.id}`, { state: { breadcrumbLabel: `EDICTO: ${friendlyName}` } })}
+                                                style={{ 
+                                                    fontSize: '0.65rem', 
+                                                    maxWidth: '100%', 
+                                                    overflow: 'hidden', 
+                                                    textOverflow: 'ellipsis', 
+                                                    whiteSpace: 'nowrap',
+                                                    display: 'inline-block',
+                                                    textAlign: 'left'
+                                                }}
+                                                title={friendlyName}
+                                            >
+                                                {friendlyName}
+                                            </button>
+                                        );
+                                    })
                                 ) : (
                                     <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Desbloqueo estándar / Loot</span>
                                 )}
