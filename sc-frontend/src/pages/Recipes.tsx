@@ -18,7 +18,7 @@ const Recipes: React.FC = () => {
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
-    const itemsPerPage = 10;
+    const itemsPerPage = 9;
 
     useEffect(() => {
         Promise.all([getBlueprints(), getMissions()])
@@ -75,6 +75,16 @@ const Recipes: React.FC = () => {
             <h1 style={{ marginBottom: '1rem', color: 'var(--secondary)' }}>Archive de Tecnomilagros</h1>
             
             <div className="glass-card" style={{ marginBottom: '2rem', padding: '1rem 2rem' }}>
+                <div className="search-container" style={{ margin: '0 0 1.5rem 0', width: '100%' }}>
+                    <input 
+                        type="text" 
+                        className="search-input" 
+                        placeholder="🔍 Buscar blueprint..." 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+
                 <button
                     onClick={() => setShowFilters(!showFilters)}
                     style={{
@@ -82,7 +92,7 @@ const Recipes: React.FC = () => {
                     }}
                 >
                     <span style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                        <Filter size={18} className="accent-gold" /> FILTROS DEL ARCHIVO
+                        <Filter size={18} className="accent-gold" /> MÁS FILTROS
                     </span>
                     <motion.div animate={{ rotate: showFilters ? 180 : 0 }}><ChevronDown size={20} /></motion.div>
                 </button>
@@ -97,15 +107,7 @@ const Recipes: React.FC = () => {
                         >
                             <div style={{ paddingTop: '1.5rem', borderTop: '1px solid rgba(212,175,55,0.15)', marginTop: '1rem' }}>
                                 <div className="controls-container">
-                                    <div className="search-container" style={{ margin: 0 }}>
-                    <input 
-                        type="text" 
-                        className="search-input" 
-                        placeholder="🔍 Buscar blueprint..." 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+
 
                 <div className="filter-group">
                     <span className="filter-label">🏷️ TIPO:</span>

@@ -1,21 +1,23 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { getResources } from '../api/client';
+import { getResources, getBlueprints } from '../api/client';
 import { MapIcon, Database, ArrowLeft, Zap } from 'lucide-react';
 
 const ResourceDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [resources, setResources] = useState<any[]>([]);
+    const [blueprints, setBlueprints] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        getResources()
-            .then((data: any) => {
-                // Handle both array and object responses
-                const list = Array.isArray(data) ? data : (data.resources || []);
+        Promise.all([getResources(), getBlueprints()])
+            .then(([resData, bpData]) => {
+                const list = Array.isArray(resData) ? resData : (resData.resources || []);
+                const bList = Array.isArray(bpData) ? bpData : (bpData.blueprints || []);
                 setResources(list);
+                setBlueprints(bList);
             })
             .catch(err => {
                 console.error("Error fetching resource detail:", err);
@@ -25,6 +27,16 @@ const ResourceDetail: React.FC = () => {
     }, []);
 
     const resource = useMemo(() => resources.find(r => r.id === id), [resources, id]);
+    const resourceBlueprints = useMemo(() => {
+        if (!resource) return [];
+        const normalizedResourceName = resource.name.toLowerCase();
+        return blueprints.filter(b => b.parts?.some((m: any) => {
+            const partName = (m.label || m.name || "").toLowerCase();
+            return normalizedResourceName.includes(partName) || 
+                   partName.includes(normalizedResourceName) || 
+                   m.resourceId === resource.id;
+        }));
+    }, [blueprints, resource]);
 
     if (loading) return <div style={{ textAlign: 'center', padding: '5rem', fontFamily: 'var(--cinzel-font)', fontSize: '2rem' }}>CONSULTANDO ALMAS DE OFRENDAS...</div>;
     if (error) return <div style={{ textAlign: 'center', padding: '5rem', color: '#ff4444' }}>{error}</div>;
@@ -78,7 +90,34 @@ const ResourceDetail: React.FC = () => {
                     </div>
                 </motion.div>
 
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    
+                    {resourceBlueprints.length > 0 && (
+                        <div className="glass-card">
+                            <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.5rem', color: 'var(--secondary)' }}>
+                                <Zap className="accent-gold" size={28} /> TECNOMILAGROS ({resourceBlueprints.length})
+                            </h2>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                {resourceBlueprints.map((bp) => (
+                                    <Link 
+                                        key={bp.id} 
+                                        to={`/recipes?id=${bp.id}`} 
+                                        style={{ textDecoration: 'none', color: 'inherit' }}
+                                    >
+                                        <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderLeft: '4px solid var(--primary)', transition: 'transform 0.2s', cursor: 'pointer' }} className="hover-glow">
+                                            <div>
+                                                <div style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{bp.name}</div>
+                                                <span style={{ fontSize: '0.6rem', opacity: 0.6, background: 'rgba(255,255,255,0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px' }}>
+                                                    IR AL RITO →
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     <div className="glass-card">
                         <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '2rem', color: 'var(--secondary)' }}>
                             <MapIcon className="accent-gold" size={28} /> LOCALIZACIONES SAGRADAS ({allLocations.length})

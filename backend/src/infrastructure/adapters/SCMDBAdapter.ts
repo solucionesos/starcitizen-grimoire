@@ -214,6 +214,7 @@ export class SCMDBAdapter implements ISCDataFetcher {
 
       return {
         id: c.id,
+        technicalName: c.debugName,
         name: displayName,
         system,
         mission_type: mType,

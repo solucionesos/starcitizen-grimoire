@@ -1,0 +1,5 @@
+*.zip
+/.vscode
+*.md
+!README.md
+!LICENSE.md

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Executive Hangar Status Tracker for Star Citizen - Live status updates and schedule for hangar availability"
+    />
+    <meta
+      name="keywords"
+      content="PYAM, Star Citizen, Executive Hangar, Hangar Status, Hangar Timer"
+    />
+    <meta name="author" content="https://batbot.co.uk/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="PYAM Executive Hangar Status" />
+    <meta property="og:image" content="https://arkhq.cc/exec/assets/Arkanis.png" />
+    <meta
+      property="og:description"
+      content="Star Citizen Executive Hangar Status Tracker - Live updates and schedule for hangar availability, brought to you by Arkanis Corporation"
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/png" href="assets/Arkanis.webp" />
+    <title>Executive Hangar Status</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.css"
+    />
+    <script type="module">
+      import PhotoSwipeLightbox from "https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe-lightbox.esm.min.js";
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const mapsPanel = document.querySelector("#maps-panel");
+        if (!mapsPanel) return;
+        const lightbox = new PhotoSwipeLightbox({
+          gallery: mapsPanel,
+          children: ".map-preview__link",
+          pswpModule: () =>
+            import("https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js"),
+          showHideAnimationType: "zoom",
+          padding: { top: 24, bottom: 24, left: 16, right: 16 },
+          wheelToZoom: true,
+          zoom: true,
+          imageClickAction: "zoom",
+          secondaryZoomLevel: 2.2,
+          maxZoomPixelRatio: 4,
+        });
+        lightbox.init();
+        window.execMapLightbox = lightbox;
+      });
+    </script>
+  </head>
+  <body class="app-shell">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <div class="brand">
+          <img
+            src="assets/Arkanis.webp"
+            alt="PYAM Hangar Intel"
+            class="brand-mark"
+          />
+          <div class="brand-copy">
+            <span class="brand-title">PYAM Hangar Intel</span>
+            <span class="brand-subtitle">Executive cadence tracker</span>
+            <span class="fansite">This is an unofficial Star Citizen Fan Site</span>
+          </div>
+        </div>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="index.html" class="site-nav__link site-nav__link--active"
+            >Status</a
+          >
+          <a href="https://arkanis.cc/">Arkanis</a>
+          <a href="https://join.arkanis.cc/">Discord</a>
+        </nav>
+      </div>
+    </header>
+    <main class="app-main">
+      <section class="status-stack">
+        <header class="page-heading">
+          <h1>Executive Hangar Status</h1>
+          <p class="sub">Live PYAM window tracker with cycle forecast</p>
+        </header>
+
+        <div aria-live="polite" class="status-card-stack">
+          <div class="info-card status-card">
+            <div class="status-grid">
+              <div class="status-block">
+                <div class="info-title">Current status</div>
+                <p id="status" class="status">
+                  --
+                </p>
+                <p
+                  id="cycle-meta"
+                  class="cycle-meta"
+                >
+                  Cycle --
+                </p>
+              </div>
+              <div class="countdown-block">
+                <div class="info-title">Time until next change</div>
+                <p id="countdown" class="count">
+                  00:00
+                </p>
+              </div>
+              <div class="progress-block">
+                <div class="info-title">Cycle progress</div>
+                <div class="cycle-progress-copy">
+                  <p class="cycle-progress-text">Cycle progress indicator:</p>
+                  <div
+                    class="status-lights"
+                    role="img"
+                    aria-label="Status lights"
+                  >
+                    <span id="circle-1" class="chip"></span>
+                    <span id="circle-2" class="chip"></span>
+                    <span id="circle-3" class="chip"></span>
+                    <span id="circle-4" class="chip"></span>
+                    <span id="circle-5" class="chip"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="status-divider"></div>
+            <div class="reference-block">
+              <div class="info-title">Reference</div>
+              <p class="reference-copy">
+                Timers rely on your device clock; keep it synced for accuracy.
+              </p>
+              <p id="version-info" class="version-info">
+                Loading version info...
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section class="panel-switcher" aria-label="Tracker views">
+        <div class="panel-tabs" role="tablist">
+          <button
+            type="button"
+            class="panel-tab panel-tab--active"
+            data-panel-target="cycles-panel"
+            role="tab"
+            aria-selected="true"
+            id="tab-schedule"
+            aria-controls="cycles-panel"
+          >
+            Schedule
+          </button>
+          <button
+            type="button"
+            class="panel-tab"
+            data-panel-target="timers-panel"
+            role="tab"
+            aria-selected="false"
+            id="tab-timers"
+            aria-controls="timers-panel"
+          >
+            Self timers
+          </button>
+          <button
+            type="button"
+            class="panel-tab"
+            data-panel-target="maps-panel"
+            role="tab"
+            aria-selected="false"
+            id="tab-maps"
+            aria-controls="maps-panel"
+          >
+            Maps
+          </button>
+        </div>
+        <div class="panel-views">
+          <div
+            id="cycles-panel"
+            class="panel-view panel-view--active"
+            role="tabpanel"
+          >
+            <section class="cycles-panel">
+              <div class="cycles-details">
+                <div class="cycles-summary">Upcoming cycles</div>
+                <div class="cycles-body">
+                  <div class="cycle-scroll" id="schedule"></div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div
+            id="timers-panel"
+            class="panel-view"
+            hidden
+            role="tabpanel"
+            aria-labelledby="tab-timers"
+          >
+            <section class="status-stack timer-stack">
+              <div class="timer-alert" role="status" aria-live="polite">
+                <div class="timer-alert__icon" aria-hidden="true">!</div>
+                <div>
+                  <p class="timer-alert__title">Stay in the loop</p>
+                  <p class="timer-alert__copy">
+                    Every timer runs locally—no accounts, no sync. When prompted,
+                    allow sound or notification access so completed timers chime and
+                    desktop notifications pop up even if this tab is in the background.
+                  </p>
+                </div>
+              </div>
+              <section id="timer-sections" class="timer-section-stack"></section>
+            </section>
+          </div>
+          <div
+            id="maps-panel"
+            class="panel-view"
+            role="tabpanel"
+            hidden
+            aria-labelledby="tab-maps"
+          >
+            <section class="maps-panel">
+              <header class="maps-panel__header">
+                <h2>Self-service location references</h2>
+                <p>
+                  Quick visual cues for doorways, spawn points, and service desks.
+                </p>
+              </header>
+
+<div class="map-list" role="tablist">
+  <button
+    type="button"
+    class="map-list__item map-list__item--active"
+    data-map-key="checkmate"
+    data-map-src="assets/Checkmate Map.webp"
+    data-map-title="Checkmate"
+    data-map-description="Keycard + compboard routes through the hangar and security wing."
+  >
+    Checkmate
+  </button>
+  <button
+    type="button"
+    class="map-list__item"
+    data-map-key="orbituary"
+    data-map-src="assets/Orbituary Map.webp"
+    data-map-title="Orbituary"
+    data-map-description="Tablet stations on the mezzanine plus auxiliary access halls."
+  >
+    Orbituary
+  </button>
+  <button
+    type="button"
+    class="map-list__item"
+    data-map-key="ruin-station"
+    data-map-src="assets/Ruin Map.webp"
+    data-map-title="Ruin Station"
+    data-map-description="The Vault, Last Resort, Wasteland, and Crypt pathways."
+  >
+    Ruin Station
+  </button>
+  <button
+    type="button"
+    class="map-list__item"
+    data-map-key="pyam-exhang"
+    data-map-src="assets/Executive Hangar Map.webp"
+    data-map-title="PYAM-EXHANG-0-1"
+    data-map-description="Executive hangar lobby checkpoints and service counters."
+  >
+    PYAM-EXHANG-0-1
+  </button>
+  <button
+    type="button"
+    class="map-list__item"
+    data-map-key="pyam-supvisr"
+    data-map-src="assets/Supervisor Map.webp"
+    data-map-title="PYAM-SUPVISR-3-4/5"
+    data-map-description="Supervisor wing red keycard checkpoints and security office."
+  >
+    PYAM-SUPVISR-3-4/5
+  </button>
+</div>
+              <div class="map-preview">
+                <div class="map-preview__frame">
+                  <img
+                    id="map-preview-image"
+                    src="assets/Checkmate Map.webp"
+                    alt="Checkmate contested zone map"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="map-preview__details">
+                  <div class="map-preview__heading">
+                    <h3 id="map-preview-title">Checkmate</h3>
+                    <p class="map-credit" id="map-credit">
+                      Created by
+                      <a
+                        id="map-credit-link"
+                        href="https://arkanis.cc/"
+                        target="_blank"
+                        rel="noopener"
+                        >Arkanis Cartography</a
+                      >
+                    </p>
+                  </div>
+                  <p id="map-preview-description">
+                    Keycard + compboard routes through the hangar and security wing.
+                  </p>
+                  <a
+                    id="map-preview-link"
+                    class="map-preview__link"
+                    data-pswp-src="assets/Checkmate Map.webp"
+                    data-pswp-width="2048"
+                    data-pswp-height="1152"
+                    data-pswp-caption="Checkmate - Keycard + compboard routes through the hangar and security wing."
+                    href="assets/Checkmate Map.webp"
+                  >
+                    View full size
+                  </a>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <p class="page-hint">
+        Tip: leave this tab open for a live countdown. No cookies or account
+        required.
+      </p>
+    </main>
+    <footer class="site-footer">
+      &copy; 2026
+      <a href="https://github.com/NBDBatman/">NBDBatman / MercuryHQ</a>
+      &
+      <a href="https://github.com/ArkanisCorporation">Arkanis Corporation</a>
+      &middot;
+      <a href="../license/">MIT License</a>
+      &middot;
+      <a href="https://github.com/ArkanisCorporation/Exec-Hangar">Github</a>
+      <br />
+        Star Citizen®, Roberts Space Industries® and Cloud Imperium ® are registered trademarks of 
+        <a href="https://cloudimperiumgames.com/"
+        >Cloud Imperium Rights LLC</a
+      >
+    </footer>
+    <script src="app.js"></script>
+    <script src="timers.js"></script>
+  </body>
+</html>

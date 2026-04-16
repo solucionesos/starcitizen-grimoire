@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { getResources } from '../api/client';
+import { getResources, getBlueprints } from '../api/client';
 import { Database, Map as MapIcon, X, Filter, ChevronDown } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import Pagination from '../components/Pagination';
@@ -9,6 +9,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 const Resources: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [resources, setResources] = useState<any[]>([]);
+    const [blueprints, setBlueprints] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedSystem, setSelectedSystem] = useState<string | null>(searchParams.get('system'));
     const [selectedMiningType, setSelectedMiningType] = useState<string | null>(null);
@@ -25,13 +26,15 @@ const Resources: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
-    const itemsPerPage = 10;
+    const itemsPerPage = 9;
 
     useEffect(() => {
-        getResources()
-            .then((data: any) => {
-                const list = Array.isArray(data) ? data : (data.resources || []);
+        Promise.all([getResources(), getBlueprints()])
+            .then(([resData, bpData]) => {
+                const list = Array.isArray(resData) ? resData : (resData.resources || []);
+                const bList = Array.isArray(bpData) ? bpData : (bpData.blueprints || []);
                 setResources(list);
+                setBlueprints(bList);
             })
             .finally(() => setLoading(false));
     }, []);
@@ -121,19 +124,27 @@ const Resources: React.FC = () => {
         if (selectedBody) {
             rs = rs.filter(r => r.locations?.includes(selectedBody));
         }
-        if (searchTags.length > 0) {
+        if (searchTags.length > 0 || inputValue.trim() !== '') {
+            const currentTags = [...searchTags];
+            if (inputValue.trim() !== '') {
+                currentTags.push(inputValue.trim().toLowerCase());
+            }
+
             rs = rs.filter(r => 
-                searchTags.some(tag => {
+                currentTags.some(tag => {
                     let normTag = tag.toLowerCase().trim();
                     if (normTag === 'aluminum') normTag = 'aluminium';
                     if (normTag === 'titainum') normTag = 'titanium';
                     const resName = (r.name || "").toLowerCase();
-                    return resName.includes(normTag) || normTag.includes(resName.split(' ')[0]);
+                    const base = r.baseEmission || 4000;
+                    const matchSignal = normTag === base.toString() || normTag === (base * 2).toString() || normTag === (base * 3).toString();
+                    
+                    return resName.includes(normTag) || normTag.includes(resName.split(' ')[0]) || matchSignal;
                 })
             );
         }
         return rs;
-    }, [resources, selectedSystem, selectedMiningType, selectedLocType, selectedBody, searchTags]);
+    }, [resources, selectedSystem, selectedMiningType, selectedLocType, selectedBody, searchTags, inputValue]);
 
 
     const totalPages = Math.ceil(filteredResources.length / itemsPerPage);
@@ -153,6 +164,52 @@ const Resources: React.FC = () => {
             <h1 style={{ color: 'var(--secondary)' }}>Cartografía de Ofrendas</h1>
             
             <div className="glass-card" style={{ marginBottom: '2rem', padding: '1rem 2rem' }}>
+                <div className="search-container" style={{ 
+                    margin: '0 0 1.5rem 0', 
+                    width: '100%', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    flexWrap: 'wrap',
+                    padding: '0.4rem 1rem',
+                    minHeight: '45px'
+                }}>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                        {searchTags.map(tag => (
+                            <span key={tag} style={{ 
+                                background: 'var(--primary)', 
+                                color: 'black', 
+                                padding: '0.1rem 0.5rem', 
+                                borderRadius: '4px', 
+                                fontSize: '0.75rem', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '0.3rem',
+                                fontWeight: 'bold'
+                            }}>
+                                {tag.toUpperCase()}
+                                <X size={12} onClick={() => removeTag(tag)} style={{ cursor: 'pointer' }} />
+                            </span>
+                        ))}
+                    </div>
+                    <input 
+                        type="text" 
+                        style={{ 
+                            background: 'transparent', 
+                            border: 'none', 
+                            color: 'var(--text)', 
+                            outline: 'none', 
+                            flex: 1,
+                            fontSize: '0.9rem',
+                            minWidth: '150px'
+                        }}
+                        placeholder={searchTags.length === 0 ? "🔍 Buscar ofrendas o señal (ej: Agricium, 1700...)" : "Añadir más etiquetas..."}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                </div>
+
                 <button
                     onClick={() => setShowFilters(!showFilters)}
                     style={{
@@ -160,7 +217,7 @@ const Resources: React.FC = () => {
                     }}
                 >
                     <span style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                        <Filter size={18} className="accent-gold" /> FILTROS DEL ARCHIVO
+                        <Filter size={18} className="accent-gold" /> MÁS FILTROS
                     </span>
                     <motion.div animate={{ rotate: showFilters ? 180 : 0 }}><ChevronDown size={20} /></motion.div>
                 </button>
@@ -176,55 +233,9 @@ const Resources: React.FC = () => {
                             <div style={{ paddingTop: '1.5rem', borderTop: '1px solid rgba(212,175,55,0.15)', marginTop: '1rem' }}>
                                 <div className="controls-container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div style={{ display: 'flex', gap: '1rem', width: '100%', flexWrap: 'wrap' }}>
-                    <div className="search-container" style={{ 
-                        margin: 0, 
-                        flex: 1, 
-                        minWidth: '300px', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '0.5rem',
-                        flexWrap: 'wrap',
-                        padding: '0.4rem 1rem',
-                        minHeight: '45px'
-                    }}>
-                        <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                            {searchTags.map(tag => (
-                                <span key={tag} style={{ 
-                                    background: 'var(--primary)', 
-                                    color: 'black', 
-                                    padding: '0.1rem 0.5rem', 
-                                    borderRadius: '4px', 
-                                    fontSize: '0.75rem', 
-                                    display: 'flex', 
-                                    alignItems: 'center', 
-                                    gap: '0.3rem',
-                                    fontWeight: 'bold'
-                                }}>
-                                    {tag.toUpperCase()}
-                                    <X size={12} onClick={() => removeTag(tag)} style={{ cursor: 'pointer' }} />
-                                </span>
-                            ))}
-                        </div>
-                        <input 
-                            type="text" 
-                            style={{ 
-                                background: 'transparent', 
-                                border: 'none', 
-                                color: 'var(--text)', 
-                                outline: 'none', 
-                                flex: 1,
-                                fontSize: '0.9rem',
-                                minWidth: '150px'
-                            }}
-                            placeholder={searchTags.length === 0 ? "🔍 Buscar ofrendas (ej: Cu, Agricium...)" : "Añadir más etiquetas..."}
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                        />
-                    </div>
                     <select 
                         className="filter-btn" 
-                        style={{ padding: '0 1rem', background: 'rgba(0,0,0,0.5)' }}
+                        style={{ padding: '0 1rem', background: 'rgba(0,0,0,0.5)', flex: 1, minWidth: '300px' }}
                         value={selectedBody || ''}
                         onChange={(e) => setSelectedBody(e.target.value || null)}
                     >
@@ -284,7 +295,7 @@ const Resources: React.FC = () => {
                                 <Database size={14} className="accent-amber" /> SEÑAL ESCANEO:
                             </h4>
                             <div className="responsive-grid-3" style={{ gap: '0.4rem' }}>
-                                {[1, 2, 3].map(c => (
+                                {[1, 2, 3, 4, 5, 6].map(c => (
                                     <div key={c} style={{ fontSize: '0.7rem', border: '1px solid rgba(255,255,255,0.05)', padding: '0.3rem', borderRadius: '4px', textAlign: 'center' }}>
                                         <div style={{ color: 'var(--text-muted)', fontSize: '0.55rem' }}>x{c}</div>
                                         <div className="accent-amber">{(resource.baseEmission || 4000) * c}</div>
@@ -293,8 +304,9 @@ const Resources: React.FC = () => {
                             </div>
                         </div>
 
-                        <div style={{ marginTop: '1.2rem' }}>
-                            <h4 style={{ fontSize: '0.8rem', marginBottom: '0.5rem', color: 'var(--primary)' }}>
+                        <div style={{ marginTop: '0.8rem' }}>
+                            <details style={{ background: 'rgba(255,255,255,0.02)', padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                <summary style={{ fontSize: '0.75rem', color: 'var(--primary)', cursor: 'pointer', outline: 'none', fontWeight: 'bold' }}>
                                 {selectedLocType || selectedBody ? 'UBICACIONES FILTRADAS' : 'LOCACIONES Y CLUMPING'} 
                                 ({
                                     resource.locationsDetail?.filter((l: any) => {
@@ -304,9 +316,9 @@ const Resources: React.FC = () => {
                                         if (selectedBody) match = match && (l.system + ': ' + l.name + ' (' + l.type + ')') === selectedBody;
                                         return match;
                                     }).length || 0
-                                }):
-                            </h4>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                                })
+                                </summary>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.8rem' }}>
                                 {resource.locationsDetail?.filter((l: any) => {
                                     let match = true;
                                     if (selectedSystem) match = match && l.system === selectedSystem;
@@ -341,7 +353,46 @@ const Resources: React.FC = () => {
                                     return match;
                                 }).length > 5 && <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textAlign: 'center' }}>+ Otros resultados...</p>}
                             </div>
+                            </details>
                         </div>
+
+                        {(() => {
+                            const normalizedName = resource.name.toLowerCase();
+                            const resourceBlueprints = blueprints.filter(b => b.parts?.some((m: any) => {
+                                const partName = (m.label || m.name || "").toLowerCase();
+                                return normalizedName.includes(partName) || partName.includes(normalizedName) || m.resourceId === resource.id;
+                            }));
+                            if (resourceBlueprints.length === 0) return null;
+                            return (
+                                <div style={{ marginTop: '0.5rem' }}>
+                                    <details style={{ background: 'rgba(255,255,255,0.02)', padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                        <summary style={{ fontSize: '0.75rem', color: 'var(--primary)', cursor: 'pointer', outline: 'none', fontWeight: 'bold' }}>
+                                        TECNOMILAGROS ({resourceBlueprints.length})
+                                        </summary>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.8rem' }}>
+                                        {resourceBlueprints.map((bp) => (
+                                            <div key={bp.id} style={{ 
+                                                fontSize: '0.7rem', 
+                                                background: 'rgba(255,255,255,0.03)', 
+                                                padding: '0.4rem 0.6rem', 
+                                                borderRadius: '4px',
+                                                display: 'flex',
+                                                borderLeft: '2px solid var(--primary)'
+                                            }}>
+                                                <Link 
+                                                    to={`/recipes?id=${bp.id}`}
+                                                    style={{ textDecoration: 'none', color: 'inherit', display: 'flex', justifyContent: 'space-between', width: '100%' }}
+                                                >
+                                                    <span>{bp.name}</span>
+                                                    <span className="accent-amber" style={{ fontSize: '0.65rem' }}>Ver Rito →</span>
+                                                </Link>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    </details>
+                                </div>
+                            );
+                        })()}
 
 
                     </motion.div>

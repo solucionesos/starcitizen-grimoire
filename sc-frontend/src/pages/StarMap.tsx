@@ -182,10 +182,17 @@ const DetailPanel: React.FC<{
   // Filter notable children (non-lagrange) for planet view
   const notableChildren = selected.planet.children.filter(c => c.type !== 'lagrange' && !selected.child);
 
-  // Match resources
-  const searchBodyStr = `${systemName}: ${item.name}`; // e.g. "Stanton: Hurston"
+  // Match resources using fuzzy logic to handle suffixes/parentheses
+  const searchBodyStr = `${systemName}: ${item.name}`; 
   const matchingResources = localResources.filter(r => {
-    return r.locationsDetail?.some((l: any) => l.system === systemName && l.name === item.name);
+    const cleanItemName = item.name.toLowerCase().split('(')[0].trim();
+    const cleanSys = systemName.toLowerCase().trim();
+    
+    return r.locationsDetail?.some((l: any) => {
+      const lName = l.name?.toLowerCase() || '';
+      const lSystem = l.system?.toLowerCase() || '';
+      return lSystem.includes(cleanSys) && (lName.includes(cleanItemName) || cleanItemName.includes(lName));
+    });
   });
 
   return (

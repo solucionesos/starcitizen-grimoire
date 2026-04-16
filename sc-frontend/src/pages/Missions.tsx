@@ -27,7 +27,7 @@ const Missions: React.FC = () => {
     const [rewardFilter, setRewardFilter] = useState<'all' | 'blueprint' | 'scrip' | 'credits'>('all');
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
-    const itemsPerPage = 10;
+    const itemsPerPage = 9;
 
     useEffect(() => {
         getMissions()
@@ -108,6 +108,17 @@ const Missions: React.FC = () => {
             <h1 style={{ color: 'var(--secondary)' }}>Registro de Edictos Sagrados</h1>
 
             <div className="glass-card" style={{ marginBottom: '2rem', padding: '1rem 2rem' }}>
+                {/* Search */}
+                <div className="search-container" style={{ margin: '0 0 1.5rem 0', maxWidth: '600px' }}>
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="🔍 Buscar por nombre, facción o descripción..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+
                 <button
                     onClick={() => setShowFilters(!showFilters)}
                     style={{
@@ -115,7 +126,7 @@ const Missions: React.FC = () => {
                     }}
                 >
                     <span style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                        <Filter size={18} className="accent-gold" /> FILTROS DEL ARCHIVO
+                        <Filter size={18} className="accent-gold" /> MÁS FILTROS
                     </span>
                     <motion.div animate={{ rotate: showFilters ? 180 : 0 }}><ChevronDown size={20} /></motion.div>
                 </button>
@@ -130,17 +141,6 @@ const Missions: React.FC = () => {
                         >
                             <div style={{ paddingTop: '1.5rem', borderTop: '1px solid rgba(212,175,55,0.15)', marginTop: '1rem' }}>
                                 <div className="controls-container" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-
-                {/* Search */}
-                <div className="search-container" style={{ margin: 0, maxWidth: '600px' }}>
-                    <input
-                        type="text"
-                        className="search-input"
-                        placeholder="🔍 Buscar por nombre, facción o descripción..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
 
                 {/* SYSTEM FILTER */}
                 <div className="filter-group">

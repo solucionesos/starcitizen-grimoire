@@ -6,22 +6,13 @@ import DragonIcon from '../components/DragonIcon';
 
 const sections = [
     {
-        path: '/lore',
-        icon: <DragonIcon size={45} />,
-        title: 'Crónica',
-        subtitle: 'Historia de Ancalagon Oblivion Fleet',
-        description: 'Los registros del origen de la hermandad. Desde los fragmentos del orden hasta el nacimiento de la flota. La verdad del Vacío, preservada en tinta y fuego.',
+        path: '/divinitatus',
+        icon: '📖',
+        title: 'Lectitio Divinitatus',
+        subtitle: 'El Libro de la Palabra de Ancalagon',
+        description: 'La recopilación sagrada de la Flota. Contiene las Crónicas históricas de la hermandad y los Rituales de Ascenso necesarios para progresar en la escala del Abismo.',
         color: '#d4af37',
-        label: 'LEER CRÓNICA',
-    },
-    {
-        path: '/rituales',
-        icon: '🔖',
-        title: 'Rituales',
-        subtitle: 'Ritos de Iniciación y Progresión',
-        description: 'El camino de las Sombras del Umbral hasta los Heraldos de Ancalagon. Cada ascenso exige sangre en los edictos y sabiduría en el Grimoire.',
-        color: '#d4af37',
-        label: 'VER RITUALES',
+        label: 'ABRIR EL LIBRO',
     },
     {
         path: '/missions',
@@ -69,13 +60,13 @@ const sections = [
         label: 'ACTIVAR RITO',
     },
     {
-        path: '/wikelo',
-        icon: '🏴‍☠️',
-        title: 'El Estafador',
-        subtitle: 'Mercado Negro / Wikelo',
-        description: 'Accede al catálogo clandestino de los mercaderes Banu. Naves especiales, armamento pesado y armaduras restringidas a cambio de favores corporativos y materiales comerciales.',
-        color: '#f87171',
-        label: 'VER CATÁLOGO',
+        path: '/datavelo',
+        icon: '📡',
+        title: 'DATAVELO',
+        subtitle: 'Logística y Mercado Negro',
+        description: 'El nexo de operaciones de la Flota. Sincroniza las aperturas de las Bóvedas del Hangar Ejecutivo y accede al catálogo clandestino de Wikelo para adquirir naves y equipos restringidos.',
+        color: '#94a3b8',
+        label: 'ACCEDER A DATAVELO',
     },
 ];
 

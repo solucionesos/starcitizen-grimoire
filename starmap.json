@@ -1,0 +1,226 @@
+{
+    "version": "4.7.1",
+    "descripcion": "Catalogo maestro de cartografia estelar para Stanton, Pyro y Nyx",
+    "sistemas":","planetas":","ciudad_lz": "Lorville",
+    "estacion_orbital": "Everus Harbor",
+    "lunas": [
+        {
+            "nombre": "Aberdeen",
+            "visual": "Niebla sulfurosa densa",
+            "descripcion": "Alta temperatura y toxicidad.[3]"
+        },
+        {
+            "nombre": "Arial",
+            "visual": "Terreno volcanico brillante",
+            "descripcion": "Rica en depositos de hierro.[3]"
+        },
+        {
+            "nombre": "Ita",
+            "visual": "Desierto grisaceo",
+            "descripcion": "Paisaje de llanuras y crateres.[3]"
+        },
+        {
+            "nombre": "Magda",
+            "visual": "Lagos de sedimentos azules",
+            "descripcion": "Formaciones cristalinas unicas.[3]"
+        }
+    ]
+},
+{
+    "nombre": "Crusader",
+    "visual": "Gigante gaseoso rosado y blanco con plataformas flotantes.",
+    "descripcion": "Hub aeroespacial de Crusader Industries.[1]",
+    "ciudad_lz": "Orison",
+    "estacion_orbital": "Seraphim Station",
+    "lunas":"},{
+        "nombre": "Cellin",
+        "visual": "Superficie blanca con crateres masivos",
+        "descripcion": "Geologia volcanica inactiva.[3]"
+    },
+    {
+        "nombre": "Yela",
+        "visual": "Mundo helado con anillos",
+        "descripcion": "Hogar de la estacion proscrita Grim HEX.[3]"
+    }
+]
+},
+{
+"nombre": "ArcCorp",
+"visual": "Ecumenopolis con estructuras metalicas y luces rojas.",
+"descripcion": "Superficie 100% urbanizada para produccion tecnologica.[1]",
+"ciudad_lz": "Area18",
+"estacion_orbital": "Baijini Point",
+"lunas": [
+    {
+        "nombre": "Lyria",
+        "visual": "Criovolcanismo y depositos de hielo",
+        "descripcion": "Extraccion de materiales energeticos.[3]"
+    },
+    {
+        "nombre": "Wala",
+        "visual": "Baja gravedad y vetas verdosas",
+        "descripcion": "Geologia rica en minerales raros.[3]"
+    }
+]
+},
+{
+"nombre": "microTech",
+"visual": "Tundra blanca, bosques de pinos y tormentas de nieve.",
+"descripcion": "Centro de I+D afectado por fallo de terraformacion.[1]",
+"ciudad_lz": "New Babbage",
+"estacion_orbital": "Port Tressler",
+"lunas":"},{
+    "nombre": "Clio",
+    "visual": "Oceanos liquidos rosados",
+    "descripcion": "Atmosfera cargada de compuestos quimicos.[3]"
+},
+{
+    "nombre": "Euterpe",
+    "visual": "Picos de hielo afilados",
+    "descripcion": "Topografia accidentada y depositos de metano.[3]"
+}
+]
+}
+],
+"estaciones_lagrange":"},{
+"nombre": "CRU-L1 Ambitious Dream",
+"especialidad": "Refinado de Quantainium.[4, 5]"
+},
+{
+"nombre": "HUR-L1 Green Glade",
+"especialidad": "Logistica de carga pesada.[4]"
+},
+{
+"nombre": "MIC-L1 Shallow Frontier",
+"especialidad": "Apoyo militar y servicios de flota.[4]"
+}
+],
+"elementos_unicos":","instruccion": "Saltar desde ArcCorp hacia Hurston. Desactivar motor cuando falten 13.5 GM para el destino.[6, 7]",
+"punto_densidad": "20.32 GM desde la estrella Stanton.[6]"
+}
+}
+]
+},
+{
+"id": "PYRO",
+"nombre": "Sistema Pyro",
+"afiliacion": "Anarquico / Xenothreat",
+"descripcion": "Sistema bajo la radiacion de una estrella flare clase K.[8, 9]",
+"planetas":"},{
+"nombre": "Monox (Pyro II)",
+"visual": "Smog gris-verde",
+"descripcion": "Atmosfera toxica cargada de metal.[9]"
+},
+{
+"nombre": "Bloom (Pyro III)",
+"visual": "Musgo amarillo y hielo",
+"descripcion": "Mundo terrestre con biosfera primitiva.[9, 10]"
+},
+{
+"nombre": "Pyro IV",
+"visual": "Paisaje fracturado",
+"descripcion": "Actua como satelite de Pyro V despues de una colision.[9, 11]"
+},
+{
+"nombre": "Pyro V",
+"visual": "Banda amarillo-verdosa masiva",
+"descripcion": "Gigante gaseoso que domina el sistema.[9]",
+"lunas":"},{
+"nombre": "Fairo",
+"visual": "Oceanos de lava y terremotos",
+"descripcion": "Actividad sismica extrema.[9, 12]"
+},
+{
+"nombre": "Fuego",
+"visual": "Suelo amarillo y negro",
+"descripcion": "Presencia masiva de sulfuro de hierro.[9, 12]"
+},
+{
+"nombre": "Ignis",
+"visual": "Canones y rios secos",
+"descripcion": "Mundo desertico calcinado.[9, 12]"
+},
+{
+"nombre": "Vatra",
+"visual": "Atmosfera de metano liquido",
+"descripcion": "Lagos de hidrocarburos.[9, 12]"
+},
+{
+"nombre": "Vuur",
+"visual": "Vegetacion cristalina",
+"descripcion": "Luna rica en carbono.[9, 12]"
+}
+]
+},
+{
+"nombre": "Terminus (Pyro VI)",
+"visual": "Superficie oscura y gelida",
+"descripcion": "Alberga la infame Ruin Station.[9]",
+"estacion_orbital": "Ruin Station"
+}
+],
+"estaciones_principales":"},{
+"nombre": "Obituary Station",
+"ubicacion": "Orbita Pyro III",
+"servicios": "Habs, Clinica y Armeria.[13]"
+},
+{
+"nombre": "Patch City",
+"ubicacion": "PYR3 L3",
+"servicios": "Soporte independiente.[13]"
+}
+],
+"elementos_unicos":","coordenadas": "X:-2015, Y:-11835, Z:5358 (Zona P1_L3).[14]"
+}
+}
+]
+},
+{
+"id": "NYX",
+"nombre": "Sistema Nyx",
+"afiliacion": "People's Alliance",
+"descripcion": "Frontera industrial situada en una nebulosa oscura.[15, 16]",
+"planetas":"},{
+"nombre": "Nyx II",
+"visual": "Naranja denso y smog acido",
+"descripcion": "Atmosfera corrosiva altamente toxica."
+},
+{
+"nombre": "Nyx III",
+"visual": "Nubes de amoniaco blanco-azuladas",
+"descripcion": "Gigante de hielo con oceanos supercriticos."
+}
+],
+"puntos_interes":"
+}
+],
+"estaciones_servicio":"},{
+"nombre": "People's Service Station Beta",
+"descripcion": "Apoyo a mineria en el Glaciem Ring.[17]"
+},
+{
+"nombre": "People's Service Station Theta",
+"descripcion": "Soporte tecnico en zonas intermedias.[17]"
+},
+{
+"nombre": "People's Service Station Lambda",
+"descripcion": "Punto fronterizo hacia Pyro.[16, 18]"
+}
+],
+"cinturones_y_dungeons":","visual": "Estetica de 'aguas profundas' azuladas.[19, 15]"
+},
+{
+"nombre": "Keeger Belt (Nyx Belt Beta)",
+"descripcion": "Cinturon exterior oscuro y denso; hogar de QV Breakers.",
+"guia_navegacion": {
+"metodo": "Salto de Largo Alcance.",
+"instruccion": "Ubicado a 1700 GM de Levski. Requiere naves con gran autonomia (Idris/Hull B) o repostaje en ruta.[19, 11]"
+},
+"elementos":","acceso": "Contratos 'Mining Rights' (Exclusive/Shared) en mobiGlas."
+}
+]
+}
+]
+}
+]
+}

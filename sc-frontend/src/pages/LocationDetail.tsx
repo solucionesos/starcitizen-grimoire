@@ -18,8 +18,16 @@ const LocationDetail: React.FC = () => {
     }, []);
 
     const locationResources = useMemo(() => {
+        if (!name || !system) return [];
+        const cleanName = name.toLowerCase().split('(')[0].trim();
+        const cleanSystem = system.toLowerCase().trim();
+
         return resources.filter(r => 
-            r.locationsDetail?.some((l: any) => l.system === system && l.name === name)
+            r.locationsDetail?.some((l: any) => {
+                const lName = l.name?.toLowerCase() || '';
+                const lSystem = l.system?.toLowerCase() || '';
+                return lSystem.includes(cleanSystem) && (lName.includes(cleanName) || cleanName.includes(lName));
+            })
         );
     }, [resources, system, name]);
 
@@ -31,7 +39,13 @@ const LocationDetail: React.FC = () => {
     const totalPages = Math.ceil(locationResources.length / itemsPerPage);
 
     const locationInfo = useMemo(() => {
-        const sample = locationResources[0]?.locationsDetail?.find((l: any) => l.system === system && l.name === name);
+        const sample = locationResources[0]?.locationsDetail?.find((l: any) => {
+            const lName = l.name?.toLowerCase() || '';
+            const lSystem = l.system?.toLowerCase() || '';
+            const cleanName = name?.toLowerCase().split('(')[0].trim() || '';
+            const cleanSystem = system?.toLowerCase().trim() || '';
+            return lSystem.includes(cleanSystem) && (lName.includes(cleanName) || cleanName.includes(lName));
+        });
         return sample || { system, name, type: 'N/A' };
     }, [locationResources, system, name]);
 

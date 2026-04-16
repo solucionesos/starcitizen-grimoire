@@ -9,9 +9,12 @@ import Resources from './pages/Resources';
 import Lore from './pages/Lore';
 import StarMap from './pages/StarMap';
 import Rituales from './pages/Rituales';
+import LectitioDivinitatus from './pages/LectitioDivinitatus';
 import ResourceDetail from './pages/ResourceDetail';
 import LocationDetail from './pages/LocationDetail';
 import Wikelo from './pages/Wikelo';
+import Datavelo from './pages/Datavelo';
+import Bovedas from './pages/Bovedas';
 import Breadcrumbs from './components/Breadcrumbs';
 import { AltarProvider, useAltar } from './context/AltarContext';
 import Altar from './pages/Altar';
@@ -36,48 +39,50 @@ const App: React.FC = () => {
   return (
     <AltarProvider>
       <Router>
-      <nav className="glass-card desktop-nav" style={{ margin: '1rem', padding: '1rem 2rem', position: 'sticky', top: '1rem', zIndex: 100 }}>
-        <div className="brand brand-header">
-          <div className="brand-logo-container">
-            <img src={logo} alt="Star Grimoire Logo" className="brand-logo" />
-            <div style={{ whiteSpace: 'nowrap' }}>Star <span className="accent-cyan">Grimoire</span> <span style={{ fontSize: '0.7em', opacity: 0.5 }}>v4.7.0</span></div>
+        <nav className="glass-card desktop-nav" style={{ margin: '1rem', padding: '1rem 2rem', position: 'sticky', top: '1rem', zIndex: 100 }}>
+          <div className="brand brand-header">
+            <div className="brand-logo-container">
+              <img src={logo} alt="Star Grimoire Logo" className="brand-logo" />
+              <div style={{ whiteSpace: 'nowrap' }}>Star <span className="accent-cyan">Grimoire</span> <span style={{ fontSize: '0.7em', opacity: 0.5 }}>v4.7.0</span></div>
+            </div>
+
+            <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+              {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
           </div>
-          
-          <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-        
-        <div className={`nav-menu ${menuOpen ? 'open' : ''}`}>
-          <NavLink to="/" className="nav-link" onClick={closeMenu}>INICIO</NavLink>
-          <NavLink to="/lore" className="nav-link" style={{ color: 'var(--secondary)' }} onClick={closeMenu}>CRÓNICA</NavLink>
-          <NavLink to="/rituales" className="nav-link" style={{ color: 'var(--secondary)' }} onClick={closeMenu}>RITUALES</NavLink>
-          <NavLink to="/missions" className="nav-link" onClick={closeMenu}>EDICTOS</NavLink>
-          <NavLink to="/nexo" className="nav-link" onClick={closeMenu}>NEXO ESTELAR</NavLink>
-          <NavLink to="/mapa" className="nav-link" onClick={closeMenu}>OFRENDAS</NavLink>
-          <NavLink to="/recipes" className="nav-link" onClick={closeMenu}>TECNOMILAGROS</NavLink>
-          <NavLink to="/wikelo" className="nav-link" style={{ color: '#ff4444' }} onClick={closeMenu}>ESTAFADOR</NavLink>
-          <NavCartBadge closeMenu={closeMenu} />
-        </div>
-      </nav>
 
-      <Breadcrumbs />
+          <div className={`nav-menu ${menuOpen ? 'open' : ''}`}>
+            <NavLink to="/" className="nav-link" onClick={closeMenu}>INICIO</NavLink>
+            <NavLink to="/divinitatus" className="nav-link" style={{ color: 'var(--secondary)' }} onClick={closeMenu}>LECTITIO DIVINITATUS</NavLink>
+            <NavLink to="/nexo" className="nav-link" onClick={closeMenu}>NEXO ESTELAR</NavLink>
+            <NavLink to="/missions" className="nav-link" onClick={closeMenu}>EDICTOS</NavLink>
+            <NavLink to="/mapa" className="nav-link" onClick={closeMenu}>OFRENDAS</NavLink>
+            <NavLink to="/recipes" className="nav-link" onClick={closeMenu}>TECNOMILAGROS</NavLink>
+            <NavLink to="/datavelo" className="nav-link" style={{ color: 'var(--accent-silver)' }} onClick={closeMenu}>DATAVELO</NavLink>
+            <NavCartBadge closeMenu={closeMenu} />
+          </div>
+        </nav>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/recipes" element={<Recipes />} />
-        <Route path="/missions" element={<Missions />} />
-        <Route path="/nexo" element={<StarMap />} />
-        <Route path="/mapa" element={<Resources />} />
-        <Route path="/recurso/:id" element={<ResourceDetail />} />
-        <Route path="/locacion/:system/:name" element={<LocationDetail />} />
-        <Route path="/lore" element={<Lore />} />
-        <Route path="/rituales" element={<Rituales />} />
-        <Route path="/wikelo" element={<Wikelo />} />
-        <Route path="/altar" element={<Altar />} />
-      </Routes>
-      <Footer />
-    </Router>
+        <Breadcrumbs />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recipes" element={<Recipes />} />
+          <Route path="/missions" element={<Missions />} />
+          <Route path="/nexo" element={<StarMap />} />
+          <Route path="/mapa" element={<Resources />} />
+          <Route path="/recurso/:id" element={<ResourceDetail />} />
+          <Route path="/locacion/:system/:name" element={<LocationDetail />} />
+          <Route path="/divinitatus" element={<LectitioDivinitatus />} />
+          <Route path="/lore" element={<Lore />} />
+          <Route path="/rituales" element={<Rituales />} />
+          <Route path="/datavelo" element={<Datavelo />} />
+          <Route path="/wikelo" element={<Wikelo />} />
+          <Route path="/bovedas" element={<Bovedas />} />
+          <Route path="/altar" element={<Altar />} />
+        </Routes>
+        <Footer />
+      </Router>
     </AltarProvider>
   );
 };
