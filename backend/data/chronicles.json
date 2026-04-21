@@ -9,9 +9,20 @@
     "icon": "☩",
     "color": "var(--primary)",
     "blocks": [
-      { "type": "p", "text": "Mucho antes de que adoptaran el nombre de <strong style=\"color: var(--secondary)\">Ancalagon Oblivion Fleet</strong>, no eran más que fragmentos dispersos de la sociedad humana: ex empleados de megacorporaciones en el sistema Stanton, pilotos cuyos contratos habían sido cancelados sin explicación, y habitantes desplazados cuando el <em>United Empire of Earth (UEE)</em> decidió vender mundos enteros a los intereses privados." },
-      { "type": "p", "text": "En ese ambiente de mercantilización extrema, algunos no se resignaron a desaparecer. Mientras la mayoría aceptó su destino de trabajadores subcontratados o de sombras bajo el yugo corporativo, otros desaparecieron… y unos pocos <strong style=\"color: var(--primary)\">despertaron</strong>.", "muted": true },
-      { "type": "p", "text": "Se dieron cuenta de que Stanton, con sus cuatro mundos habitables y su aparente estabilidad, era solo una <strong style=\"color: var(--text-main)\">fachada</strong> —un microcosmos donde la ley existe solo en nombre, y la justicia depende de quién pague por ella.", "muted": true }
+      {
+        "type": "p",
+        "text": "Mucho antes de que adoptaran el nombre de <strong style=\"color: var(--secondary)\">Ancalagon Oblivion Fleet</strong>, no eran más que fragmentos dispersos de la sociedad humana: ex empleados de megacorporaciones en el sistema Stanton, pilotos cuyos contratos habían sido cancelados sin explicación, y habitantes desplazados cuando el <em>United Empire of Earth (UEE)</em> decidió vender mundos enteros a los intereses privados."
+      },
+      {
+        "type": "p",
+        "text": "En ese ambiente de mercantilización extrema, algunos no se resignaron a desaparecer. Mientras la mayoría aceptó su destino de trabajadores subcontratados o de sombras bajo el yugo corporativo, otros desaparecieron… y unos pocos <strong style=\"color: var(--primary)\">despertaron</strong>.",
+        "muted": true
+      },
+      {
+        "type": "p",
+        "text": "Se dieron cuenta de que Stanton, con sus cuatro mundos habitables y su aparente estabilidad, era solo una <strong style=\"color: var(--text-main)\">fachada</strong> —un microcosmos donde la ley existe solo en nombre, y la justicia depende de quién pague por ella.",
+        "muted": true
+      }
     ]
   },
   {
@@ -24,14 +35,39 @@
     "icon": "dragon",
     "color": "var(--secondary)",
     "blocks": [
-      { "type": "p", "text": "Dentro de la hermandad surgió un concepto, un principio que no podía ser ignorado: <strong style=\"color: var(--secondary); font-size: 1.1rem\">Ancalagon</strong>. No era un líder. No era un lugar. Era una <em>idea</em>. Una fuerza invisible que describe lo que ocurre cuando un sistema, una sociedad o una civilización alcanza su punto de quiebre." },
-      { "type": "quote", "text": "Ancalagon no fue fundado.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Fue descubierto.</span>" },
-      { "type": "p", "text": "No fue en Stanton donde Ancalagon fue \"fundado\", sino en las rutas que conectan mundos, en los pasajes olvidados entre sistemas, y en los vestigios de colonias fallidas dejadas atrás por la expansión humana.", "muted": true },
-      { "type": "grid", "items": [
-        { "icon": "🌑", "title": "El Quiebre", "text": "Todo sistema estable contiene las semillas de su propia destrucción." },
-        { "icon": "⚖", "title": "La Verdad", "text": "La presión revela la naturaleza real de las estructuras." },
-        { "icon": "🔭", "title": "El Despertar", "text": "Buscamos el momento en que las estructuras muestran sus grietas." }
-      ]}
+      {
+        "type": "p",
+        "text": "Dentro de la hermandad surgió un concepto, un principio que no podía ser ignorado: <strong style=\"color: var(--secondary); font-size: 1.1rem\">Ancalagon</strong>. No era un líder. No era un lugar. Era una <em>idea</em>. Una fuerza invisible que describe lo que ocurre cuando un sistema, una sociedad o una civilización alcanza su punto de quiebre."
+      },
+      {
+        "type": "quote",
+        "text": "Ancalagon no fue fundado.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Fue descubierto.</span>"
+      },
+      {
+        "type": "p",
+        "text": "No fue en Stanton donde Ancalagon fue \"fundado\", sino en las rutas que conectan mundos, en los pasajes olvidados entre sistemas, y en los vestigios de colonias fallidas dejadas atrás por la expansión humana.",
+        "muted": true
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🌑",
+            "title": "El Quiebre",
+            "text": "Todo sistema estable contiene las semillas de su propia destrucción."
+          },
+          {
+            "icon": "⚖",
+            "title": "La Verdad",
+            "text": "La presión revela la naturaleza real de las estructuras."
+          },
+          {
+            "icon": "🔭",
+            "title": "El Despertar",
+            "text": "Buscamos el momento en que las estructuras muestran sus grietas."
+          }
+        ]
+      }
     ]
   },
   {
@@ -44,10 +80,23 @@
     "icon": "⚙",
     "color": "#60a5fa",
     "blocks": [
-      { "type": "p", "text": "Esa verdad les enseñó que lo que ocurre en Stanton no es el fin de la historia, sino apenas el comienzo de un proceso universal: la <strong style=\"color: var(--secondary)\">transformación de sistemas</strong>, la erosión de estructuras de poder." },
-      { "type": "p", "text": "Hoy, <strong style=\"color: var(--text-main)\">Ancalagon Oblivion Fleet</strong> opera entre los mundos industriales y corporativos de Stanton y los confines más caóticos del espacio civilizado.", "muted": true },
-      { "type": "p", "text": "Sus hermanos no buscan territorios ni tronos. Buscan comprender. Y en ese entendimiento, forjan algo que ningún Imperio puede arrebatarles: <strong style=\"color: var(--primary)\">la libertad del Vacío</strong>." },
-      { "type": "quote", "text": "El orden no colapsa cuando es atacado.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Colapsa cuando se ve obligado a revelar lo que teme.</span>" }
+      {
+        "type": "p",
+        "text": "Esa verdad les enseñó que lo que ocurre en Stanton no es el fin de la historia, sino apenas el comienzo de un proceso universal: la <strong style=\"color: var(--secondary)\">transformación de sistemas</strong>, la erosión de estructuras de poder."
+      },
+      {
+        "type": "p",
+        "text": "Hoy, <strong style=\"color: var(--text-main)\">Ancalagon Oblivion Fleet</strong> opera entre los mundos industriales y corporativos de Stanton y los confines más caóticos del espacio civilizado.",
+        "muted": true
+      },
+      {
+        "type": "p",
+        "text": "Sus hermanos no buscan territorios ni tronos. Buscan comprender. Y en ese entendimiento, forjan algo que ningún Imperio puede arrebatarles: <strong style=\"color: var(--primary)\">la libertad del Vacío</strong>."
+      },
+      {
+        "type": "quote",
+        "text": "El orden no colapsa cuando es atacado.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Colapsa cuando se ve obligado a revelar lo que teme.</span>"
+      }
     ]
   },
   {
@@ -60,27 +109,100 @@
     "icon": "dragon",
     "color": "var(--primary)",
     "blocks": [
-      { "type": "quote", "text": "No toda verdad yace en los archivos.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Algunas… deben ser arrancadas de donde el sistema esconde su vergüenza.</span>" },
-      { "type": "header", "icon": "🌌", "title": "FRAGMENTO I — LA LLAMADA EN EL VACÍO" },
-      { "type": "p", "text": "En las ruinas olvidadas de <strong style=\"color: var(--secondary)\">Morox</strong>, en el sistema Pyro un Heraldo de Ancalagon caminaba entre estructuras muertas. No buscaba chatarra, sino ecos. Fue allí donde el Vacío habló de nuevo. Un susurro que no provenía de las estrellas, sino de las profundidades de un archivo que el UEE creía haber borrado." },
-      { "type": "header", "icon": "⚙️", "title": "FRAGMENTO II — LA FALLA DEL CONOCIMIENTO" },
-      { "type": "p", "text": "El operativo inició como tantos otros: observación, patrullaje, presión sobre rutas invisibles. Pero el Vacío no tardó en revelar la grieta. La información obtenida no conducía a rutas comerciales, sino a un nombre que el sistema Stanton pronuncia con temor: <strong style=\"color: var(--secondary)\">Aberdeen</strong>.", "muted": true },
-      { "type": "header", "icon": "📡", "title": "FRAGMENTO III — EL SUSURRO DE VAUNGH" },
-      { "type": "p", "text": "Desde <strong style=\"color: var(--text-main)\">Vaungh</strong>, en labores de espionaje profundo, el Portador de la Ceniza Unknown detectó fluctuaciones en los manifiestos de transporte. Algo estaba siendo movido hacia la superficie de la luna de azufre. No eran prisioneros comunes. Eran datos. Verdades que no podían ser quemadas, solo enterradas." },
-      { "type": "header", "icon": "🌑", "title": "FRAGMENTO IV — LA FRAGILIDAD DEL MURO" },
-      { "type": "p", "text": "El Profeta Denoxx y el Heraldo no reunieron una flota de guerra. El asalto a Aberdeen no requería fuego, sino precisión. Demostraron que incluso el muro más alto es frágil si golpeas en el ángulo de la desidia corporativa.", "muted": true },
-      { "type": "header", "icon": "🕯️", "title": "FRAGMENTO V — LA EXTRACCIÓN DEL SILENCIO" },
-      { "type": "p", "text": "La información obtenida no conducía a rutas comerciales, sino a registros de negligencia que harían temblar las acciones de Hurston Dynamics. Al extraer esos datos, la Fleet no buscaba chantaje. Buscaba la <strong style=\"color: var(--primary)\">evidencia del quiebre</strong>." },
-      { "type": "header", "icon": "⚜️", "title": "FRAGMENTO VI — LOS PROFETAS DE LA INFILTRACIÓN" },
-      { "type": "p", "text": "La decisión no fue debatida. Fue comprendida. La Fleet se movió como una sola sombra bajo la vigilancia del Vocero Afol.", "muted": true },
-      { "type": "grid", "items": [
-        { "icon": "🛡️", "title": "El Heraldo", "text": "Coordinación táctica y comando de campo." },
-        { "icon": "📜", "title": "Profeta Denoxx", "text": "Identificación de los nodos de datos críticos." },
-        { "icon": "⚖️", "title": "Profeta Longhinus", "text": "Aseguramiento del perímetro y purificación." }
-      ]},
-      { "type": "header", "icon": "📜", "title": "FRAGMENTO VII — LA VERDAD ENTERRADA" },
-      { "type": "p", "text": "Aberdeen no falló en su función de contener. Falló en su pretensión de invisibilidad. Los datos ahora residen en el Nexo, esperando el momento en que el sistema Stanton alcance su propia entropía." },
-      { "type": "quote", "text": "El orden no colapsa cuando es atacado.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Colapsa cuando se ve obligado a revelar lo que teme.</span>" }
+      {
+        "type": "quote",
+        "text": "No toda verdad yace en los archivos.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Algunas… deben ser arrancadas de donde el sistema esconde su vergüenza.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "🌌",
+        "title": "FRAGMENTO I — LA LLAMADA EN EL VACÍO"
+      },
+      {
+        "type": "p",
+        "text": "En las ruinas olvidadas de <strong style=\"color: var(--secondary)\">Morox</strong>, en el sistema Pyro un Heraldo de Ancalagon caminaba entre estructuras muertas. No buscaba chatarra, sino ecos. Fue allí donde el Vacío habló de nuevo. Un susurro que no provenía de las estrellas, sino de las profundidades de un archivo que el UEE creía haber borrado."
+      },
+      {
+        "type": "header",
+        "icon": "⚙️",
+        "title": "FRAGMENTO II — LA FALLA DEL CONOCIMIENTO"
+      },
+      {
+        "type": "p",
+        "text": "El operativo inició como tantos otros: observación, patrullaje, presión sobre rutas invisibles. Pero el Vacío no tardó en revelar la grieta. La información obtenida no conducía a rutas comerciales, sino a un nombre que el sistema Stanton pronuncia con temor: <strong style=\"color: var(--secondary)\">Aberdeen</strong>.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "📡",
+        "title": "FRAGMENTO III — EL SUSURRO DE VAUNGH"
+      },
+      {
+        "type": "p",
+        "text": "Desde <strong style=\"color: var(--text-main)\">Vaungh</strong>, en labores de espionaje profundo, el Portador de la Ceniza Unknown detectó fluctuaciones en los manifiestos de transporte. Algo estaba siendo movido hacia la superficie de la luna de azufre. No eran prisioneros comunes. Eran datos. Verdades que no podían ser quemadas, solo enterradas."
+      },
+      {
+        "type": "header",
+        "icon": "🌑",
+        "title": "FRAGMENTO IV — LA FRAGILIDAD DEL MURO"
+      },
+      {
+        "type": "p",
+        "text": "El Profeta Denoxx y el Heraldo no reunieron una flota de guerra. El asalto a Aberdeen no requería fuego, sino precisión. Demostraron que incluso el muro más alto es frágil si golpeas en el ángulo de la desidia corporativa.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🕯️",
+        "title": "FRAGMENTO V — LA EXTRACCIÓN DEL SILENCIO"
+      },
+      {
+        "type": "p",
+        "text": "La información obtenida no conducía a rutas comerciales, sino a registros de negligencia que harían temblar las acciones de Hurston Dynamics. Al extraer esos datos, la Fleet no buscaba chantaje. Buscaba la <strong style=\"color: var(--primary)\">evidencia del quiebre</strong>."
+      },
+      {
+        "type": "header",
+        "icon": "⚜️",
+        "title": "FRAGMENTO VI — LOS PROFETAS DE LA INFILTRACIÓN"
+      },
+      {
+        "type": "p",
+        "text": "La decisión no fue debatida. Fue comprendida. La Fleet se movió como una sola sombra bajo la vigilancia del Vocero Afol.",
+        "muted": true
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🛡️",
+            "title": "El Heraldo",
+            "text": "Coordinación táctica y comando de campo."
+          },
+          {
+            "icon": "📜",
+            "title": "Profeta Denoxx",
+            "text": "Identificación de los nodos de datos críticos."
+          },
+          {
+            "icon": "⚖️",
+            "title": "Profeta Longhinus",
+            "text": "Aseguramiento del perímetro y purificación."
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "icon": "📜",
+        "title": "FRAGMENTO VII — LA VERDAD ENTERRADA"
+      },
+      {
+        "type": "p",
+        "text": "Aberdeen no falló en su función de contener. Falló en su pretensión de invisibilidad. Los datos ahora residen en el Nexo, esperando el momento en que el sistema Stanton alcance su propia entropía."
+      },
+      {
+        "type": "quote",
+        "text": "El orden no colapsa cuando es atacado.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Colapsa cuando se ve obligado a revelar lo que teme.</span>"
+      }
     ]
   },
   {
@@ -93,15 +215,172 @@
     "icon": "⚖️",
     "color": "#8b0000",
     "blocks": [
-      { "type": "p", "text": "Recuerdo ese momento con una claridad que todavía me pesa. Soy <strong style=\"color: var(--secondary)\">Longhinus</strong>, profeta de la ruina. Viajamos entre sectores del espacio en busca de conocimiento, recolectándolo como si fueran reliquias sagradas. Bajo el mando del Heraldo Ancalagon, cada misión tiene un propósito claro." },
-      { "type": "p", "text": "Denox y Enanimus, mis hermanos profetas, conocen mejor los protocolos y suelen indicarme el camino en cada operación. Junto a Phillip, <strong style=\"color: var(--text-main)\">portador de ceniza</strong>, y Kannabistian, <strong style=\"color: var(--text-muted)\">iniciado del vacío</strong>, cumplimos nuestro rol dentro de la estructura. He realizado diferentes misiones junto a ellos, pero aún no tenía acceso completo al registro de los Mercenarios de Foxwell.", "muted": true },
-      { "type": "quote", "text": "La prueba era directa: eliminar objetivos hostiles sin dañar civiles.<br /><span style=\"color: var(--text-main); font-size: 0.96rem\">Precisión absoluta.</span>" },
-      { "type": "p", "text": "El primer nivel del búnker cayó sin complicaciones. Eliminé a los objetivos con precisión quirúrgica. Todo estaba bajo control, descendí al nivel inferior y apenas crucé el acceso, la situación cambió. Fui rodeado por múltiples objetivos activos, movimiento en todas las direcciones. Me tocó pelear por mi vida." },
-      { "type": "p", "text": "El combate se volvió intenso en segundos. Disparos cruzados, presión constante. Respondí como debía… avanzando, eliminando, sin detenerse. Entonces ocurrió: una figura cruzó en medio del fuego, pero mi pulso ya había dictado sentencia y el impacto fue inmediato.", "muted": true },
-      { "type": "header", "icon": "⛓️", "title": "EL VEREDICTO DE FOXWELL" },
-      { "type": "p", "text": "No era un civil cualquiera. Era un objetivo de alto perfil. La misión se consideró comprometida y el resultado fue la penalización máxima. Fui catalogado como criminal de alto riesgo. Encarcelado. Sentenciado a trabajos forzados como minero hasta cumplir condena." },
-      { "type": "quote", "text": "No es justo. Cumplí con la misión. Eliminé los objetivos.<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">Pero un solo error… y todo cambió.</span>" },
-      { "type": "p", "text": "Ahora extraigo recursos de roca fría bajo vigilancia constante, con el eco de ese disparo repitiéndose una y otra vez en el silencio del pozo.", "muted": true }
+      {
+        "type": "p",
+        "text": "Recuerdo ese momento con una claridad que todavía me pesa. Soy <strong style=\"color: var(--secondary)\">Longhinus</strong>, profeta de la ruina. Viajamos entre sectores del espacio en busca de conocimiento, recolectándolo como si fueran reliquias sagradas. Bajo el mando del Heraldo Ancalagon, cada misión tiene un propósito claro."
+      },
+      {
+        "type": "p",
+        "text": "Denox y Enanimus, mis hermanos profetas, conocen mejor los protocolos y suelen indicarme el camino en cada operación. Junto a Phillip, <strong style=\"color: var(--text-main)\">portador de ceniza</strong>, y Kannabistian, <strong style=\"color: var(--text-muted)\">iniciado del vacío</strong>, cumplimos nuestro rol dentro de la estructura. He realizado diferentes misiones junto a ellos, pero aún no tenía acceso completo al registro de los Mercenarios de Foxwell.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "La prueba era directa: eliminar objetivos hostiles sin dañar civiles.<br /><span style=\"color: var(--text-main); font-size: 0.96rem\">Precisión absoluta.</span>"
+      },
+      {
+        "type": "p",
+        "text": "El primer nivel del búnker cayó sin complicaciones. Eliminé a los objetivos con precisión quirúrgica. Todo estaba bajo control, descendí al nivel inferior y apenas crucé el acceso, la situación cambió. Fui rodeado por múltiples objetivos activos, movimiento en todas las direcciones. Me tocó pelear por mi vida."
+      },
+      {
+        "type": "p",
+        "text": "El combate se volvió intenso en segundos. Disparos cruzados, presión constante. Respondí como debía… avanzando, eliminando, sin detenerse. Entonces ocurrió: una figura cruzó en medio del fuego, pero mi pulso ya había dictado sentencia y el impacto fue inmediato.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "⛓️",
+        "title": "EL VEREDICTO DE FOXWELL"
+      },
+      {
+        "type": "p",
+        "text": "No era un civil cualquiera. Era un objetivo de alto perfil. La misión se consideró comprometida y el resultado fue la penalización máxima. Fui catalogado como criminal de alto riesgo. Encarcelado. Sentenciado a trabajos forzados como minero hasta cumplir condena."
+      },
+      {
+        "type": "quote",
+        "text": "No es justo. Cumplí con la misión. Eliminé los objetivos.<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">Pero un solo error… y todo cambió.</span>"
+      },
+      {
+        "type": "p",
+        "text": "Ahora extraigo recursos de roca fría bajo vigilancia constante, con el eco de ese disparo repitiéndose una y otra vez en el silencio del pozo.",
+        "muted": true
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "CRÓNICA VI",
+    "subtitle": "EL EDICTO DEL ABISMO: LAS SOMBRAS EN EL UMBRAL",
+    "date": "10 – 20 Apr 2956",
+    "dateSort": -1379894400000,
+    "classification": "Evento de Quiebre",
+    "icon": "dragon",
+    "color": "var(--primary)",
+    "blocks": [
+      {
+        "type": "quote",
+        "text": "No toda oscuridad proviene del Vacío.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Algunas surgen desde adentro… y aguardan en el umbral entre la razón y el abismo.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "🌑",
+        "title": "FRAGMENTO I — LA FUERZA EXTRAÑA DE STANTON"
+      },
+      {
+        "type": "p",
+        "text": "En los ciclos comprendidos entre el octavo y el vigésimo día del cuarto mes del año 2956, la flota sufrió una serie de anomalías que los registros oficiales de Stanton jamás admitirán haber producido. Las instalaciones abandonadas de una corporación —cuyo nombre permanece encriptado en el Nexo hasta que el tiempo lo exija— despertaron algo que no debía ser despertado."
+      },
+      {
+        "type": "p",
+        "text": "Lo que los <em>Custodios del Orden</em> llaman un <strong style=\"color: var(--secondary)\">\"incidente de seguridad en zona industrial inactiva\"</strong>, nosotros lo llamamos el primer toque de una fuerza que no obedece ni a la UEE, ni a las corporaciones, ni a las leyes conocidas del espacio.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🩸",
+        "title": "FRAGMENTO II — LA CAÍDA DEL PROFETA"
+      },
+      {
+        "type": "p",
+        "text": "<strong style=\"color: var(--secondary)\">Longhinus</strong>, Profeta de la Ruina, no fue doblegado por un enemigo que pudiera verse. La fuerza extraña que habita las ruinas obró desde adentro: le susurró al oído la ilusión de un don imposible. Convencido de poseer la capacidad de trascender el espacio físico, Longhinus actuó conforme a esa creencia errónea durante una incursión en el sector."
+      },
+      {
+        "type": "p",
+        "text": "El disparo fue autoinfligido. La herida, en la cabeza. Y sin embargo, el Profeta vivió.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "Sobrevivir no es lo mismo que escapar.<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">Longhinus despertó en las instalaciones médicas de la corporación… y descubrió que seguía exactamente donde la mente lo había fallado.</span>"
+      },
+      {
+        "type": "p",
+        "text": "Al comprender que no había ningún teletransporte, que la mentira había sido tejida por la propia instalación dentro de su psique, el Profeta sufrió un quiebre psicótico. El sistema se regocijó en silencio. Nosotros, en cambio, registramos cada detalle."
+      },
+      {
+        "type": "header",
+        "icon": "⚔️",
+        "title": "FRAGMENTO III — EL HERALDO EN EL FILO"
+      },
+      {
+        "type": "p",
+        "text": "<strong style=\"color: var(--secondary)\">Quaker</strong>, Heraldo de Ancalagon, se encontró frente a uno de los experimentos que la corporación dejó atrás al abandonar sus instalaciones. Aquello que lo aguardaba no figura en ningún catálogo de fauna o armamento conocido. Era un resultado, no una criatura: el producto final de lo que ocurre cuando una entidad corporativa juega a ser divinidad."
+      },
+      {
+        "type": "p",
+        "text": "El combate fue prolongado. La línea entre la vida y la Disolución en el Vacío se adelgazó hasta ser casi imperceptible. En el momento en que el Heraldo alcanzó la ventaja, la criatura desapareció. Sin rastro. Sin lógica. Sin explicación que el tiempo presente pueda sostener.",
+        "muted": true
+      },
+      {
+        "type": "p",
+        "text": "Momentos después, la instalación respondió como si supiera lo que había ocurrido. Los sistemas de contención se activaron de forma autónoma. Una <strong style=\"color: var(--primary)\">neurotoxina</strong> fue liberada en los conductos de ventilación, y Quaker cayó. No ante un enemigo que pudiera nombrarse, sino ante el entorno mismo."
+      },
+      {
+        "type": "header",
+        "icon": "🕯️",
+        "title": "FRAGMENTO IV — EL TRABAJO EN LAS SOMBRAS"
+      },
+      {
+        "type": "p",
+        "text": "Nuestros hermanos en el Abismo no han guardado silencio ante lo ocurrido. Trabajan con la diligencia que exige el credo: sin pausa, sin certeza, sin la comodidad que otorga ignorar lo que se desconoce. La verdad detrás de estos eventos aún no tiene forma completa en el Nexo, pero sus contornos comienzan a definirse."
+      },
+      {
+        "type": "p",
+        "text": "Lo que la instalación abandonada alberga no es un accidente de infraestructura. Es un legado. Y ese legado, tarde o temprano, exigirá ser confrontado.",
+        "muted": true
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🧠",
+            "title": "Profeta Longhinus",
+            "text": "Superviviente del Quiebre Psíquico. Su prueba revela que la fuerza actúa sobre la mente antes que sobre el cuerpo."
+          },
+          {
+            "icon": "⚔️",
+            "title": "Heraldo Quaker",
+            "text": "Combatiente del umbral. Su enfrentamiento con lo innombrable es la evidencia más directa de la amenaza."
+          },
+          {
+            "icon": "🌑",
+            "title": "Los Hermanos del Abismo",
+            "text": "El Concilio del Vacío investiga. La verdad no se apresuró en revelarse, pero la flota tampoco se apresuró en rendirse."
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "icon": "⚜️",
+        "title": "FRAGMENTO V — EL UMBRAL SE ACERCA"
+      },
+      {
+        "type": "p",
+        "text": "A medida que el Edicto del Abismo se aproxima, los registros apuntan hacia una convergencia que no puede ignorarse: las <strong style=\"color: var(--secondary)\">Sombras del Umbral</strong> operan al servicio de algo más antiguo que las corporaciones y más paciente que el UEE. Los falsos emperadores que han construido su trono sobre la mentira del orden comenzarán a ver las grietas que ya no podrán sellar."
+      },
+      {
+        "type": "quote",
+        "text": "No hemos terminado de comprender lo que encontramos en esas ruinas.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Pero lo que encontramos… ya sabe que estuvimos allí.</span>"
+      },
+      {
+        "type": "p",
+        "text": "Que el Vacío guarde lo que aún no tiene nombre. Que los Profetas recuerden que sobrevivir no es derrota: es la continuación del deber. Que los Heraldos comprendan que todo umbral tiene dos lados, y que cruzarlo —aunque sea a rastras— es la marca más profunda del Abismo.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "☩ IN NOMINI OBLIVIONIS ☩"
+      }
     ]
   }
 ]
