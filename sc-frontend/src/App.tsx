@@ -15,6 +15,7 @@ import LocationDetail from './pages/LocationDetail';
 import Wikelo from './pages/Wikelo';
 import Datavelo from './pages/Datavelo';
 import Bovedas from './pages/Bovedas';
+import News from './pages/News';
 import Breadcrumbs from './components/Breadcrumbs';
 import { AltarProvider, useAltar } from './context/AltarContext';
 import Altar from './pages/Altar';
@@ -59,6 +60,7 @@ const App: React.FC = () => {
             <NavLink to="/mapa" className="nav-link" onClick={closeMenu}>OFRENDAS</NavLink>
             <NavLink to="/recipes" className="nav-link" onClick={closeMenu}>TECNOMILAGROS</NavLink>
             <NavLink to="/datavelo" className="nav-link" style={{ color: 'var(--accent-silver)' }} onClick={closeMenu}>DATAVELO</NavLink>
+            <NavLink to="/news" className="nav-link" style={{ color: 'var(--primary)' }} onClick={closeMenu}>TRANSMISIONES</NavLink>
             <NavCartBadge closeMenu={closeMenu} />
           </div>
         </nav>
@@ -80,6 +82,7 @@ const App: React.FC = () => {
           <Route path="/wikelo" element={<Wikelo />} />
           <Route path="/bovedas" element={<Bovedas />} />
           <Route path="/altar" element={<Altar />} />
+          <Route path="/news" element={<News />} />
         </Routes>
         <Footer />
       </Router>

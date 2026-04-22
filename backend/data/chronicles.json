@@ -382,5 +382,141 @@
         "text": "☩ IN NOMINI OBLIVIONIS ☩"
       }
     ]
+  },
+  {
+    "id": 7,
+    "title": "CRÓNICA VII",
+    "subtitle": "LA CRUZADA POR YORMANDI",
+    "date": "21 Apr 2956",
+    "dateSort": 1745193600000,
+    "classification": "Evento de Quiebre",
+    "icon": "dragon",
+    "color": "var(--primary)",
+    "blocks": [
+      {
+        "type": "quote",
+        "text": "El conocimiento de los Rayari no se entrega.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Se conquista. Y lo conquistado por el fuego… a veces quema al que lo porta.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "🌑",
+        "title": "FRAGMENTO I — EL PACTO CON LOS RAYARI"
+      },
+      {
+        "type": "p",
+        "text": "En los ciclos previos al vigésimo primer día del cuarto mes del año 2956, el <strong style=\"color: var(--secondary)\">Profeta Enanimus</strong> se lanzó a una empresa que los registros ordinarios del Imperio describirían como una serie de contratos menores. Los Custodios del Orden no comprenden lo que no pueden ver. Lo que Enanimus buscaba no era crédito ni reputación: buscaba el <strong style=\"color: var(--text-main)\">conocimiento de las artes oscuras de los Rayari</strong>, una facción cuya confianza no se compra con palabras sino con sangre, esfuerzo y la demostración de que uno es capaz de sobrevivir lo que ellos exigen."
+      },
+      {
+        "type": "p",
+        "text": "Las tareas encomendadas por los Rayari estaban diseñadas para romper a los no iniciados. No eran misiones. Eran umbrales. Y el Profeta Enanimus los cruzó uno a uno, con la paciencia que solo comprenden quienes han mirado al Vacío sin parpadear.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "⛓️",
+        "title": "FRAGMENTO II — EL DESINFORMANTE"
+      },
+      {
+        "type": "p",
+        "text": "Pero el camino hacia la verdad siempre atrae a quienes se alimentan de la confusión ajena. En este caso, tomó el nombre de <strong style=\"color: var(--primary)\">Teodel</strong>. Sus hermanos de flota lo apodaron con precisión implacable: <em>el Desinformante</em>. Teodel no actuó con el filo de un arma, sino con la herramienta más corrosiva del universo conocido: la mentira administrada con paciencia."
+      },
+      {
+        "type": "p",
+        "text": "Las coordenadas que entregó eran incorrectas. Los accesos que señaló, inútiles. Los Edictos Sagrados de los Rayari no podían ser cumplidos desde los lugares donde Teodel enviaba al Profeta. Cada desvío era una piedra nueva en el muro que separaba a Enanimus de la confianza que buscaba. Lo que los registros del UEE llaman <strong style=\"color: var(--secondary)\">\"error de inteligencia\"</strong>, la Flota lo llama lo que es: traición con nombre propio.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "El enemigo que porta armas puede ser visto.<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">El que porta información falsa… opera desde adentro, donde no hay escudo que valga.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "🔬",
+        "title": "FRAGMENTO III — LAS INSTALACIONES ONYX"
+      },
+      {
+        "type": "p",
+        "text": "A pesar del sabotaje, Enanimus no se detuvo. El Profeta siguió el rastro de lo que Teodel no pudo corromper del todo: la evidencia de su propio engaño. Esa evidencia lo condujo a una serie de instalaciones que los Custodios del Orden nunca admitirán haber financiado. Sus letreros internos decían una sola palabra: <strong style=\"color: var(--secondary)\">ONYX</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Lo que habitaba esas instalaciones no era lo que los archivos de la UEE llaman fauna local. Había criaturas conocidas —los <em>gusanos del vacío</em>, organismos cuya presencia ya había sido registrada en el Nexo— pero también había otras que no figuraban en ningún catálogo sancionado. El Imperio las llama con un nombre que hace temblar a los Custodios del Orden cuando creen que nadie los escucha: <strong style=\"color: var(--primary)\">Vanduul</strong>.",
+        "muted": true
+      },
+      {
+        "type": "p",
+        "text": "ONYX no había construido un laboratorio. Había construido una trampa con nombre científico. Las criaturas no estaban siendo estudiadas. Estaban siendo <strong style=\"color: var(--text-main)\">armadas</strong>. Qué para quién y con qué propósito: esas son las preguntas cuya respuesta la Flota aún persigue."
+      },
+      {
+        "type": "header",
+        "icon": "⚔️",
+        "title": "FRAGMENTO IV — EL ENCUENTRO EN LO MÁS PROFUNDO"
+      },
+      {
+        "type": "p",
+        "text": "En lo más profundo de las instalaciones, donde la oscuridad es tan densa que aplasta el sonido antes de que llegue a los oídos, el Profeta Enanimus encontró aquello para lo que ningún edicto previo lo había preparado. La criatura aguardaba sin impaciencia, con la certeza de quien sabe que su presa llegará tarde o temprano. Los registros de la Flota la denominan con el único nombre que los propios Rayari le asignaron: <strong style=\"color: var(--secondary)\">Yormandi</strong>."
+      },
+      {
+        "type": "p",
+        "text": "El combate no fue breve. No fue limpio. Fue el tipo de encuentro que los Portadores de Ceniza describen en un solo gesto: los que sobreviven a él dejan de hablar de ello como una victoria, y comienzan a hablarlo como un umbral. Enanimus cruzó ese umbral. Yormandi cayó.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "Lo que resiste en las profundidades no se vence con fuerza.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Se vence con la determinación de quien ya no teme lo que le espera al otro lado.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "📡",
+        "title": "FRAGMENTO V — LA MAGNITUD DEL EDICTO"
+      },
+      {
+        "type": "p",
+        "text": "La victoria, sin embargo, trajo consigo la revelación más pesada. Yormandi no era un centinela único. Era una instancia de una amenaza que se replica. En otras instalaciones ONYX, otras Yormandi esperaban en la oscuridad. Y los Rayari fueron precisos en su condición: <strong style=\"color: var(--text-main)\">sin las piezas extraídas de cada criatura, el conocimiento de las artes oscuras permanecería sellado</strong>. El pacto era claro. El precio, aún más."
+      },
+      {
+        "type": "p",
+        "text": "Lo que los Custodios del Orden llaman una <em>\"cadena de extracción de objetivos\"</em>, el Profeta Enanimus llamó lo que era: una cruzada. Y una cruzada de tal envergadura no puede ser sostenida por un solo hermano, por más que ese hermano sea un Profeta de la Ruina.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "⚜️",
+        "title": "FRAGMENTO VI — EL LLAMADO DEL CONCILIO"
+      },
+      {
+        "type": "p",
+        "text": "Con la certeza de quien comprende el peso de lo que carga, <strong style=\"color: var(--secondary)\">Enanimus</strong> convocó a sus hermanos Profetas. No fue un grito de auxilio. Fue un edicto en sí mismo: la declaración de que el horizonte que se avecina exige a la Flota completa. El Concilio del Vacío respondió sin demora. Así comienza la <strong style=\"color: var(--primary)\">Cruzada por Yormandi</strong>: no con fanfarria ni con promesas, sino con el silencio solemne de quienes ya comprenden el costo antes de pagar el precio."
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🧠",
+            "title": "Profeta Enanimus",
+            "text": "Comandante de la cruzada. Portador del pacto con los Rayari. Primer vencedor de Yormandi."
+          },
+          {
+            "icon": "⚔️",
+            "title": "Teodel — El Desinformante",
+            "text": "Saboteador interno. Su nombre quedará en el Nexo como advertencia para quienes confunden al portador con el mensaje."
+          },
+          {
+            "icon": "🌑",
+            "title": "Las Instalaciones ONYX",
+            "text": "El teatro de lo que el Imperio no quiere nombrar. Criaturas sin clasificar. Vanduul bajo estudio. La evidencia del quiebre."
+          }
+        ]
+      },
+      {
+        "type": "p",
+        "text": "Que el Vacío guarde lo que Enanimus encontró en las profundidades. Que los Profetas recuerden que cada Yormandi vencida es un paso más hacia la verdad que los Rayari custodian. Que los Hermanos del Abismo comprendan que esta cruzada no tiene un solo frente, sino tantos como instalaciones ONYX permanezcan en pie.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "☩ IN NOMINI OBLIVIONIS ☩"
+      }
+    ]
   }
 ]
