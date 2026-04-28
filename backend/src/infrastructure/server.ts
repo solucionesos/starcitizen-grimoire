@@ -40,9 +40,16 @@ app.get('/api/chronicles', async (req, res) => {
   res.json(chronicles);
 });
 
-// ── RSI News Proxy ─────────────────────────────────────────────────────────
-// El frontend no puede llamar directamente al feed (CORS). El backend
-// lo intercepta server-side, parsea el JSON Feed y devuelve items limpios.
+app.get('/api/version', async (req, res) => {
+  try {
+    const version = await repository.getLatestVersion();
+    res.json({ version });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Error desconocido';
+    res.status(500).json({ error: msg });
+  }
+});
+
 app.get('/api/news', async (_req, res) => {
   try {
     const response = await fetch('https://leonick.se/feeds/rsi/json', {

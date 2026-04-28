@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Star Grimoire - Monitor de Versiones</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #ff7675;
+      --muted: #a0aec0;
+      --bg: #0f172a;
+      --card: rgba(30, 41, 59, 0.8);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #a78bfa 0%, #6366f1 50%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .version-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .version-value {
+      font-size: 3rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    .badge-success { background: rgba(0, 184, 148, 0.2); color: var(--success); }
+    .badge-warning { background: rgba(253, 203, 110, 0.2); color: var(--warning); }
+    .badge-info { background: rgba(108, 92, 231, 0.2); color: var(--primary); }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .status-item {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .status-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .status-value {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .loading {
+      color: var(--primary);
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    @media (max-width: 480px) {
+      .version-value { font-size: 2.5rem; }
+      .status-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌌 Star Grimoire <span id="titleAppVersion" style="font-size:0.5em; color:var(--muted); vertical-align:middle;"></span><br><span style="font-size:0.6em;color:var(--muted)">Monitor de Versiones</span></h1>
+
+    <div class="card">
+      <div class="version-label">Versión detectada</div>
+      <div id="detected" class="version-value loading">Cargando...</div>
+      <div id="statusBadge"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:grid; gap:1rem;">
+        <div class="status-item">
+          <div class="status-label">Versión actual</div>
+          <div class="status-value" id="currentVersion">0.0.0</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Estado</div>
+          <div class="status-value" id="appStatus">Conectado</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; color: var(--muted); font-size: 0.875rem;">
+      Se sincroniza automáticamente con SCMDB.net<br>
+      Última actualización: <span id="lastUpdate">—</span><br>
+      <span id="footerAppVersion" style="margin-top:0.5rem; display:inline-block; font-weight:600; color:var(--primary);"></span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const API = 'https://scmdb.net/schemas/missions.json';
+
+      function parseVersion(str) {
+        return str.split('.').map(Number);
+      }
+
+      function isNewer(a, b) {
+        for (let i = 0; i < Math.max(a.length, b.length); i++) {
+          const valA = a[i] || 0;
+          const valB = b[i] || 0;
+          if (valA > valB) return 1;
+          if (valA < valB) return -1;
+        }
+        return 0;
+      }
+
+      async function readManifest() {
+        try {
+          const res = await fetch('./manifest.json');
+          if (!res.ok) throw new Error('Not found');
+          return JSON.parse(await res.text());
+        } catch (e) {
+          console.warn('No se pudo leer manifest.json:', e);
+          return { version: '0.0.0' };
+        }
+      }
+
+      async function getDbVersion() {
+        try {
+          // Ajusta el puerto si es diferente en tu entorno
+          const res = await fetch('http://localhost:3001/api/version');
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          return data.version || '0.0.0';
+        } catch (e) {
+          console.warn('Error obteniendo db version:', e);
+          return null;
+        }
+      }
+
+      async function getLatestVersion() {
+        try {
+          const res = await fetch(API, { headers: { Accept: 'application/json' } });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          return { version: data.version || '0.0.0', source: 'scmdb.net' };
+        } catch (e) {
+          console.error('Error obteniendo versión:', e);
+          return { version: 'error', source: null };
+        }
+      }
+
+      function updateUI(detected, manifest) {
+        const detectedEl = document.getElementById('detected');
+        const statusBadge = document.getElementById('statusBadge');
+        const currentVersionEl = document.getElementById('currentVersion');
+        const appStatusEl = document.getElementById('appStatus');
+        const lastUpdateEl = document.getElementById('lastUpdate');
+
+        if (detected.version === 'error') {
+          detectedEl.textContent = 'Error';
+          detectedEl.classList.add('error');
+          statusBadge.innerHTML = '<span class="badge badge-info">Reconectando...</span>';
+          appStatusEl.textContent = 'Conexión interrumpida';
+          return;
+        }
+
+        const current = manifest.version || '0.0.0';
+        let comparison = isNewer(parseVersion(detected.version), parseVersion(current));
+        
+        detectedEl.textContent = detected.version;
+        detectedEl.classList.remove('loading');
+        
+        if (comparison > 0) {
+          statusBadge.innerHTML = '<span class="badge badge-warning pulse">🆕 Nueva versión disponible</span>';
+          appStatusEl.textContent = 'Nueva versión detectada';
+          appStatusEl.style.color = '#fdcb6e';
+        } else if (comparison === 0) {
+          statusBadge.innerHTML = '<span class="badge badge-success">✅ Actualizado</span>';
+          appStatusEl.textContent = 'Sincronizado';
+          appStatusEl.style.color = '#00b894';
+        } else {
+          statusBadge.innerHTML = '<span class="badge badge-info">ℹ️ Sin cambios</span>';
+          appStatusEl.textContent = 'Conectado';
+          appStatusEl.style.color = '';
+        }
+
+        currentVersionEl.textContent = current;
+        lastUpdateEl.textContent = new Date().toLocaleString();
+      }
+
+      async function init() {
+        const manifest = await readManifest();
+        const detected = await getLatestVersion();
+        const dbVersion = await getDbVersion();
+        
+        updateUI(detected, manifest);
+        
+        if (dbVersion) {
+          document.getElementById('titleAppVersion').textContent = `(v${dbVersion})`;
+          document.getElementById('footerAppVersion').textContent = `Versión DB: ${dbVersion}`;
+        }
+        
+        setInterval(async () => {
+          document.getElementById('appStatus').textContent = 'Sincronizando...';
+          const newDetected = await getLatestVersion();
+          const current = (await readManifest()).version || '0.0.0';
+          
+          setTimeout(() => {
+            updateUI(newDetected, manifest);
+          }, 100);
+        }, 15000);
+
+        console.log('Star Grimoire Monitor iniciado');
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

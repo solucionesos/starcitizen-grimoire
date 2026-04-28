@@ -1,11 +1,20 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Calendar, ArrowUpDown, Scroll, Download, Loader2 } from 'lucide-react';
+import { ChevronDown, Calendar, ArrowUpDown, Scroll, Download, Loader2, Radio, RefreshCw, ExternalLink, Tag } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import DragonIcon from '../components/DragonIcon';
 import { getChronicles } from '../api/client';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Types ───────────────────────────────────────────────────────────────────
+interface NewsItem {
+    id: string;
+    title: string;
+    summary: string;
+    url: string;
+    tags: string[];
+    date_published: string | null;
+}
+
 interface ContentBlock {
     type: 'p' | 'quote' | 'header' | 'grid';
     text?: string;
@@ -291,11 +300,53 @@ const ChronicleCard: React.FC<{ chronicle: Chronicle; index: number }> = ({ chro
     );
 };
 
+// ─── News Logic ───────────────────────────────────────────────────────────
+const NEWS_API_URL = '/api/news';
+
+function formatDate(iso: string | null): string {
+    if (!iso) return '';
+    try {
+        return new Date(iso).toLocaleDateString('es-CO', {
+            year: 'numeric', month: 'long', day: 'numeric',
+        });
+    } catch {
+        return iso;
+    }
+}
+
+const tagColor: Record<string, string> = {
+    Post: 'rgba(212,175,55,0.15)',
+    Video: 'rgba(196,30,58,0.15)',
+    default: 'rgba(148,163,184,0.1)',
+};
+
 // ─── Main page ────────────────────────────────────────────────────────────────
 const Lore: React.FC = () => {
     const [chronicles, setChronicles] = useState<Chronicle[]>([]);
     const [loading, setLoading] = useState(true);
     const [sortDesc, setSortDesc] = useState(false);
+    const [activeTab, setActiveTab] = useState<'cronicas' | 'transmisiones'>('cronicas');
+    
+    const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+    const [newsLoading, setNewsLoading] = useState(false);
+    const [newsError, setNewsError] = useState<string | null>(null);
+
+    const fetchNews = async () => {
+        setNewsLoading(true);
+        setNewsError(null);
+        try {
+            const res = await fetch(NEWS_API_URL);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data: NewsItem[] | { error: string } = await res.json();
+            if ('error' in data) throw new Error(data.error);
+            setNewsItems(data as NewsItem[]);
+        } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : 'Error desconocido';
+            setNewsError(`No fue posible contactar el nexo de transmisiones. ${msg}`);
+        } finally {
+            setNewsLoading(false);
+        }
+    };
 
     useEffect(() => {
         document.title = 'Star Grimoire | Crónicas de Ancalagon Oblivion Fleet';
@@ -303,7 +354,16 @@ const Lore: React.FC = () => {
             setChronicles(data);
             setLoading(false);
         });
+        if (activeTab === 'transmisiones') {
+            fetchNews();
+        }
     }, []);
+
+    useEffect(() => {
+        if (activeTab === 'transmisiones' && newsItems.length === 0 && !newsLoading) {
+            fetchNews();
+        }
+    }, [activeTab]);
 
     const sorted = useMemo(() =>
         [...chronicles].sort((a, b) =>
@@ -375,35 +435,303 @@ const Lore: React.FC = () => {
                 </p>
             </motion.div>
 
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '1.5rem',
-                flexWrap: 'wrap',
-                gap: '1rem',
+            {/* ── TABS ── */}
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                gap: '0.5rem', 
+                marginBottom: '2rem',
+                position: 'sticky',
+                top: '5rem',
+                zIndex: 50,
+                padding: '0.5rem',
+                background: 'rgba(10,5,5,0.9)',
+                backdropFilter: 'blur(10px)',
+                borderBottom: '1px solid rgba(255,255,255,0.05)'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                    <Scroll size={14} style={{ color: 'var(--secondary)' }} />
-                    <span style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.7rem', letterSpacing: '3px', color: 'var(--secondary)' }}>
-                        {chronicles.length} CRÓNICAS EN EL GRIMOIRE
-                    </span>
-                </div>
                 <button
-                    onClick={() => setSortDesc(v => !v)}
-                    className="filter-btn active"
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.7rem' }}
+                    onClick={() => setActiveTab('cronicas')}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '0.8rem 2rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.8rem',
+                        transition: 'all 0.3s ease',
+                        borderBottom: activeTab === 'cronicas' ? '2px solid var(--secondary)' : '2px solid transparent',
+                    }}
                 >
-                    <ArrowUpDown size={13} />
-                    {sortDesc ? 'MÁS RECIENTES PRIMERO' : 'MÁS ANTIGUAS PRIMERO'}
+                    <Scroll size={18} style={{ color: activeTab === 'cronicas' ? 'var(--secondary)' : 'var(--text-muted)' }} />
+                    <span style={{ 
+                        fontFamily: 'var(--cinzel-font)', 
+                        fontSize: '0.75rem', 
+                        letterSpacing: '3px', 
+                        color: activeTab === 'cronicas' ? 'var(--text-main)' : 'var(--text-muted)',
+                        fontWeight: activeTab === 'cronicas' ? 'bold' : 'normal'
+                    }}>
+                        CRÓNICAS
+                    </span>
+                </button>
+                <button
+                    onClick={() => setActiveTab('transmisiones')}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '0.8rem 2rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.8rem',
+                        transition: 'all 0.3s ease',
+                        borderBottom: activeTab === 'transmisiones' ? '2px solid var(--primary)' : '2px solid transparent',
+                    }}
+                >
+                    <Radio size={18} style={{ color: activeTab === 'transmisiones' ? 'var(--primary)' : 'var(--text-muted)' }} />
+                    <span style={{ 
+                        fontFamily: 'var(--cinzel-font)', 
+                        fontSize: '0.75rem', 
+                        letterSpacing: '3px', 
+                        color: activeTab === 'transmisiones' ? 'var(--text-main)' : 'var(--text-muted)',
+                        fontWeight: activeTab === 'transmisiones' ? 'bold' : 'normal'
+                    }}>
+                        TRANSMISIONES
+                    </span>
                 </button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                {sorted.map((chronicle, idx) => (
-                    <ChronicleCard key={chronicle.id} chronicle={chronicle} index={idx} />
-                ))}
-            </div>
+            <AnimatePresence mode="wait">
+                {activeTab === 'cronicas' ? (
+                    <motion.div
+                        key="cronicas"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '1.5rem',
+                            flexWrap: 'wrap',
+                            gap: '1rem',
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                                <Scroll size={14} style={{ color: 'var(--secondary)' }} />
+                                <span style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.7rem', letterSpacing: '3px', color: 'var(--secondary)' }}>
+                                    {chronicles.length} CRÓNICAS EN EL GRIMOIRE
+                                </span>
+                            </div>
+                            <button
+                                onClick={() => setSortDesc(v => !v)}
+                                className="filter-btn active"
+                                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.7rem' }}
+                            >
+                                <ArrowUpDown size={13} />
+                                {sortDesc ? 'MÁS RECIENTES PRIMERO' : 'MÁS ANTIGUAS PRIMERO'}
+                            </button>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                            {sorted.map((chronicle, idx) => (
+                                <ChronicleCard key={chronicle.id} chronicle={chronicle} index={idx} />
+                            ))}
+                        </div>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="transmisiones"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {/* Stats bar */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.1 }}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                gap: '0.8rem',
+                                padding: '0.7rem 1.2rem',
+                                margin: '0 0 1.5rem',
+                                background: 'rgba(212,175,55,0.04)',
+                                border: '1px solid rgba(212,175,55,0.1)',
+                                borderRadius: '2px',
+                            }}
+                        >
+                            <span style={{ color: 'var(--secondary)' }}>☩</span>
+                            <span style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.62rem', letterSpacing: '2px', color: 'var(--text-muted)' }}>
+                                {newsItems.length} TRANSMISIONES · FUENTE: RSI COMM-LINK · AÑO {new Date().getFullYear() + 930}
+                            </span>
+                            <button
+                                id="btn-resync-news"
+                                onClick={fetchNews}
+                                disabled={newsLoading}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    background: 'rgba(196,30,58,0.08)',
+                                    border: '1px solid rgba(196,30,58,0.35)',
+                                    color: 'var(--primary)',
+                                    fontFamily: 'var(--cinzel-font)',
+                                    fontSize: '0.62rem',
+                                    letterSpacing: '3px',
+                                    padding: '0.55rem 1rem',
+                                    cursor: newsLoading ? 'not-allowed' : 'pointer',
+                                    opacity: newsLoading ? 0.5 : 1,
+                                    borderRadius: '2px',
+                                }}
+                            >
+                                <motion.span
+                                    animate={newsLoading ? { rotate: 360 } : { rotate: 0 }}
+                                    transition={newsLoading ? { duration: 1, repeat: Infinity, ease: 'linear' } : {}}
+                                    style={{ display: 'inline-flex' }}
+                                >
+                                    <RefreshCw size={13} />
+                                </motion.span>
+                                {newsLoading ? 'SINCRONIZANDO SEÑAL…' : 'RESINCRONIZAR'}
+                            </button>
+                        </motion.div>
+
+                        {newsLoading && (
+                            <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+                                <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 2, repeat: Infinity }}>
+                                    <Radio size={36} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
+                                    <p style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.72rem', letterSpacing: '4px', color: 'var(--text-muted)' }}>
+                                        INTERCEPTANDO FRECUENCIAS RSI…
+                                    </p>
+                                </motion.div>
+                            </div>
+                        )}
+
+                        {newsError && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="glass-card"
+                                style={{ borderLeft: '3px solid var(--primary)', padding: '2rem', textAlign: 'center' }}
+                            >
+                                <p style={{ fontFamily: 'var(--cinzel-font)', fontSize: '0.72rem', letterSpacing: '3px', color: 'var(--primary)', marginBottom: '0.5rem' }}>
+                                    SEÑAL CORROMPIDA
+                                </p>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.87rem', margin: 0 }}>{newsError}</p>
+                            </motion.div>
+                        )}
+
+                        {!newsLoading && !newsError && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                                {newsItems.map((item, i) => (
+                                    <motion.div
+                                        key={item.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.04 * i, duration: 0.45, ease: 'easeOut' }}
+                                        className="glass-card"
+                                        style={{
+                                            borderLeft: '3px solid var(--primary)',
+                                            padding: '1.2rem 1.5rem',
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                                            <span style={{
+                                                fontFamily: 'var(--cinzel-font)',
+                                                fontSize: '0.65rem',
+                                                color: 'rgba(196,30,58,0.5)',
+                                                letterSpacing: '1px',
+                                                minWidth: '28px',
+                                            }}>
+                                                {String(i + 1).padStart(2, '0')}
+                                            </span>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.45rem', flexWrap: 'wrap' }}>
+                                                    {item.tags.map(tag => (
+                                                        <span key={tag} style={{
+                                                            fontFamily: 'var(--cinzel-font)',
+                                                            fontSize: '0.55rem',
+                                                            letterSpacing: '2px',
+                                                            color: tag === 'Post' ? 'var(--secondary)' : tag === 'Video' ? 'var(--primary)' : 'var(--text-muted)',
+                                                            background: tagColor[tag] ?? tagColor.default,
+                                                            border: `1px solid ${tag === 'Post' ? 'rgba(212,175,55,0.25)' : tag === 'Video' ? 'rgba(196,30,58,0.25)' : 'rgba(148,163,184,0.15)'}`,
+                                                            padding: '2px 7px',
+                                                            borderRadius: '2px',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '3px',
+                                                        }}>
+                                                            <Tag size={8} />
+                                                            {tag.toUpperCase()}
+                                                        </span>
+                                                    ))}
+                                                    {item.date_published && (
+                                                        <span style={{
+                                                            fontSize: '0.62rem',
+                                                            color: 'var(--text-muted)',
+                                                            letterSpacing: '1px',
+                                                            fontFamily: 'var(--cinzel-font)',
+                                                            opacity: 0.65,
+                                                        }}>
+                                                            {formatDate(item.date_published)}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <h3 style={{
+                                                    margin: '0 0 0.8rem',
+                                                    fontFamily: 'var(--cinzel-font)',
+                                                    fontSize: 'clamp(0.82rem, 2vw, 0.98rem)',
+                                                    color: 'var(--text-main)',
+                                                    letterSpacing: '2px',
+                                                    lineHeight: 1.4,
+                                                }}>
+                                                    {item.title}
+                                                </h3>
+                                                <p style={{
+                                                    margin: '0 0 1rem',
+                                                    color: 'var(--text-muted)',
+                                                    fontSize: '0.9rem',
+                                                    lineHeight: 1.85,
+                                                }}>
+                                                    {item.summary || 'Sin resumen disponible para esta transmisión.'}
+                                                </p>
+                                                <a
+                                                    href={item.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        gap: '0.4rem',
+                                                        fontFamily: 'var(--cinzel-font)',
+                                                        fontSize: '0.6rem',
+                                                        letterSpacing: '2px',
+                                                        color: 'var(--primary)',
+                                                        textDecoration: 'none',
+                                                        border: '1px solid rgba(196,30,58,0.35)',
+                                                        padding: '0.4rem 1rem',
+                                                        borderRadius: '2px',
+                                                        transition: 'background 0.2s',
+                                                    }}
+                                                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(196,30,58,0.1)')}
+                                                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                                                >
+                                                    <ExternalLink size={11} />
+                                                    LEER TRANSMISIÓN COMPLETA EN RSI
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <motion.div
                 initial={{ opacity: 0 }}

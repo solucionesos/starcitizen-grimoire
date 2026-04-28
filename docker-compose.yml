@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -36,8 +34,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.15'      # Máximo 15% de un núcleo
-          memory: 64M       # Límite estricto de 64MB para Nginx
+          cpus: '0.15' # Máximo 15% de un núcleo
+          memory: 64M # Límite estricto de 64MB para Nginx
         reservations:
           cpus: '0.05'
           memory: 32M

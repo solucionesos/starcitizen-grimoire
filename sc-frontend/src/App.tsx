@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import logo from './assets/logo.png';
 import Home from './pages/Home';
+
+const API_VERSION = '/api/version';
 import Missions from './pages/Missions';
 import Recipes from './pages/Recipes';
 import Resources from './pages/Resources';
@@ -15,7 +17,6 @@ import LocationDetail from './pages/LocationDetail';
 import Wikelo from './pages/Wikelo';
 import Datavelo from './pages/Datavelo';
 import Bovedas from './pages/Bovedas';
-import News from './pages/News';
 import Breadcrumbs from './components/Breadcrumbs';
 import { AltarProvider, useAltar } from './context/AltarContext';
 import Altar from './pages/Altar';
@@ -34,6 +35,26 @@ const NavCartBadge: React.FC<{ closeMenu: () => void }> = ({ closeMenu }) => {
 
 const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [gameVersion, setGameVersion] = useState<string>('4.7.0');
+
+  useEffect(() => {
+    fetch(API_VERSION)
+      .then((res) => res.json())
+      .then((data: any) => {
+        // Solo actualizar si la versión del API es válida y diferente de la actual
+        if (data.version && data.version !== gameVersion) {
+          setGameVersion(data.version);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  // Actualizar el título del documento dinámicamente cada vez que cambia la versión
+  useEffect(() => {
+    if (gameVersion) {
+      document.title = `Star Grimoire v${gameVersion} | Tecnomilagros, Ofrendas & Edictos`;
+    }
+  }, [gameVersion]);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -44,7 +65,7 @@ const App: React.FC = () => {
           <div className="brand brand-header">
             <div className="brand-logo-container">
               <img src={logo} alt="Star Grimoire Logo" className="brand-logo" />
-              <div style={{ whiteSpace: 'nowrap' }}>Star <span className="accent-cyan">Grimoire</span> <span style={{ fontSize: '0.7em', opacity: 0.5 }}>v4.7.0</span></div>
+              <div style={{ whiteSpace: 'nowrap' }}>Star <span className="accent-cyan">Grimoire</span> <span style={{ fontSize: '0.7em', opacity: 0.5 }}>{gameVersion}</span></div>
             </div>
 
             <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
@@ -60,7 +81,6 @@ const App: React.FC = () => {
             <NavLink to="/mapa" className="nav-link" onClick={closeMenu}>OFRENDAS</NavLink>
             <NavLink to="/recipes" className="nav-link" onClick={closeMenu}>TECNOMILAGROS</NavLink>
             <NavLink to="/datavelo" className="nav-link" style={{ color: 'var(--accent-silver)' }} onClick={closeMenu}>DATAVELO</NavLink>
-            <NavLink to="/news" className="nav-link" style={{ color: 'var(--primary)' }} onClick={closeMenu}>TRANSMISIONES</NavLink>
             <NavCartBadge closeMenu={closeMenu} />
           </div>
         </nav>
@@ -82,7 +102,6 @@ const App: React.FC = () => {
           <Route path="/wikelo" element={<Wikelo />} />
           <Route path="/bovedas" element={<Bovedas />} />
           <Route path="/altar" element={<Altar />} />
-          <Route path="/news" element={<News />} />
         </Routes>
         <Footer />
       </Router>
