@@ -518,5 +518,188 @@
         "text": "☩ IN NOMINI OBLIVIONIS ☩"
       }
     ]
+  },
+  {
+    "id": 8,
+    "title": "CRÓNICA VIII",
+    "subtitle": "TACTU VACUI — DEL PROFETA QUE CAMINÓ EN LOS UMBRALES",
+    "date": "28 Apr 2956",
+    "dateSort": 1746057600000,
+    "classification": "Evento de Quiebre",
+    "icon": "☩",
+    "color": "var(--primary)",
+    "blocks": [
+      {
+        "type": "quote",
+        "text": "No todo lo que el Vacío revela es para ser comprendido.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">No todo lo que es comprendido es para ser creído.<br />Y no todo lo que es creído… fue verdad antes de ser creído.</span>"
+      },
+      {
+        "type": "p",
+        "text": "Los registros que aquí se consignan no tienen un testigo único ni una fuente íntegra. Lo que se narra fue reconstruido desde fragmentos: bitácoras de vuelo parcialmente corrompidas, testimonios de rescatistas que no concuerdan en los detalles menores, y los registros recuperados de la nave <strong style=\"color: var(--secondary)\">Asgard</strong> —encontrada abandonada en la estación de Seraphim semanas después de los eventos—. El Concilio del Vacío advierte al lector: lo que el Vacío toca, lo reescribe. No siempre hacia la mentira. A veces hacia algo más perturbador que ella.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🌑",
+        "title": "FRAGMENTO I — LA TRAVESÍA EN SOLITARIO"
+      },
+      {
+        "type": "p",
+        "text": "El Profeta <strong style=\"color: var(--secondary)\">Longhinus</strong> había emprendido aquella travesía solo. No era inusual en él. Longhinus —cuyo nombre evoca la lanza que perfora lo sagrado, que atraviesa lo intocable— tenía por costumbre alejarse del Concilio durante ciclos enteros, navegando los bordes del espacio conocido en busca de lo que él mismo llamaba <em>\"el residuo del universo antes del orden\"</em>: fragmentos de verdad que la UEE no había tenido tiempo de borrar ni de catalogar."
+      },
+      {
+        "type": "p",
+        "text": "En el ciclo interior de Nyx, entre los campos de asteroides que rodean el sistema como un collar de piedra fría y silencio eterno, su travesía lo condujo ante algo que los mapas no registraban. Un templo.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🏛️",
+        "title": "FRAGMENTO II — EL TEMPLO SIN NOMBRE"
+      },
+      {
+        "type": "p",
+        "text": "No era una estructura moderna. Tampoco parecía de origen conocido. Sus proporciones eran incorrectas de una manera difícil de precisar: sus materiales absorbían la luz en lugar de reflejarla, y el estado en que se encontraba podría describirse como <em>deliberadamente deteriorado</em>, como si alguien hubiera querido que pareciera abandonado sin haberlo abandonado jamás."
+      },
+      {
+        "type": "p",
+        "text": "Los presentimientos del Profeta, registrados en su bitácora de vuelo como notas de voz, son elocuentes: <em>\"Hay algo aquí que no debería tener forma. Y sin embargo la tiene.\"</em> Luego, un silencio de cuarenta segundos. Luego, con una calma que inquieta más que el miedo: <em>\"Entro.\"</em>",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🌀",
+        "title": "FRAGMENTO III — LA ESTATUA SIN FORMA"
+      },
+      {
+        "type": "p",
+        "text": "Las bitácoras de la <strong style=\"color: var(--secondary)\">Asgard</strong> documentan la entrada de Longhinus durante aproximadamente dos horas y veintisiete minutos. Sus propias notas de voz —fragmentadas, con cortes abruptos que el análisis técnico no pudo atribuir a fallas del equipo— describen una arquitectura de salas interminables, corredores que se ramificaban sin lógica aparente, y la persistente sensación de que <em>algo lo guiaba</em> hacia el interior: más profundo, más lejos de la salida, más lejos de sí mismo."
+      },
+      {
+        "type": "p",
+        "text": "En el centro de lo que Longhinus describe como <em>\"una sala que no tenía derecho de existir en ese asteroide\"</em>, se encontró ante una estatua. No era humanoide. No era de filiación Vanduul ni Xi'An. No pertenecía a ningún catálogo de formas conocidas en los archivos de la Flota ni en los registros sancionados por la UEE. Era, según sus propias palabras, <em>\"una silueta que el universo olvidó definir, o que decidió no definir aún.\"</em> Sus bordes eran imprecisos. Su material parecía cambiar al contacto entre la piedra fría y algo que Longhinus no encontró palabras para nombrar.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "La tocó.<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">Lo que siguió no fue un sonido. Fue una voz en el umbral del pensamiento, más cercana a una certeza impuesta que a un mensaje recibido:<br /><em>\"Ahora eres mío. Serás mi herramienta del caos.\"</em></span>"
+      },
+      {
+        "type": "p",
+        "text": "En este punto el registro se interrumpe por diecisiete minutos. Cuando se reanuda, Longhinus corre.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🕳️",
+        "title": "FRAGMENTO IV — LA GEOMETRÍA QUE NO ESPERA"
+      },
+      {
+        "type": "p",
+        "text": "La geometría del asteroide no esperó su salida. El templo había desaparecido. No colapsado, no oculto: <em>desaparecido</em>, reemplazado por una red de túneles que Longhinus no recordaba haber atravesado jamás. La <strong style=\"color: var(--secondary)\">Asgard</strong> —amarrada a doscientos metros de lo que había sido la entrada— no estaba en las coordenadas que su equipo le indicaba."
+      },
+      {
+        "type": "header",
+        "icon": "📡",
+        "title": "FRAGMENTO V — EL CONCILIO RESPONDE"
+      },
+      {
+        "type": "p",
+        "text": "Longhinus estableció contacto de emergencia con el Concilio. La respuesta fue inmediata. Partieron los Profetas: <strong style=\"color: var(--secondary)\">Enanimus</strong>, cuya compostura durante todo el operativo fue descrita por los rescatistas como <em>casi quirúrgica</em>, como la calma de quien sabe lo que va a encontrar antes de encontrarlo; <strong style=\"color: var(--text-main)\">Philippe</strong>, cuya presencia en los túneles fue necesaria para calcular las rutas de extracción; y el propio <strong style=\"color: var(--primary)\">Heraldo de la Flota</strong>, cuya aparición en una operación de campo habló —sin necesidad de palabras— de la magnitud de lo que se sospechaba."
+      },
+      {
+        "type": "p",
+        "text": "Longhinus fue encontrado. Fue rescatado. Los registros coinciden, al menos, en ese punto.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "⚠️",
+        "title": "FRAGMENTO VI — EL ESPACIO QUE NO CEDE"
+      },
+      {
+        "type": "p",
+        "text": "El regreso a Stanton no ocurrió. Durante seis intentos consecutivos de cruzar el gateway hacia el sistema, la nave donde viajaba el grupo regresó siempre al punto de origen en Nyx. No hubo explicación técnica. Los sistemas de navegación funcionaban correctamente según todos los diagnósticos disponibles. El espacio simplemente <em>no abría el camino</em>."
+      },
+      {
+        "type": "p",
+        "text": "Fue el Profeta <strong style=\"color: var(--secondary)\">Enanimus</strong> quien propuso la separación en múltiples naves. La lógica era impecable, como siempre en él: si la anomalía era localizada, dispersarse permitiría aislar su origen. Nadie cuestionó la propuesta. En el Concilio del Vacío, las palabras de Enanimus no se cuestionan; se ejecutan.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🩸",
+        "title": "FRAGMENTO VII — LO QUE ACOMPAÑABA A LONGHINUS"
+      },
+      {
+        "type": "p",
+        "text": "Quienes viajaron junto a Longhinus en ese tramo final comenzaron a manifestar lo que los informes médicos clasificaron —sin convicción— como <em>episodios disociativos de causa indeterminada</em>. Alucinaciones. Conductas incoherentes. La incapacidad de recordar tramos enteros del trayecto. En el primer puerto espacial, la nave presentó además fallas progresivas en sus sistemas de aterrizaje; anomalías que los técnicos revisaron sin poder explicar ni replicar."
+      },
+      {
+        "type": "p",
+        "text": "Longhinus, mientras tanto, cambiaba. No dramáticamente. Era más sutil: el ángulo de su mirada, que raramente se dirigía a quien le hablaba. El movimiento de sus labios —o su ausencia—, porque varios testimonios coinciden en haber escuchado su voz mientras observaban que su boca permanecía inmóvil. La sensación, descrita de manera independiente por más de un rescatista, de que estar cerca de él era estar cerca de algo que <em>utilizaba</em> la forma de Longhinus sin ser del todo Longhinus.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "Como un ente del Vacío que aún no ha terminado de aprender a habitar su nueva geometría."
+      },
+      {
+        "type": "header",
+        "icon": "📜",
+        "title": "FRAGMENTO VIII — LOS REGISTROS DE SERAPHIM"
+      },
+      {
+        "type": "p",
+        "text": "La nave <strong style=\"color: var(--secondary)\">Asgard</strong> fue encontrada semanas después, abandonada en la estación de Seraphim, sin marcas de daño y con todos sus sistemas apagados de manera ordenada. Los registros que contenía —los aquí parcialmente reproducidos— fueron recuperados y entregados al Concilio del Vacío."
+      },
+      {
+        "type": "p",
+        "text": "Los entregó el Profeta <strong style=\"color: var(--secondary)\">Enanimus</strong>.",
+        "muted": true
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🌀",
+            "title": "Profeta Longhinus",
+            "text": "Tocado por el Vacío en los campos de asteroides de Nyx. Su condición permanece sin resolución en los registros del Concilio."
+          },
+          {
+            "icon": "🧠",
+            "title": "Profeta Enanimus",
+            "text": "Compilador del presente Registro. Su compostura durante el operativo y la entrega de los logs levanta preguntas que este documento consigna sin intentar responder."
+          },
+          {
+            "icon": "🌑",
+            "title": "El Heraldo y los Profetas",
+            "text": "Respondieron sin demora. Lo que enfrentaron en los túneles de Nyx no figura en ningún informe oficial de la Flota."
+          }
+        ]
+      },
+      {
+        "type": "p",
+        "text": "El Concilio sabe lo que fue tocado. La pregunta que permanece sin respuesta —y que el compilador de este Registro ha elegido consignar sin intentar resolverla— es si lo que aquí se lee es el rastro honesto de lo que ocurrió, o si el Vacío, con su habitual indiferencia hacia la verdad de los hombres, encontró la manera de escribir esta Crónica antes de que cualquiera de nosotros tomara la pluma.",
+        "muted": true
+      },
+      {
+        "type": "p",
+        "text": "Hay quien dice que Longhinus fue tocado por una entidad sin nombre en las entrañas de Nyx. Hay quien guarda silencio. Y en la <strong style=\"color: var(--primary)\">Ancalagon Oblivion Fleet</strong>, el silencio tiene rangos."
+      },
+      {
+        "type": "quote",
+        "text": "Lo que queda por resolver no es qué lo tocó.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Lo que queda por resolver es si algo —o alguien— ya lo había preparado para ser tocado.</span>"
+      },
+      {
+        "type": "p",
+        "text": "Que el Vacío guarde lo que fue aprendido. Y que guarde también lo que no fue.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "☩ IN NOMINI OBLIVIONIS ☩"
+      }
+    ]
   }
 ]
