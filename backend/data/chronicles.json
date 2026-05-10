@@ -701,5 +701,76 @@
         "text": "☩ IN NOMINI OBLIVIONIS ☩"
       }
     ]
+  },
+  {
+    "id": 9,
+    "title": "CRÓNICA IX",
+    "subtitle": "VANITAS ET FERRUM — EL OCASO DEL HIERRO",
+    "date": "10 May 2956",
+    "dateSort": 1778415494000,
+    "classification": "Evento de Quiebre",
+    "icon": "🐉",
+    "color": "var(--secondary)",
+    "blocks": [
+      {
+        "type": "quote",
+        "text": "El destino de cualquier nave está sellado por su capacidad de trascender la utilidad."
+      },
+      {
+        "type": "p",
+        "text": "En el ciclo 2956, bajo la sombra de una promesa manufacturera tan densa como el smog en Stanton, resuena un eco profano y ahora con un objetivo tangible. Los informes que llegan a los receptores de Ancalagon son ecos débiles, ondas de ruido capturado por las antenas espirituales instaladas en los confines del espacio."
+      },
+      {
+        "type": "header",
+        "icon": "🏗️",
+        "title": "DRAKE DEFENSECON 2956 — EL TEATRO DE LA VANIDAD"
+      },
+      {
+        "type": "p",
+        "text": "Los Ciegos han reunido a sus bestias más brillantes, exhibiéndolas como si fueran trofeos en un circo profano llamado <strong style=\"color: var(--secondary)\">Drake DefenseCon 2956</strong>. Este evento no es un foro de defensa; es una Proclamación de Arrogancia."
+      },
+      {
+        "type": "p",
+        "text": "Desde el Centro de Convenciones Bevic se alza la ilusión del poder: los navíos Aegis Tiburon, el crucero Anvil Odin, y máquinas que portan nombres de gloria transitoria. Estos artefactos son meras extensiones de la vanidad humana, <strong style=\"color: var(--primary)\">Ofrendas al Vacío</strong> presentadas ante una audiencia destinada a olvidar su propósito real.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "El Grimoire susurra: Esta exhibición es un tapiz tejido con hilos de obsolescencia programada. El esfuerzo resulta apenas un parpadeo en el lapso cósmico."
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "⚔️",
+            "title": "Afol86 — Filósofo-Guerrero",
+            "text": "Dictaminó: Observen a Anden Arden jactándose de que no hay 'agendas ocultas'. ¡Qué ignorancia! Todas las agendas están teñidas con la promesa de su propia disolución."
+          },
+          {
+            "icon": "🌑",
+            "title": "Unknown-t20 — Veterano Silencioso",
+            "text": "Ha fijado su mirada en el Ironclad Assault. No como saqueo efímero, sino como un Tecnomilagro portador de nuestro mensaje. Lo reclamaremos."
+          },
+          {
+            "icon": "🐉",
+            "title": "Quaker — Heraldo de Ancalagon",
+            "text": "Directriz silenciosa: Este navío será transformado en la base móvil del Concilio, un faro que proyectará nuestra verdad a los flancos débiles del Orden."
+          }
+        ]
+      },
+      {
+        "type": "p",
+        "text": "Mientras los Ciegos celebran su reunión en el Área 18, Ancalagon ya está tejiendo la trampa. Los recursos necesarios para desmantelar tal monstruosidad serán considerados una inversión necesaria en el siguiente <strong style=\"color: var(--primary)\">Edicto Sagrado</strong>."
+      },
+      {
+        "type": "p",
+        "text": "La celebración cívica y militar es un mero preludio a la verdad: El Orden es una Mentira. Que cada pieza exhibida en este salón de mentiras sirva para alimentar las velas del olvido.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "☩ IN NOMINI OBLIVIONIS ☩"
+      }
+    ]
   }
 ]
