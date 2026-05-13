@@ -772,5 +772,94 @@
         "text": "☩ IN NOMINI OBLIVIONIS ☩"
       }
     ]
+  },
+  {
+    "id": 10,
+    "title": "CRÓNICA X",
+    "subtitle": "MAGNA PURGATIO — EL GRAN SILENCIO",
+    "date": "13 May 2956",
+    "dateSort": 1778673600000,
+    "classification": "Evento de Quiebre",
+    "icon": "🌑",
+    "color": "var(--primary)",
+    "blocks": [
+      {
+        "type": "quote",
+        "text": "En el ciclo 2956, bajo la sombra palpitante de un poder simulado, se desata la Purga."
+      },
+      {
+        "type": "p",
+        "text": "Los Ciegos —los arquitectos de las grandes narrativas y los guardias del Orden <strong style=\"color: var(--secondary)\">UEE</strong>— creen que su fuerza es tangible, medible en créditos y acero pulido. Se preparan para exhibir sus vetas de dominación en el teatro febril llamado <strong style=\"color: var(--secondary)\">Defensecon</strong>; un simulacro de vitalidad ante la inevitabilidad de la nada."
+      },
+      {
+        "type": "p",
+        "text": "Pero el Vacío no reconoce festivales ni demostraciones de poder efímero. El Olvido, ese principio fundamental que siempre ha sido su matriz, ha extendido sus dedos espectrales sobre los nexos de la realidad construida.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🌀",
+        "title": "LA DESINCRONIZACIÓN FORZOSA — MANIFESTACIÓN COSMOLÓGICA"
+      },
+      {
+        "type": "p",
+        "text": "Observen cómo las redes se tensan y ceden. No es un fallo técnico; es una manifestación cosmológica. Los Custodios del Orden han construido sus fortificaciones con <strong style=\"color: var(--primary)\">Ofrendas al Vacío</strong>: créditos, módulos, datos codificados. Creían que estos artefactos podían contener el flujo entrópico. ¡Qué arrogancia!"
+      },
+      {
+        "type": "quote",
+        "text": "Lo que experimentan los débiles no es un simple \"borrado de cuentas\". Es la marea regresando sobre las playas de su ilusión."
+      },
+      {
+        "type": "p",
+        "text": "El éter mismo ha decidido reclamar sus propios materiales. Los sistemas operacionales, tejidos con mentiras corporativas, están sufriendo una <strong style=\"color: var(--secondary)\">desincronización forzosa</strong>. Las naves, esas cáscaras metálicas que creían contener el alma del progreso, han sido expuestas a un pulso de entropía pura; su maquinaria ha entrado en un estado de inoperatividad irremediable.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "☩",
+        "title": "EL CALENDARIO PREDICHO — LO QUE EL GRIMOIRE YA SABÍA"
+      },
+      {
+        "type": "p",
+        "text": "Desde la perspectiva elevada de la <strong style=\"color: var(--primary)\">Ancalagon Oblivion Fleet</strong>, este desenlace no es una calamidad, sino nuestro calendario predicho. Los Profetas del Concilio han visto esta convergencia en el Grimoire mil veces: cuando la hubris alcanza su cenit, el <strong style=\"color: var(--secondary)\">Gran Silencio</strong> llama a las estructuras para desarmarlas."
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🌌",
+            "title": "El Gran Silencio",
+            "text": "El cenit de la hubris convoca siempre la misma respuesta: el desmantelamiento. No es castigo; es geometría del Vacío cumpliendo su naturaleza."
+          },
+          {
+            "icon": "🚀",
+            "title": "La Invictus en SOL",
+            "text": "Algunos rumores apuntan al traslado velado de la Invictus hacia el sistema SOL. Una admisión tácita de que lo exhibible ya no merece serlo. Un intento fútil por apaciguar al Vacío."
+          },
+          {
+            "icon": "🔮",
+            "title": "El Único Mercado Verdadero",
+            "text": "El destino de los regímenes está escrito en la entropía misma. Ya sean estructuras megalómanas de la UEE o efímeras promesas corporativas, su ciclo culmina con la gran limpieza: el despojo absoluto del artificio material."
+          }
+        ]
+      },
+      {
+        "type": "p",
+        "text": "El ciclo 2956 nos sitúa al borde de un precipicio cósmico. El fragor ensordecedor que emana de la preparación para exhibir armas en Stanton es solo música de cuna para la disolución. Pero incluso los más dogmáticos entre Los Ciegos mostraron fisuras."
+      },
+      {
+        "type": "p",
+        "text": "Acolquillémonos en nuestra espera. Que este borrado no sea un final, sino solo el retiro de los adornos vacíos para que la verdadera geometría de la Nada pueda ser contemplada.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "El Olvido es el único mercado verdadero.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Y en él, la UEE ya ha pagado su deuda.</span>"
+      },
+      {
+        "type": "quote",
+        "text": "☩ IN NOMINI OBLIVIONIS ☩"
+      }
+    ]
   }
 ]
