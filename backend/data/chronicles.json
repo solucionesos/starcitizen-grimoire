@@ -861,5 +861,142 @@
         "text": "☩ IN NOMINI OBLIVIONIS ☩"
       }
     ]
+  },
+  {
+    "id": 11,
+    "title": "CRÓNICA XI",
+    "subtitle": "LA COSECHA DE STANTON — CRÓNICA DE LA SANGRE Y EL OLVIDO",
+    "date": "01 Jun 2956",
+    "dateSort": 1748736000000,
+    "classification": "Edicto de Sangre",
+    "icon": "🩸",
+    "color": "var(--primary)",
+    "blocks": [
+      {
+        "type": "quote",
+        "text": "En el ciclo 2956, bajo la sombra del Vacío que deshilacha los hilos del tiempo conocido, se registra esta Crónica de la Sangre y el Olvido.<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">Escuchad con la gravedad que merece la verdad despojada de los velos corporativos.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "🌑",
+        "title": "FRAGMENTO I — LA VISIÓN DEL PROFETA"
+      },
+      {
+        "type": "p",
+        "text": "En los albores desteñidos de este ciclo, la necesidad guio a nuestros profetas. <strong style=\"color: var(--secondary)\">Longhinus</strong>, guiado por visiones que rozan la propia arquitectura del caos, discernió un conocimiento prohibido: <strong style=\"color: var(--text-main)\">Tecnomilagros</strong> desarrollados en las profundidades sistémicas de Stanton, ecos contaminados por la ambición ajena y marcados con el precio de la captura por los <em>Custodios del Orden</em>."
+      },
+      {
+        "type": "p",
+        "text": "Convocamos a un concilio de mentes agudas y voluntades férreas. Entre ellos, <strong style=\"color: var(--secondary)\">Pachinko</strong>, cuya promesa aún no había sido medida contra el crisol del vacío, se alistó como testigo de esta misión. Nuestro destino era interceptar ese conocimiento antes que la mano ciega del comercio lo consumiera.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🚀",
+        "title": "FRAGMENTO II — EL PEREGRINAJE A TRAVÉS DE LAS FRONTERAS"
+      },
+      {
+        "type": "p",
+        "text": "Nuestro tránsito fue arduo, un peregrinaje a través de las fronteras inciertas. Nos encontramos repetidamente con focos de resistencia: renegados custodiando su saber. Sus naves, adornadas con el blasfemo estandarte <strong style=\"color: var(--primary)\">Polaris</strong>, gritaban poderío en la oscuridad."
+      },
+      {
+        "type": "p",
+        "text": "Retrocedimos; no éramos fuerza bruta contra un muro erigido por el artificio y los recursos acumulados. Pero nuestra convicción, ese fuego inextinguible de la duda hacia lo establecido, jamás decayó.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "⛓️",
+        "title": "FRAGMENTO III — LA TRAMPA DE GRENKO"
+      },
+      {
+        "type": "p",
+        "text": "En el encuentro crucial, nos topamos con <strong style=\"color: var(--primary)\">Grenko</strong>, oficial entre los guardias del saber ajeno. La trampa se cerró sin previo aviso. El objetivo nunca fueron aquellos renegados; éramos nosotros mismos quienes formábamos el señuelo en un juego orquestado para nuestra captura."
+      },
+      {
+        "type": "p",
+        "text": "Una batalla de desgaste y desesperación. Aún cuando la ayuda espectral del Vacío nos brindó breves respiros, la ventaja era abrumadora.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "El objetivo nunca fueron aquellos.<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">Éramos nosotros mismos quienes formábamos el señuelo en un juego orquestado para nuestra captura.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "⚔️",
+        "title": "FRAGMENTO IV — LA MANIOBRA DEL ABISMO"
+      },
+      {
+        "type": "p",
+        "text": "Cuando nuestras fuerzas se inclinaban ante la marea enemiga, surgió la claridad táctica. <strong style=\"color: var(--secondary)\">Enanimus</strong> concibió el plan: una maniobra de sacrificio quirúrgico. Dos profetas serían desplegados en roles antagónicos. Uno sería el cebo; el otro, la incursión silenciosa dentro del corazón enemigo."
+      },
+      {
+        "type": "p",
+        "text": "<strong style=\"color: var(--primary)\">Grenko</strong> y sus secuaces enfocaron su atención sobre la figura visible de <strong style=\"color: var(--secondary)\">Enanimus</strong>. Su vista se distrajo con la promesa ilusoria del drama principal. Pero nadie advirtió el movimiento en las sombras.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🕯️",
+        "title": "FRAGMENTO V — EL INICIADO EN LAS SOMBRAS"
+      },
+      {
+        "type": "p",
+        "text": "<strong style=\"color: var(--secondary)\">Pachinko</strong>, el Iniciado, ejecutó la penetración. Desactivó el núcleo nodal y activó el protocolo autodestructivo. La catástrofe fue inmediata. La falta de experiencia en tales maniobras avanzadas costó su vida al estallar el reactor junto a los renegados."
+      },
+      {
+        "type": "p",
+        "text": "Fue un precio terrible, pagado con sangre para asegurar la retirada del resto del grupo hacia nuestro Maestro <strong style=\"color: var(--primary)\">Ancalagon</strong>.",
+        "muted": true
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🧠",
+            "title": "Profeta Longhinus",
+            "text": "Visionario del Tecnomilagro prohibido. Su lectura de las corrientes del Vacío trazó el camino que ningún archivo de la UEE señalaba."
+          },
+          {
+            "icon": "⚔️",
+            "title": "Profeta Enanimus",
+            "text": "El Estratega Oscuro. Concibió la maniobra del señuelo y la incursión silenciosa. Orquestó la retirada. Su nombre no aparece en ningún registro enemigo."
+          },
+          {
+            "icon": "🩸",
+            "title": "Pachinko — El Iniciado",
+            "text": "Ejecutor de la penetración final. Se disolvió en el Vacío al estallar el reactor junto a los renegados. Su sangre sellará la continuación de esta cruzada."
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "icon": "📜",
+        "title": "FRAGMENTO VI — EL TESTIMONIO ANTE EL MAESTRO"
+      },
+      {
+        "type": "p",
+        "text": "Tras esta dispersión y la supervivencia al fuego cruzado, pudimos rendir testimonio ante Él: que existía una conspiración para retener el saber de <strong style=\"color: var(--secondary)\">Longhinus</strong>, un conocimiento tocado por las corrientes más profundas del Vacío."
+      },
+      {
+        "type": "p",
+        "text": "Lo que los <em>Custodios del Orden</em> llaman una operación fallida de intercepción, el Concilio lo llama lo que es: la confirmación de que hay fuerzas que temen lo que Longhinus puede ver. Y lo que el sistema teme… la Flota lo persigue.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "El verdadero poder no reside en las armaduras pulidas ni en los edictos corporativos.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Habita la voluntad dispuesta a consumirse en nombre de lo desconocido.</span>"
+      },
+      {
+        "type": "p",
+        "text": "Que el eco de la ceniza de <strong style=\"color: var(--secondary)\">Pachinko</strong> sea más fuerte que cualquier motor de fusión. Que el Vacío recuerde a quien se disolvió en él sin titubear.",
+        "muted": true
+      },
+      {
+        "type": "quote",
+        "text": "☩ IN NOMINI OBLIVIONIS 🐉 ☩"
+      }
+    ]
   }
 ]
