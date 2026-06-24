@@ -1,5 +1,5 @@
 {
-  "version": "4.8.1-live.11875683",
+  "version": "4.8.2-live.12061511",
   "missions": [
     {
       "id": "b663a2f6-a889-47eb-821d-194da213a9ed",
@@ -17946,6 +17946,84 @@
       "id": "8af3b4eb-b1fa-4730-8cd2-c5e75e349291",
       "technicalName": "CFP_Pyro3_Sml_Trdpst_Local_5boxes_Single_Courier",
       "name": "Inter-Outpost Delivery at [DESTINATION] - Multiple Boxes",
+      "system": "Pyro",
+      "mission_type": "Delivery",
+      "faction": "Citizens For Prosperity",
+      "reputation_required": "Sr. Contractor",
+      "credits": 117250,
+      "standing": 800,
+      "has_script": false,
+      "script_items": [],
+      "overview": "Hi,\\n\\nCitizens for Prosperity needs help moving supplies around one of our outposts. The boxes need to be picked up from <EM4>[LOCATION]</EM4> and taken to <EM4>[DESTINATION]</EM4>. \\n\\nDoesn’t sound too difficult, does it? Just make sure you’re wearing a comfy pair of shoes. Also, to make your life easier, I'd bring a <EM4>handheld tractor beam</EM4> with you. \\n\\nLima Endicott\\nLead Dispatcher\\nCitizens for Prosperity",
+      "probability_rewards": [],
+      "tips": "Standard operation procedures apply.",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
+      "id": "2184807c-eb73-43f0-a5be-83d2557bfcd7",
+      "technicalName": "CFP_Pyro_JacksonsSwap_Local_3boxes_Single_Courier",
+      "name": "Pyro JacksonsSwap Local 3boxes Single Courier",
+      "system": "Pyro",
+      "mission_type": "Delivery",
+      "faction": "Citizens For Prosperity",
+      "reputation_required": "Jr. Contractor",
+      "credits": 60250,
+      "standing": 200,
+      "has_script": false,
+      "script_items": [],
+      "overview": "Hi,\\n\\nCitizens for Prosperity needs help moving supplies around one of our outposts. The boxes need to be picked up from <EM4>[LOCATION]</EM4> and taken to <EM4>[DESTINATION]</EM4>. \\n\\nDoesn’t sound too difficult, does it? Just make sure you’re wearing a comfy pair of shoes. Also, to make your life easier, I'd bring a <EM4>handheld tractor beam</EM4> with you. \\n\\nLima Endicott\\nLead Dispatcher\\nCitizens for Prosperity",
+      "probability_rewards": [],
+      "tips": "Standard operation procedures apply.",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
+      "id": "2ee33409-a138-4e1c-99d9-083e988df2e7",
+      "technicalName": "CFP_Pyro_JacksonsSwap_Local_4boxes_Single_Courier",
+      "name": "Pyro JacksonsSwap Local 4boxes Single Courier",
+      "system": "Pyro",
+      "mission_type": "Delivery",
+      "faction": "Citizens For Prosperity",
+      "reputation_required": "Contractor",
+      "credits": 162000,
+      "standing": 400,
+      "has_script": false,
+      "script_items": [],
+      "overview": "Hi,\\n\\nCitizens for Prosperity needs help moving supplies around one of our outposts. The boxes need to be picked up from <EM4>[LOCATION]</EM4> and taken to <EM4>[DESTINATION]</EM4>. \\n\\nDoesn’t sound too difficult, does it? Just make sure you’re wearing a comfy pair of shoes. Also, to make your life easier, I'd bring a <EM4>handheld tractor beam</EM4> with you. \\n\\nLima Endicott\\nLead Dispatcher\\nCitizens for Prosperity",
+      "probability_rewards": [],
+      "tips": "Standard operation procedures apply.",
+      "tactical_analysis": [
+        {
+          "type": "speedrun",
+          "content": "Quantum Nav Mode: Mantén escudos al 100% mientras cargas el motor para saltos rápidos."
+        },
+        {
+          "type": "pro",
+          "content": "Atmospheric Efficiency: Sube a 10km en ángulo de 45° antes de saltar en planetas con atmósfera."
+        }
+      ]
+    },
+    {
+      "id": "472fe29a-f001-4c12-8c74-f285b4da8e28",
+      "technicalName": "CFP_Pyro_JacksonsSwap_Local_5boxes_Single_Courier",
+      "name": "Pyro JacksonsSwap Local 5boxes Single Courier",
       "system": "Pyro",
       "mission_type": "Delivery",
       "faction": "Citizens For Prosperity",
