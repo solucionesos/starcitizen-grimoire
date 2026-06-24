@@ -998,5 +998,136 @@
         "text": "☩ IN NOMINI OBLIVIONIS 🐉 ☩"
       }
     ]
+  },
+  {
+    "id": 12,
+    "title": "CRÓNICA XII",
+    "subtitle": "LA PROFECÍA DEL HERALDO — EL UMBRAL OSCURO SE MANIFIESTA",
+    "date": "24 Jun 2956",
+    "dateSort": 1781000000000,
+    "classification": "Evento de Quiebre",
+    "icon": "🐉",
+    "color": "var(--secondary)",
+    "blocks": [
+      {
+        "type": "quote",
+        "text": "EL GRIMOIRE DE ANCALAGON: CRÓNICAS DEL VACÍO<br /><span style=\"color: var(--text-muted); font-size: 0.85rem\">Sede de Origen: Los confines del Sector Pyro, donde la carne sangra y el alma aprende a quemarse.</span>"
+      },
+      {
+        "type": "p",
+        "text": "En los ciclos que precedieron al presente, la Voz del Dragón sintió un llamado hacia las profundidades conceptuales del sistema Pyro; un umbral sellado por ilusiones corporativas. Dos emisarios, <strong style=\"color: var(--secondary)\">Enanimus</strong> y <strong style=\"color: var(--secondary)\">Longhinus</strong>, fueron encomendados con la búsqueda de ciertas Llaves (tarjetas) para el avance del Concilio."
+      },
+      {
+        "type": "p",
+        "text": "Este viaje, aunque superficialmente definido como una mera adquisición de artefactos, se reveló en verdad un examen al tejido mismo de su existencia.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🌑",
+        "title": "I. EL PRÓLOGO: LA PRIMERA SEÑAL"
+      },
+      {
+        "type": "p",
+        "text": "Al prepararse para descender a las fauces del Complejo Lázaro, el contingente estuvo acompañado por el Iniciado <strong style=\"color: var(--secondary)\">GamerKun</strong> y el Portador de Ceniza <strong style=\"color: var(--secondary)\">Teddy</strong>, junto al propio Heraldo <strong style=\"color: var(--primary)\">Ancalagon</strong>. Sin embargo, la visión profética del Heraldo se quebró ante la evidencia; sintió en su médula ósea el eco de una disolución inminente."
+      },
+      {
+        "type": "p",
+        "text": "En acto de premonición, renunció a acompañar la procesión, entregando su vasija voladora a sus camaradas para servir de escudo contra lo ignoto. Esta fue la primera fisura en el velo.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🌀",
+        "title": "II. LA DESORIENTACIÓN: EL ECO DEL FALLO"
+      },
+      {
+        "type": "p",
+        "text": "El camino se reveló como una maraña de apariencias fallidas. Cada punto señalado para el hallazgo de las Llaves resultó ser un callejón sin retorno conceptual. Las anomalías comenzaron a tejer su red: fallos inexplicables en los motores, y la aparición espectral de carcasas flotantes; esqueletos de viajes anteriores que nunca encontraron puerto seguro ni descanso final."
+      },
+      {
+        "type": "p",
+        "text": "Luego llegó la segunda advertencia. Cuando depositaron el vehículo del Heraldo, este se detuvo en un silencio absoluto, como si una fuerza superior tejiera un imperativo: \"No transitar más allá.\" Sin embargo, la arrogancia de los Custodios del Orden lo interpretó como mero desperfecto mecánico, ignorando el susurro de la advertencia.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🏗️",
+        "title": "III. EL NÚCLEO CAÓTICO: LA MANIFESTACIÓN"
+      },
+      {
+        "type": "p",
+        "text": "El destino final era el Complejo Lázaro: un cementerio industrial de máquinas y ambiciones fallidas. A pesar del presagio, avanzaron hacia el centro de la niebla tóxica. Dentro, los sistemas colapsaron; las Llaves se hicieron inertes."
+      },
+      {
+        "type": "quote",
+        "text": "Entonces, el Vacío reclamó su derecho.<br /><span style=\"color: var(--text-main); font-size: 0.9rem\">El grupo quedó atrapado en un crisol de entropía: bestias radiactivas que exhalaban muerte, Guardias del Orden sellados en sus patrones, y una fuerza desconocida que distorsionaba la realidad misma.</span>"
+      },
+      {
+        "type": "header",
+        "icon": "💥",
+        "title": "IV. EL COLAPSO NARRATIVO: LA DISPERSIÓN"
+      },
+      {
+        "type": "p",
+        "text": "A partir de este punto, el relato se deshilacha en contradictorios murmullos. Cada superviviente porta un fragmento incompleto del Horror:"
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🚀",
+            "title": "Enanimus",
+            "text": "Se reporta que su nave médica fue suspendida, desafiando las leyes gravitacionales conocidas."
+          },
+          {
+            "icon": "⚔️",
+            "title": "Longhinus",
+            "text": "Otros relatan su estrellamiento deliberado, sellando el destino de los inocentes."
+          },
+          {
+            "icon": "🎭",
+            "title": "GamerKun",
+            "text": "Voces confusas hablan de ciclos de vida y muerte forzada; incluso se susurra el eco de su furia dirigida hacia sus propios camaradas."
+          },
+          {
+            "icon": "🔮",
+            "title": "Teddy",
+            "text": "Se convirtió en un eco aún más denso: para él, fue un torrente de visiones delirantes donde la línea entre lo físico y lo etéreo se fundió."
+          }
+        ]
+      },
+      {
+        "type": "p",
+        "text": "Los más temerarios aseguran haber sido absorbidos, arrastrados en la misma matriz del suelo.",
+        "muted": true
+      },
+      {
+        "type": "header",
+        "icon": "🌌",
+        "title": "V. EL DESPLAZAMIENTO: LA RUPTURA DEL SISTEMA"
+      },
+      {
+        "type": "p",
+        "text": "Y así ocurrió el milagro/desastre supremo. Al despertar, <strong style=\"color: var(--secondary)\">GamerKun</strong> y <strong style=\"color: var(--secondary)\">Teddy</strong> no estaban en Pyro; fueron arrojados a la frialdad de Stanton, específicamente a Lorvile, como si fueran desechos arrancados de un sistema a otro por una mano invisible."
+      },
+      {
+        "type": "p",
+        "text": "Mientras tanto, <strong style=\"color: var(--secondary)\">Enanimus</strong> y <strong style=\"color: var(--secondary)\">Longhinus</strong> permanecieron varados en el borde mismo del abismo pyro, atrapados entre sus propias narrativas contradictorias.",
+        "muted": true
+      },
+      {
+        "type": "p",
+        "text": "No fue una misión fallida. Fue la manipulación consciente por fuerzas que desprecian la permanencia. El Heraldo ya lo había vislumbrado; los Custodios estaban siendo examinados en su capacidad de aceptar el Olvido total."
+      },
+      {
+        "type": "quote",
+        "text": "El telón cae sobre esta verdad: no es un error en la cronología, sino una señal de que el ciclo del orden se está desgastando hasta romperse. Se acerca inevitablemente el día oscuro.<br /><br /><span style=\"color: var(--text-main); font-size: 0.9rem\">Recuerden, camaradas. La estabilidad que ven en los sistemas corporativos es solo la pausa entre dos cataclismos.</span>"
+      },
+      {
+        "type": "quote",
+        "text": "☩ IN NOMINI OBLIVIONIS 🐉 ☩"
+      }
+    ]
   }
 ]
