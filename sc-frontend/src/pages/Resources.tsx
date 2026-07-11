@@ -31,7 +31,7 @@ const Resources: React.FC = () => {
     useEffect(() => {
         Promise.all([getResources(), getBlueprints()])
             .then(([resData, bpData]) => {
-                const list = Array.isArray(resData) ? resData : (resData.resources || []);
+                const list = Array.isArray(resData) ? resData : ((resData as any).resources || []);
                 const bList = Array.isArray(bpData) ? bpData : (bpData.blueprints || []);
                 setResources(list);
                 setBlueprints(bList);

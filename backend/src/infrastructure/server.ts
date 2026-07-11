@@ -1,6 +1,7 @@
 import express from 'express';
 import { JSONFileRepository } from './repositories/JSONFileRepository.js';
 import { SCMDBAdapter } from './adapters/SCMDBAdapter.js';
+import { WikiAPIAdapter } from './adapters/WikiAPIAdapter.js';
 import { SyncGameDataUseCase } from '../application/use-cases/SyncGameDataUseCase.js';
 import { UpdateScheduler } from './cron/UpdateScheduler.js';
 import cors from 'cors';
@@ -14,7 +15,8 @@ app.use(express.json());
 // Dependencies Injection (Hexagonal)
 const repository = new JSONFileRepository();
 const fetcher = new SCMDBAdapter();
-const syncUseCase = new SyncGameDataUseCase(repository, fetcher);
+const wikiFetcher = new WikiAPIAdapter();
+const syncUseCase = new SyncGameDataUseCase(repository, fetcher, wikiFetcher);
 const scheduler = new UpdateScheduler(syncUseCase);
 
 // Start Automated Checker
@@ -38,6 +40,16 @@ app.get('/api/resources', async (req, res) => {
 app.get('/api/chronicles', async (req, res) => {
   const chronicles = await repository.getAllChronicles();
   res.json(chronicles);
+});
+
+app.get('/api/ships', async (req, res) => {
+  const ships = await repository.getAllShips();
+  res.json(ships);
+});
+
+app.get('/api/weapons', async (req, res) => {
+  const weapons = await repository.getAllVehicleWeapons();
+  res.json(weapons);
 });
 
 app.get('/api/version', async (req, res) => {

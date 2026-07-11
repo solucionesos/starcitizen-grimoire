@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, History, Map as MapIcon, Timer, Play, Pause, RotateCcw, AlertTriangle, Plus, Minus } from 'lucide-react';
 
 // SETTINGS & LOGIC
-const SETTINGS = {
-  initialOpenTime: new Date("2026-03-26T05:11:56.500000Z"),
-  openDurationMs: 3900362,
-  closeDurationMs: 7200667,
-  cycleNumberOffset: 1,
+const DEFAULT_SETTINGS = {
+  initialOpenTime: new Date("2026-07-01T09:42:31.076-04:00"),
+  openDurationMs: 3900094,
+  closeDurationMs: 7200172,
+  cycleNumberOffset: 36,
 };
 
 const TIMER_CATEGORIES = [
@@ -52,24 +52,24 @@ const MAPS_DATA = [
     { id: "pyam-sup", src: "/assets/maps/Supervisor Map.webp", title: "PYAM-SUPVISR-3-4/5", desc: "Sector de tarjeta roja y oficina de seguridad principal." }
 ];
 
-function getCycleDuration() { return SETTINGS.openDurationMs + SETTINGS.closeDurationMs; }
-function getElapsedTime(atTime: Date) { return atTime.getTime() - SETTINGS.initialOpenTime.getTime(); }
-function getTimeInCycle(atTime: Date) {
-  const cd = getCycleDuration();
-  return ((getElapsedTime(atTime) % cd) + cd) % cd;
+function getCycleDuration(settings: any) { return settings.openDurationMs + settings.closeDurationMs; }
+function getElapsedTime(atTime: Date, settings: any) { return atTime.getTime() - settings.initialOpenTime.getTime(); }
+function getTimeInCycle(atTime: Date, settings: any) {
+  const cd = getCycleDuration(settings);
+  return ((getElapsedTime(atTime, settings) % cd) + cd) % cd;
 }
-function getCycleNumber(atTime: Date) {
-  return Math.floor(getElapsedTime(atTime) / getCycleDuration()) + 1 + SETTINGS.cycleNumberOffset;
+function getCycleNumber(atTime: Date, settings: any) {
+  return Math.floor(getElapsedTime(atTime, settings) / getCycleDuration(settings)) + settings.cycleNumberOffset;
 }
 
-function getNextStatusChange(currentTime: Date) {
-  const cd = getCycleDuration();
-  const timeInCurrentCycle = getTimeInCycle(currentTime);
+function getNextStatusChange(currentTime: Date, settings: any) {
+  const cd = getCycleDuration(settings);
+  const timeInCurrentCycle = getTimeInCycle(currentTime, settings);
 
-  if (timeInCurrentCycle < SETTINGS.openDurationMs) {
+  if (timeInCurrentCycle < settings.openDurationMs) {
     return {
       status: "ABIERTA",
-      nextChangeTime: new Date(currentTime.getTime() + (SETTINGS.openDurationMs - timeInCurrentCycle)),
+      nextChangeTime: new Date(currentTime.getTime() + (settings.openDurationMs - timeInCurrentCycle)),
     };
   } else {
     return {
@@ -220,14 +220,18 @@ const Bovedas: React.FC = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [activeTab, setActiveTab] = useState<'horario' | 'timers' | 'mapas'>('horario');
     const [selectedMap, setSelectedMap] = useState(MAPS_DATA[0]);
+    
+    // Configuración dinámica
+    const [settings] = useState(DEFAULT_SETTINGS);
+    const [configMeta] = useState("Versión Local / Xyxyll Sync (Patch 4.8.3-LIVE)");
 
     useEffect(() => {
         const interval = setInterval(() => setCurrentTime(new Date()), 1000);
         return () => clearInterval(interval);
     }, []);
 
-    const { status, nextChangeTime } = getNextStatusChange(currentTime);
-    const cycleNumber = getCycleNumber(currentTime);
+    const { status, nextChangeTime } = getNextStatusChange(currentTime, settings);
+    const cycleNumber = getCycleNumber(currentTime, settings);
     const remainingTimeMs = Math.max(0, nextChangeTime.getTime() - currentTime.getTime());
     const isOnline = status === "ABIERTA";
 
@@ -241,29 +245,29 @@ const Bovedas: React.FC = () => {
             if (cursorStatus === "ABIERTA") {
                 events.push({ type: "CIERRE", time: cursorTime, isOnline: false });
                 cursorStatus = "CERRADA";
-                cursorTime = new Date(cursorTime.getTime() + SETTINGS.closeDurationMs);
+                cursorTime = new Date(cursorTime.getTime() + settings.closeDurationMs);
             } else {
                 events.push({ type: "APERTURA", time: cursorTime, isOnline: true });
                 cursorStatus = "ABIERTA";
-                cursorTime = new Date(cursorTime.getTime() + SETTINGS.openDurationMs);
+                cursorTime = new Date(cursorTime.getTime() + settings.openDurationMs);
             }
         }
 
         const grouped = new Map<number, typeof events>();
         events.forEach(event => {
-            const cycleNum = getCycleNumber(event.time);
+            const cycleNum = getCycleNumber(event.time, settings);
             if (!grouped.has(cycleNum)) grouped.set(cycleNum, []);
             grouped.get(cycleNum)!.push(event);
         });
 
         return Array.from(grouped.entries()).sort(([a], [b]) => a - b).slice(0, 5);
-    }, [nextChangeTime, status, currentTime]);
-
+    }, [nextChangeTime, status, currentTime, settings]);
 
     return (
         <div style={{ padding: '0 2rem' }}>
-            <h1 style={{ color: 'var(--secondary)' }}>Bóvedas del Vacío</h1>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Centro de Logística e Infiltración Estelar de la Flota.</p>
+            <h1 style={{ color: 'var(--secondary)', marginBottom: '0.5rem' }}>Bóvedas del Vacío</h1>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Centro de Logística e Infiltración Estelar de la Flota.</p>
+            <p style={{ color: 'var(--primary)', fontSize: '0.8rem', marginBottom: '2rem' }}>Sincronización: {configMeta}</p>
 
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
                 <button 

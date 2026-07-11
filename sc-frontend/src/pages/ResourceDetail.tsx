@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getResources, getBlueprints } from '../api/client';
-import { MapIcon, Database, ArrowLeft, Zap } from 'lucide-react';
+import { MapIcon, Database, ArrowLeft, Zap, ShoppingCart } from 'lucide-react';
 
 const ResourceDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,7 +14,7 @@ const ResourceDetail: React.FC = () => {
     useEffect(() => {
         Promise.all([getResources(), getBlueprints()])
             .then(([resData, bpData]) => {
-                const list = Array.isArray(resData) ? resData : (resData.resources || []);
+                const list = Array.isArray(resData) ? resData : ((resData as any).resources || []);
                 const bList = Array.isArray(bpData) ? bpData : (bpData.blueprints || []);
                 setResources(list);
                 setBlueprints(bList);
@@ -75,6 +75,37 @@ const ResourceDetail: React.FC = () => {
                                 </div>
                             </div>
                         </div>
+
+                        {resource.description_lore && (
+                            <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(0,0,0,0.3)', borderLeft: '4px solid var(--accent-gold)', fontStyle: 'italic', color: 'var(--text-muted)' }}>
+                                "{resource.description_lore}"
+                            </div>
+                        )}
+
+                        {resource.uex_prices && resource.uex_prices.length > 0 && (
+                            <div style={{ marginTop: '2rem' }}>
+                                <h4 className="accent-amber" style={{ fontSize: '0.9rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    <ShoppingCart size={16} /> PUNTOS DE VENTA (UEX)
+                                </h4>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                    {resource.uex_prices.map((p: any, idx: number) => (
+                                        <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '0.8rem', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <div>
+                                                <div style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>{p.terminal_name}</div>
+                                                {p.starmap_location && (
+                                                    <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>
+                                                        {p.starmap_location.star_system_name} - {p.starmap_location.name}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div style={{ color: 'var(--accent-cyan)', fontWeight: 'bold' }}>
+                                                {p.price_buy ? `${p.price_buy} aUEC` : 'N/A'}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         <div style={{ marginTop: '2rem' }}>
                             <h4 className="accent-amber" style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>TABLA DE SEÑALES (POR CLUSTER):</h4>

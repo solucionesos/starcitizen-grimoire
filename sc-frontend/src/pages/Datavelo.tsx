@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Database, Lock, ShoppingCart } from 'lucide-react';
 import Wikelo from './Wikelo';
 import Bovedas from './Bovedas';
+import DeflectionCalculator from './DeflectionCalculator';
 
 const Datavelo: React.FC = () => {
-    const [activeTab, setActiveTab ] = useState<'bovedas' | 'wikelo'>('bovedas');
+    const [activeTab, setActiveTab ] = useState<'bovedas' | 'wikelo' | 'deflection'>('bovedas');
 
     useEffect(() => {
         document.title = 'Star Grimoire | DATAVELO';
@@ -14,6 +15,7 @@ const Datavelo: React.FC = () => {
     const tabs = [
         { id: 'bovedas', label: 'BÓVEDAS DEL VACÍO', icon: Lock, color: 'var(--accent-silver)' },
         { id: 'wikelo', label: 'EL ESTAFADOR (BANU)', icon: ShoppingCart, color: '#ff4444' },
+        { id: 'deflection', label: 'SIMULADOR DE DEFLEXIÓN', icon: Shield, color: 'var(--accent-cyan)' },
     ];
 
     return (
@@ -114,7 +116,7 @@ const Datavelo: React.FC = () => {
             {/* ── CONTENT ── */}
             <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
                 <AnimatePresence mode="wait">
-                    {activeTab === 'bovedas' ? (
+                    {activeTab === 'bovedas' && (
                         <motion.div
                             key="bovedas"
                             initial={{ opacity: 0, y: 20 }}
@@ -124,7 +126,8 @@ const Datavelo: React.FC = () => {
                         >
                             <Bovedas />
                         </motion.div>
-                    ) : (
+                    )}
+                    {activeTab === 'wikelo' && (
                         <motion.div
                             key="wikelo"
                             initial={{ opacity: 0, y: 20 }}
@@ -133,6 +136,17 @@ const Datavelo: React.FC = () => {
                             transition={{ duration: 0.3 }}
                         >
                             <Wikelo />
+                        </motion.div>
+                    )}
+                    {activeTab === 'deflection' && (
+                        <motion.div
+                            key="deflection"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <DeflectionCalculator />
                         </motion.div>
                     )}
                 </AnimatePresence>

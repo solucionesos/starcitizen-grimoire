@@ -26,7 +26,7 @@ const Recipes: React.FC = () => {
                 const list = Array.isArray(bpsData) ? bpsData : (bpsData.blueprints || []);
                 setRecipes(list);
                 
-                const mList = Array.isArray(msData) ? msData : (msData.missions || []);
+                const mList = Array.isArray(msData) ? msData : ((msData as any).missions || []);
                 const mDict: Record<string, any> = {};
                 mList.forEach((m: any) => { mDict[m.id] = m; });
                 setAllMissions(mDict);

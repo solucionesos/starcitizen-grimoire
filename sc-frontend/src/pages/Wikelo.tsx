@@ -91,7 +91,7 @@ const Wikelo: React.FC = () => {
       fetch('/data/wikelo.json').then(r => r.json())
     ])
       .then(([dbData, configData]) => {
-        setMissionsDB(Array.isArray(dbData) ? dbData : (dbData.missions || []));
+        setMissionsDB(Array.isArray(dbData) ? dbData : ((dbData as any).missions || []));
         setWikeloConfig(configData);
       })
       .catch(err => console.error("Error loading Wikelo data:", err))

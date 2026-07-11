@@ -39,4 +39,16 @@ export class JSONFileRepository implements IGameDataRepository {
     if (!(await fs.pathExists(cronPath))) return [];
     return await fs.readJSON(cronPath);
   }
+
+  async getAllShips(): Promise<any[]> {
+    if (!(await fs.pathExists(this.filePath))) return [];
+    const data = await fs.readJSON(this.filePath);
+    return data.ships || [];
+  }
+
+  async getAllVehicleWeapons(): Promise<any[]> {
+    if (!(await fs.pathExists(this.filePath))) return [];
+    const data = await fs.readJSON(this.filePath);
+    return data.vehicleWeapons || [];
+  }
 }

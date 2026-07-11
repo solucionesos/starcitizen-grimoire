@@ -32,7 +32,7 @@ const Missions: React.FC = () => {
     useEffect(() => {
         getMissions()
             .then(data => {
-                const list = Array.isArray(data) ? data : (data.missions || []);
+                const list = Array.isArray(data) ? data : (data as any).missions || [];
                 setMissions(list);
             })
             .catch(err => console.error('Error loading missions:', err))

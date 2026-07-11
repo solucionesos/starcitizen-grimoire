@@ -41,7 +41,8 @@ export class SCMDBAdapter implements ISCDataFetcher {
 
   async fetchLatestLiveVersion(): Promise<string> {
     const { data } = await axios.get(`${this.baseUrl}/versions.json`);
-    return data[0]?.version || ""; // e.g. "4.7.0-live.11576750"
+    const liveVersion = data.find((v: any) => v.version.toLowerCase().includes('live'));
+    return liveVersion?.version || data[0]?.version || ""; 
   }
 
   async fetchGameData(version: string): Promise<GameData> {
