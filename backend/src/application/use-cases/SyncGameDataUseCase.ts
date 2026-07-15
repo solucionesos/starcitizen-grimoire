@@ -1,12 +1,14 @@
 import { IGameDataRepository } from '../../domain/ports/IGameDataRepository.js';
 import { ISCDataFetcher } from '../../domain/ports/ISCDataFetcher.js';
 import { IWikiDataFetcher } from '../../domain/ports/IWikiDataFetcher.js';
+import { UexAPIAdapter } from '../../infrastructure/adapters/UexAPIAdapter.js';
 
 export class SyncGameDataUseCase {
   constructor(
     private repository: IGameDataRepository,
     private fetcher: ISCDataFetcher,
-    private wikiFetcher?: IWikiDataFetcher
+    private wikiFetcher?: IWikiDataFetcher,
+    private uexFetcher?: UexAPIAdapter
   ) {}
 
   async execute(force = false): Promise<void> {
@@ -22,6 +24,66 @@ export class SyncGameDataUseCase {
 
         gameData.ships = await this.wikiFetcher.fetchShips();
         gameData.vehicleWeapons = await this.wikiFetcher.fetchVehicleWeapons();
+
+        if (this.uexFetcher) {
+            console.log(`[SyncGameDataUseCase] Overwriting prices with UEX API (LIVE data)...`);
+            const uexVehicles = await this.uexFetcher.fetchVehicles();
+            const uexVehiclePrices = await this.uexFetcher.fetchVehiclePurchasePrices();
+
+            // Map UEX vehicle prices by vehicle ID
+            const vehiclePricesMap = new Map<number, any[]>();
+            for (const p of uexVehiclePrices) {
+                if (!vehiclePricesMap.has(p.id_vehicle)) {
+                    vehiclePricesMap.set(p.id_vehicle, []);
+                }
+                vehiclePricesMap.get(p.id_vehicle)!.push(p);
+            }
+
+            // Map UEX vehicle by name/slug to find ID
+            for (const ship of gameData.ships) {
+                // Find matching vehicle in UEX by name (ignoring spaces/case, or partial match)
+                const uexV = uexVehicles.find(v => 
+                    (v.name && ship.name && v.name.toLowerCase() === ship.name.toLowerCase()) || 
+                    (v.name_full && ship.name && v.name_full.toLowerCase().includes(ship.name.toLowerCase()))
+                );
+                
+                if (uexV) {
+                    let shipImage = undefined;
+                    if (uexV.url_photos) {
+                        try {
+                            const photos = JSON.parse(uexV.url_photos);
+                            if (Array.isArray(photos)) {
+                                const rsiImage = photos.find((url: string) => url.includes('robertsspaceindustries.com'));
+                                if (rsiImage) {
+                                    shipImage = rsiImage;
+                                }
+                            }
+                        } catch(e) { }
+                    }
+                    if (shipImage) {
+                        ship.image = shipImage;
+                    }
+                    if (uexV.company_name) {
+                        ship.manufacturer = uexV.company_name;
+                    }
+                    const prices = vehiclePricesMap.get(uexV.id);
+                    if (prices && prices.length > 0) {
+                        ship.uex_prices = prices.map(p => ({
+                            price_buy: p.price_buy,
+                            terminal_name: p.terminal_name,
+                            starmap_location: p.planet_name ? {
+                                name: p.city_name || p.space_station_name || p.outpost_name || p.planet_name,
+                                star_system_name: p.star_system_name
+                            } : undefined
+                        })) as any;
+                    } else {
+                        // Clear if not purchasable in live
+                        ship.uex_prices = [];
+                    }
+                }
+            }
+
+        }
 
         for (const mission of gameData.missions) {
           const wikiMission = await this.wikiFetcher.fetchMissionDetails(mission.name);

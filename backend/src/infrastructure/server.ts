@@ -2,9 +2,11 @@ import express from 'express';
 import { JSONFileRepository } from './repositories/JSONFileRepository.js';
 import { SCMDBAdapter } from './adapters/SCMDBAdapter.js';
 import { WikiAPIAdapter } from './adapters/WikiAPIAdapter.js';
+import { UexAPIAdapter } from './adapters/UexAPIAdapter.js';
 import { SyncGameDataUseCase } from '../application/use-cases/SyncGameDataUseCase.js';
 import { UpdateScheduler } from './cron/UpdateScheduler.js';
 import cors from 'cors';
+import path from 'path';
 
 const app = express();
 const port = 3001;
@@ -13,10 +15,11 @@ app.use(cors());
 app.use(express.json());
 
 // Dependencies Injection (Hexagonal)
-const repository = new JSONFileRepository();
+const repository = new JSONFileRepository(path.join(process.cwd(), 'data', 'db.json'));
 const fetcher = new SCMDBAdapter();
 const wikiFetcher = new WikiAPIAdapter();
-const syncUseCase = new SyncGameDataUseCase(repository, fetcher, wikiFetcher);
+const uexFetcher = new UexAPIAdapter();
+const syncUseCase = new SyncGameDataUseCase(repository, fetcher, wikiFetcher, uexFetcher);
 const scheduler = new UpdateScheduler(syncUseCase);
 
 // Start Automated Checker

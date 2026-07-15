@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Database, Lock, ShoppingCart } from 'lucide-react';
 import Wikelo from './Wikelo';
 import Bovedas from './Bovedas';
-import DeflectionCalculator from './DeflectionCalculator';
 
 const Datavelo: React.FC = () => {
     const [activeTab, setActiveTab ] = useState<'bovedas' | 'wikelo' | 'deflection'>('bovedas');
@@ -12,10 +11,9 @@ const Datavelo: React.FC = () => {
         document.title = 'Star Grimoire | DATAVELO';
     }, []);
 
-    const tabs = [
+        const tabs = [
         { id: 'bovedas', label: 'BÓVEDAS DEL VACÍO', icon: Lock, color: 'var(--accent-silver)' },
         { id: 'wikelo', label: 'EL ESTAFADOR (BANU)', icon: ShoppingCart, color: '#ff4444' },
-        { id: 'deflection', label: 'SIMULADOR DE DEFLEXIÓN', icon: Shield, color: 'var(--accent-cyan)' },
     ];
 
     return (
@@ -136,17 +134,6 @@ const Datavelo: React.FC = () => {
                             transition={{ duration: 0.3 }}
                         >
                             <Wikelo />
-                        </motion.div>
-                    )}
-                    {activeTab === 'deflection' && (
-                        <motion.div
-                            key="deflection"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <DeflectionCalculator />
                         </motion.div>
                     )}
                 </AnimatePresence>

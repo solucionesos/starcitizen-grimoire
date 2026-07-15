@@ -53,6 +53,8 @@ export interface Blueprint {
 export interface Ship {
     id: string;
     name: string;
+    image?: string;
+    manufacturer?: string;
     description: string;
     description_lore?: string;
     deflection?: { physical: number; energy: number };
@@ -62,7 +64,7 @@ export interface Ship {
     speed?: { scm: number; max: number };
     fuel?: { quantum: number; hydrogen: number };
     dimensions?: { length: number; width: number; height: number };
-    component_sizes?: { weapon: number; shield: number };
+    component_sizes?: { weapon: number | string; shield: number | string };
 }
 
 export interface VehicleWeapon {

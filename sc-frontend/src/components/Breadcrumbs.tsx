@@ -21,10 +21,18 @@ const Breadcrumbs: React.FC = () => {
         const pathMapping: Record<string, string> = {
             '/': 'INICIO',
             '/missions': 'EDICTOS',
-            '/mapa': 'MAPA DE OFRENDAS',
-            '/recipes': 'TECNOMILAGROS',
+            '/nexo': 'NEXO ESTELAR',
             '/lore': 'CRÓNICA DE ANCALAGON',
-            '/rituales': 'RITUALES SAGRADOS'
+            '/rituales': 'RITUALES SAGRADOS',
+            '/divinitatus': 'LECTITIO DIVINITATUS',
+            '/datavelo': 'DATAVELO',
+            '/bovedas': 'BÓVEDAS DEL VACÍO',
+            '/codice': 'EL CÓDICE',
+            '/codice/ofrendas': 'OFRENDAS',
+            '/codice/tecnomilagros': 'TECNOMILAGROS',
+            '/codice/arcas-estelares': 'ARCAS ESTELARES',
+            '/codice/armamentos': 'ARMAMENTOS',
+            '/codice/modulos': 'MÓDULOS'
         };
 
         let label = pathMapping[location.pathname] || 'REGISTRO';

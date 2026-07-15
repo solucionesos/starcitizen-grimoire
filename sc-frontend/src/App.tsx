@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import logo from './assets/logo.png';
 import Home from './pages/Home';
@@ -22,15 +22,32 @@ import { AltarProvider, useAltar } from './context/AltarContext';
 import Altar from './pages/Altar';
 import Footer from './components/Footer';
 
+// Codex Pages
+import CodexIndex from './pages/CodexIndex';
+import CodexShips from './pages/CodexShips';
+import CodexWeapons from './pages/CodexWeapons';
+import CodexComponents from './pages/CodexComponents';
+
 
 const NavCartBadge: React.FC<{ closeMenu: () => void }> = ({ closeMenu }) => {
   const { cart } = useAltar();
   const total = cart.reduce((acc, item) => acc + item.quantity, 0);
   return (
     <NavLink to="/altar" className="nav-link" style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })} onClick={closeMenu}>
-      ALTAR [{total}]
+      <div>ALTAR [{total}]</div>
+      <div className="nav-link-sub">Crafting</div>
     </NavLink>
   );
+};
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
 };
 
 const App: React.FC = () => {
@@ -61,6 +78,7 @@ const App: React.FC = () => {
   return (
     <AltarProvider>
       <Router>
+        <ScrollToTop />
         <nav className="glass-card desktop-nav" style={{ margin: '1rem', padding: '1rem 2rem', position: 'sticky', top: '1rem', zIndex: 100 }}>
           <div className="brand brand-header">
             <div className="brand-logo-container">
@@ -74,13 +92,30 @@ const App: React.FC = () => {
           </div>
 
           <div className={`nav-menu ${menuOpen ? 'open' : ''}`}>
-            <NavLink to="/" className="nav-link" onClick={closeMenu}>INICIO</NavLink>
-            <NavLink to="/divinitatus" className="nav-link" style={{ color: 'var(--secondary)' }} onClick={closeMenu}>LECTITIO DIVINITATUS</NavLink>
-            <NavLink to="/nexo" className="nav-link" onClick={closeMenu}>NEXO ESTELAR</NavLink>
-            <NavLink to="/missions" className="nav-link" onClick={closeMenu}>EDICTOS</NavLink>
-            <NavLink to="/mapa" className="nav-link" onClick={closeMenu}>OFRENDAS</NavLink>
-            <NavLink to="/recipes" className="nav-link" onClick={closeMenu}>TECNOMILAGROS</NavLink>
-            <NavLink to="/datavelo" className="nav-link" style={{ color: 'var(--accent-silver)' }} onClick={closeMenu}>DATAVELO</NavLink>
+            <NavLink to="/" className="nav-link" onClick={closeMenu}>
+              <div>INICIO</div>
+              <div className="nav-link-sub">Home</div>
+            </NavLink>
+            <NavLink to="/divinitatus" className="nav-link" style={{ color: 'var(--secondary)' }} onClick={closeMenu}>
+              <div>LECTITIO DIVINITATUS</div>
+              <div className="nav-link-sub">Lore</div>
+            </NavLink>
+            <NavLink to="/nexo" className="nav-link" onClick={closeMenu}>
+              <div>NEXO ESTELAR</div>
+              <div className="nav-link-sub">Mapa</div>
+            </NavLink>
+            <NavLink to="/missions" className="nav-link" onClick={closeMenu}>
+              <div>EDICTOS</div>
+              <div className="nav-link-sub">Misiones</div>
+            </NavLink>
+            <NavLink to="/codice" className="nav-link" onClick={closeMenu}>
+              <div>EL CÓDICE</div>
+              <div className="nav-link-sub">Objetos</div>
+            </NavLink>
+            <NavLink to="/datavelo" className="nav-link" style={{ color: 'var(--accent-silver)' }} onClick={closeMenu}>
+              <div>DATAVELO</div>
+              <div className="nav-link-sub">Datos</div>
+            </NavLink>
             <NavCartBadge closeMenu={closeMenu} />
           </div>
         </nav>
@@ -89,10 +124,14 @@ const App: React.FC = () => {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/recipes" element={<Recipes />} />
+          <Route path="/codice" element={<CodexIndex />} />
+          <Route path="/codice/tecnomilagros" element={<Recipes />} />
+          <Route path="/codice/ofrendas" element={<Resources />} />
+          <Route path="/codice/arcas-estelares" element={<CodexShips />} />
+          <Route path="/codice/armamentos" element={<CodexWeapons />} />
+          <Route path="/codice/modulos" element={<CodexComponents />} />
           <Route path="/missions" element={<Missions />} />
           <Route path="/nexo" element={<StarMap />} />
-          <Route path="/mapa" element={<Resources />} />
           <Route path="/recurso/:id" element={<ResourceDetail />} />
           <Route path="/locacion/:system/:name" element={<LocationDetail />} />
           <Route path="/divinitatus" element={<LectitioDivinitatus />} />
