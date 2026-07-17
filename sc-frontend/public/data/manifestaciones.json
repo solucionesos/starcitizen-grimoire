@@ -169,5 +169,59 @@
     "efecto_jugabilidad": "Aparición masiva de decenas de páginas repletas de extintores (entre 200 y 1,000 unidades) en el almacenamiento local de ciudades principales. Dado que cada extintor se puede vender a 359 aUEC en Dumper's Depot, causó un desbalance y exploit económico masivo que alteró temporalmente la economía interna del juego.",
     "workaround": "No requiere mitigación técnica directa para jugar; los jugadores pueden vender el excedente para liquidarlo de sus inventarios.",
     "estado": "Activo"
+  },
+  {
+    "id": 20,
+    "titulo": "Pérdida de Persistencia en Láseres de Minería Modificados",
+    "issue_council": "STARC-214925",
+    "descripcion": "Fallo en la persistencia de componentes modificados (crafted) al realizar la migración de la base de datos de Long Term Persistence (LTP) a la versión 4.9.0. El sistema no reconoce los atributos modificados de los componentes asegurados tras la actualización.",
+    "efecto_jugabilidad": "Los cabezales de minería modificados (Helix, Hofstede) equipados en naves aseguradas desaparecen por completo del inventario o se revierten a sus variantes estándar de fábrica al realizar una reclamación de seguro de la nave afectada.",
+    "workaround": null,
+    "estado": "Activo"
+  },
+  {
+    "id": 21,
+    "titulo": "Depuración de Inventario de Contenedores en Residencia",
+    "issue_council": "STARC-214902",
+    "descripcion": "Fallo de serialización en el backend de inventario local que provoca la pérdida de metadatos e ítems anidados dentro de cajas y contenedores físicos almacenados en la localización de residencia principal (Home).",
+    "efecto_jugabilidad": "Pérdida total y directa de objetos de valor, conjuntos de armadura, armas personalizadas, gemas y medallas exclusivas guardadas en el interior de cajas de almacenamiento dentro del inventario de la ciudad inicial de spawn al migrar a la versión 4.9.",
+    "workaround": null,
+    "estado": "Activo"
+  },
+  {
+    "id": 22,
+    "titulo": "Fallo de Consulta de Entidad en Terminales de Administración",
+    "issue_council": "STARC-214870",
+    "descripcion": "Inconsistencia de indexación en la base de datos de transacción de commodities que genera el error lógico 'Entity Query Failed' al intentar realizar ventas directas.",
+    "efecto_jugabilidad": "Bloqueo total del comercio de gemas, vegetación o materiales de salvamento (salvage) en las terminales de venta de las oficinas de administración (Admin Kiosks) en múltiples localizaciones como Lorville, GrimHEX y Everus Harbor.",
+    "workaround": "Vender los recursos afectados en terminales secundarias compatibles (ej. terminales de tiendas de armaduras o armas), asumiendo una pérdida significativa en el margen de beneficio respecto a la tasa de venta estándar.",
+    "estado": "Activo"
+  },
+  {
+    "id": 23,
+    "titulo": "Borrado de Minerales Refinados y Degradación de Gemas",
+    "issue_council": "STARC-214823",
+    "descripcion": "Error crítico en el volcado y procesamiento del inventario bajo el protocolo de Long Term Persistence (LTP), el cual omite la persistencia de recursos minerales sueltos y commodities refinadas almacenadas en terminales.",
+    "efecto_jugabilidad": "Desaparición completa de acumulaciones de mineral refinado previas a la versión 4.9. Adicionalmente, las gemas de alta calidad (calidad 900+) que no desaparecen sufren una degradación severa de sus propiedades, reiniciándose sus estadísticas de calidad a valores mínimos.",
+    "workaround": null,
+    "estado": "Activo"
+  },
+  {
+    "id": 24,
+    "titulo": "Inyección Errónea y Duplicación de Armaduras Wikelo",
+    "issue_council": "STARC-214818",
+    "descripcion": "Fallo de lógica en el script de transición de progresión de misiones del sistema LTP, el cual inyecta de forma errónea y repetitiva múltiples conjuntos de armaduras especiales al inventario local del jugador al procesar registros históricos.",
+    "efecto_jugabilidad": "Aparición descontrolada de duplicados de sets de armaduras Wikelo gratuitos en el inventario de la ciudad residencial de aquellos jugadores que completaron previamente al menos la primera misión relacionada. Se reporta adicionalmente una corrupción secundaria que transforma materiales valiosos como perlas y componentes Yormandi en ojos de Marok.",
+    "workaround": null,
+    "estado": "Activo"
+  },
+  {
+    "id": 25,
+    "titulo": "Degradación del Canal de Audio por Saturación de Operaciones",
+    "issue_council": "STARC-214763",
+    "descripcion": "Incapacidad del búfer del controlador de audio del cliente para procesar ráfagas de datos físicos simultáneos durante operaciones complejas en el fragmento.",
+    "efecto_jugabilidad": "Cortes intermitentes de sonido, chasquidos metálicos (crackling) y ausencias prolongadas de audio general durante el uso de rayos tractores en hangares, en transiciones de Quantum Travel, y durante la aproximación a áreas metropolitanas de alta densidad (como New Babbage), acompañados típicamente de bajadas bruscas de rendimiento gráfico.",
+    "workaround": null,
+    "estado": "Activo"
   }
 ]
