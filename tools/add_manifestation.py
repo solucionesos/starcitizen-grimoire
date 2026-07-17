@@ -41,17 +41,18 @@ def list_manifestations(data):
     if not data:
         print("\n--- No hay anomalías registradas ---")
         return
-    print("\n" + "="*80)
-    print(f"{'ID':<4} | {'ISSUE COUNCIL':<14} | {'TÍTULO':<50}")
-    print("="*80)
+    print("\n" + "="*95)
+    print(f"{'ID':<4} | {'ESTADO':<10} | {'ISSUE COUNCIL':<14} | {'TÍTULO':<50}")
+    print("="*95)
     for item in data:
         ic = item.get("issue_council") or "N/A"
+        estado = item.get("estado") or "Activo"
         titulo = item.get("titulo", "")
         # Recortar título si es muy largo
         if len(titulo) > 47:
             titulo = titulo[:44] + "..."
-        print(f"{item['id']:<4} | {ic:<14} | {titulo:<50}")
-    print("="*80)
+        print(f"{item['id']:<4} | {estado:<10} | {ic:<14} | {titulo:<50}")
+    print("="*95)
 
 def add_manifestation(data):
     print("\n--- REGISTRAR NUEVA ANOMALÍA ---")
@@ -78,18 +79,26 @@ def add_manifestation(data):
     work_input = input("Workaround / Mitigación (Enter si no hay solución): ").strip()
     workaround = work_input if work_input else None
 
+    # Estado input
+    print("\nSeleccione el Estado:")
+    print("1. Activo (Predeterminado)")
+    print("2. Resuelto")
+    est_choice = input("Opción (1-2): ").strip()
+    estado = "Resuelto" if est_choice == "2" else "Activo"
+
     new_item = {
         "id": next_id,
         "titulo": titulo,
         "issue_council": issue_council,
         "descripcion": descripcion,
         "efecto_jugabilidad": efecto,
-        "workaround": workaround
+        "workaround": workaround,
+        "estado": estado
     }
 
     data.append(new_item)
     save_data(data)
-    print(f"[OK] Anomalía '{titulo}' agregada con éxito.")
+    print(f"[OK] Anomalía '{titulo}' agregada con éxito con estado '{estado}'.")
 
 def edit_manifestation(data):
     print("\n--- EDITAR ANOMALÍA EXISTENTE ---")
@@ -139,6 +148,17 @@ def edit_manifestation(data):
     if work_input:
         target_item["workaround"] = None if work_input.upper() in ["NINGUNO", "N/A"] else work_input
 
+    # Editar Estado
+    current_est = target_item.get("estado") or "Activo"
+    print(f"Estado actual: {current_est}")
+    print("1. Activo")
+    print("2. Resuelto")
+    est_input = input("Seleccione nuevo estado (1-2 o Enter para omitir): ").strip()
+    if est_input == "1":
+        target_item["estado"] = "Activo"
+    elif est_input == "2":
+        target_item["estado"] = "Resuelto"
+
     save_data(data)
     print(f"[OK] Anomalía #{target_id} actualizada.")
 
@@ -175,7 +195,7 @@ def main():
 
     while True:
         print("\nMenú de Opciones:")
-        print("1. Listar todas las anomalías activas")
+        print("1. Listar todas las anomalías activas/resueltas")
         print("2. Registrar nueva anomalía")
         print("3. Editar anomalía existente")
         print("4. Eliminar/Resolver anomalía")

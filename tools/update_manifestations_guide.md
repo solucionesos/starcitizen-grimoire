@@ -64,7 +64,8 @@ Cada entrada en la lista debe cumplir estrictamente con el siguiente esquema:
     "issue_council": "STARC-XXXXXX", // Código del caso o null si es un fallo generalizado sin ID unificado
     "descripcion": "Detalle técnico de qué ocurre a nivel de servidor o motor de persistencia.",
     "efecto_jugabilidad": "Cómo afecta esto a la experiencia de juego de los operadores de la org.",
-    "workaround": "Pasos detallados para evadir o solucionar temporalmente el fallo en el entorno LIVE. Si no existe, escribir null."
+    "workaround": "Pasos detallados para evadir o solucionar temporalmente el fallo en el entorno LIVE. Si no existe, escribir null.",
+    "estado": "Activo" // O "Resuelto" según sea el caso
   }
 ```
 

@@ -9,13 +9,15 @@ interface Manifestation {
   descripcion: string;
   efecto_jugabilidad: string;
   workaround: string | null;
+  estado?: string;
 }
 
 const FILTER_TYPES = [
   { id: 'Todos', label: 'TODAS LAS ANOMALÍAS', icon: Filter, color: 'var(--text-main)' },
+  { id: 'Activo', label: 'ACTIVOS', icon: AlertTriangle, color: 'var(--primary)' },
+  { id: 'Resuelto', label: 'RESUELTOS', icon: CheckCircle2, color: '#10b981' },
   { id: 'ConWorkaround', label: 'CON MITIGACIÓN', icon: Wrench, color: 'var(--secondary)' },
   { id: 'ConIssueCouncil', label: 'REPORTADAS EN IC', icon: ExternalLink, color: 'var(--primary)' },
-  { id: 'SinWorkaround', label: 'SIN SOLUCIÓN', icon: AlertOctagon, color: '#ef4444' },
 ];
 
 const Manifestaciones: React.FC = () => {
@@ -42,11 +44,13 @@ const Manifestaciones: React.FC = () => {
       result = result.filter(item => item.workaround && !item.workaround.includes("No requiere"));
     } else if (activeFilter === 'ConIssueCouncil') {
       result = result.filter(item => item.issue_council !== null);
-    } else if (activeFilter === 'SinWorkaround') {
-      result = result.filter(item => !item.workaround || item.workaround.includes("No requiere"));
+    } else if (activeFilter === 'Activo') {
+      result = result.filter(item => (item.estado || 'Activo').toLowerCase() === 'activo');
+    } else if (activeFilter === 'Resuelto') {
+      result = result.filter(item => (item.estado || '').toLowerCase() === 'resuelto');
     }
 
-    // Apply Search Query
+    // Apply Search Query (Searches EVERY field)
     if (searchQuery.trim() !== '') {
       const q = searchQuery.toLowerCase();
       result = result.filter(item =>
@@ -54,7 +58,8 @@ const Manifestaciones: React.FC = () => {
         (item.descripcion || '').toLowerCase().includes(q) ||
         (item.efecto_jugabilidad || '').toLowerCase().includes(q) ||
         (item.workaround || '').toLowerCase().includes(q) ||
-        (item.issue_council || '').toLowerCase().includes(q)
+        (item.issue_council || '').toLowerCase().includes(q) ||
+        (item.estado || 'Activo').toLowerCase().includes(q)
       );
     }
 
@@ -63,6 +68,18 @@ const Manifestaciones: React.FC = () => {
 
   return (
     <div style={{ padding: '0 2rem' }}>
+      {/* Dynamic Keyframe style injector for premium pulse effect */}
+      <style>{`
+        @keyframes custom-pulse {
+          0% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.2); }
+          100% { opacity: 0.4; transform: scale(1); }
+        }
+        .blinking-dot {
+          animation: custom-pulse 1.8s infinite ease-in-out;
+        }
+      `}</style>
+
       {/* ── HEADER ── */}
       <div style={{ marginBottom: '2rem', borderBottom: '1px solid rgba(196,30,58,0.2)', paddingBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
@@ -81,11 +98,11 @@ const Manifestaciones: React.FC = () => {
       {/* ── CONTROLS ── */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2.5rem' }}>
         {/* Search Input */}
-        <div style={{ position: 'relative', width: '100%', maxWidth: '600px' }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: '750px' }}>
           <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             type="text"
-            placeholder="Buscar anomalías por título, descripción, Issue Council ID o mitigación..."
+            placeholder="Buscar por título, descripción, Issue Council, mitigación o estado (Activo/Resuelto)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
@@ -123,8 +140,10 @@ const Manifestaciones: React.FC = () => {
               count = data.filter(item => item.workaround && !item.workaround.includes("No requiere")).length;
             } else if (filter.id === 'ConIssueCouncil') {
               count = data.filter(item => item.issue_council !== null).length;
-            } else if (filter.id === 'SinWorkaround') {
-              count = data.filter(item => !item.workaround || item.workaround.includes("No requiere")).length;
+            } else if (filter.id === 'Activo') {
+              count = data.filter(item => (item.estado || 'Activo').toLowerCase() === 'activo').length;
+            } else if (filter.id === 'Resuelto') {
+              count = data.filter(item => (item.estado || '').toLowerCase() === 'resuelto').length;
             }
 
             return (
@@ -183,136 +202,172 @@ const Manifestaciones: React.FC = () => {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', gap: '1.5rem' }}>
           <AnimatePresence>
-            {filteredData.map((item) => (
-              <motion.div
-                layout
-                key={item.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-                className="glass-card"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  height: '100%',
-                  boxSizing: 'border-box'
-                }}
-              >
-                <div>
-                  {/* Badges / Header */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', gap: '0.5rem' }}>
-                    <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--text-muted)' }}>
-                      CASO #{item.id.toString().padStart(3, '0')}
-                    </span>
-                    {item.issue_council ? (
-                      <a
-                        href={`https://issue-council.robertsspaceindustries.com/projects/STAR-CITIZEN/issues/${item.issue_council}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          textDecoration: 'none',
-                          display: 'flex',
+            {filteredData.map((item) => {
+              const isResuelto = (item.estado || 'Activo').toLowerCase() === 'resuelto';
+              return (
+                <motion.div
+                  layout
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  className="glass-card"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '100%',
+                    boxSizing: 'border-box',
+                    borderLeft: isResuelto ? '2px solid #10b981' : '2px solid var(--primary)'
+                  }}
+                >
+                  <div>
+                    {/* Badges / Header */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                        <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--text-muted)' }}>
+                          CASO #{item.id.toString().padStart(3, '0')}
+                        </span>
+                        
+                        {/* Estado Badge */}
+                        <span style={{
+                          fontSize: '0.65rem',
+                          fontFamily: 'var(--cinzel-font)',
+                          letterSpacing: '1px',
+                          fontWeight: 'bold',
+                          padding: '0.1rem 0.5rem',
+                          borderRadius: '3px',
+                          background: isResuelto ? 'rgba(16,185,129,0.15)' : 'rgba(196,30,58,0.15)',
+                          border: '1px solid',
+                          borderColor: isResuelto ? '#10b981' : 'var(--primary)',
+                          color: isResuelto ? '#34d399' : '#ff8888',
+                          display: 'inline-flex',
                           alignItems: 'center',
-                          gap: '0.3rem',
-                          background: 'rgba(196,30,58,0.15)',
-                          border: '1px solid rgba(196,30,58,0.4)',
-                          color: '#ff8888',
+                          gap: '0.3rem'
+                        }}>
+                          <span 
+                            className={isResuelto ? "" : "blinking-dot"}
+                            style={{
+                              width: '5px',
+                              height: '5px',
+                              borderRadius: '50%',
+                              background: isResuelto ? '#10b981' : 'var(--primary)',
+                              display: 'inline-block'
+                            }} 
+                          />
+                          {item.estado || 'Activo'}
+                        </span>
+                      </div>
+
+                      {item.issue_council ? (
+                        <a
+                          href={`https://issue-council.robertsspaceindustries.com/projects/STAR-CITIZEN/issues/${item.issue_council}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            textDecoration: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.3rem',
+                            background: 'rgba(196,30,58,0.15)',
+                            border: '1px solid rgba(196,30,58,0.4)',
+                            color: '#ff8888',
+                            padding: '0.2rem 0.6rem',
+                            borderRadius: '4px',
+                            fontSize: '0.75rem',
+                            fontFamily: 'monospace',
+                            transition: 'all 0.3s ease',
+                            fontWeight: 'bold'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(196,30,58,0.3)';
+                            e.currentTarget.style.borderColor = 'var(--primary)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'rgba(196,30,58,0.15)';
+                            e.currentTarget.style.borderColor = 'rgba(196,30,58,0.4)';
+                          }}
+                        >
+                          <span>{item.issue_council}</span>
+                          <ExternalLink size={12} />
+                        </a>
+                      ) : (
+                        <span style={{
+                          background: 'rgba(255,255,255,0.05)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          color: 'var(--text-muted)',
                           padding: '0.2rem 0.6rem',
                           borderRadius: '4px',
                           fontSize: '0.75rem',
-                          fontFamily: 'monospace',
-                          transition: 'all 0.3s ease',
-                          fontWeight: 'bold'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = 'rgba(196,30,58,0.3)';
-                          e.currentTarget.style.borderColor = 'var(--primary)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'rgba(196,30,58,0.15)';
-                          e.currentTarget.style.borderColor = 'rgba(196,30,58,0.4)';
-                        }}
-                      >
-                        <span>{item.issue_council}</span>
-                        <ExternalLink size={12} />
-                      </a>
+                          fontFamily: 'monospace'
+                        }}>
+                          SIN CÓDIGO IC (N/A)
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <h3 style={{
+                      color: isResuelto ? '#34d399' : 'var(--secondary)',
+                      fontSize: '1.2rem',
+                      marginBottom: '1rem',
+                      lineHeight: '1.4',
+                      fontFamily: 'var(--cinzel-font)',
+                      letterSpacing: '1px',
+                      borderBottom: '1px solid rgba(255,255,255,0.05)',
+                      paddingBottom: '0.5rem',
+                      textTransform: 'uppercase'
+                    }}>
+                      {item.titulo}
+                    </h3>
+
+                    {/* Description */}
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-main)', lineHeight: '1.5', marginBottom: '1.2rem' }}>
+                      {item.descripcion}
+                    </p>
+
+                    {/* Gameplay Effect */}
+                    <div style={{ background: 'rgba(239,68,68,0.03)', border: '1px solid rgba(239,68,68,0.1)', borderRadius: '4px', padding: '0.8rem 1rem', marginBottom: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', color: '#f87171', fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'var(--cinzel-font)', letterSpacing: '1px' }}>
+                        <AlertOctagon size={14} />
+                        <span>Efecto en la Jugabilidad</span>
+                      </div>
+                      <p style={{ margin: 0, fontSize: '0.85rem', color: '#fca5a5', lineHeight: '1.5' }}>
+                        {item.efecto_jugabilidad}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Workaround */}
+                  <div style={{
+                    background: item.workaround && !item.workaround.includes("No requiere") ? 'rgba(212,175,55,0.03)' : 'rgba(16,185,129,0.03)',
+                    border: '1px solid',
+                    borderColor: item.workaround && !item.workaround.includes("No requiere") ? 'rgba(212,175,55,0.15)' : 'rgba(16,185,129,0.15)',
+                    borderRadius: '4px',
+                    padding: '0.8rem 1rem',
+                    marginTop: '0.5rem'
+                  }}>
+                    {item.workaround && !item.workaround.includes("No requiere") ? (
+                      <>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', color: 'var(--secondary)', fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'var(--cinzel-font)', letterSpacing: '1px' }}>
+                          <Wrench size={14} />
+                          <span>Protocolo de Mitigación (Workaround)</span>
+                        </div>
+                        <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-main)', lineHeight: '1.5' }}>
+                          {item.workaround}
+                        </p>
+                      </>
                     ) : (
-                      <span style={{
-                        background: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        color: 'var(--text-muted)',
-                        padding: '0.2rem 0.6rem',
-                        borderRadius: '4px',
-                        fontSize: '0.75rem',
-                        fontFamily: 'monospace'
-                      }}>
-                        SIN CÓDIGO IC (N/A)
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#34d399', fontSize: '0.85rem', lineHeight: '1.5' }}>
+                        <CheckCircle2 size={16} style={{ flexShrink: 0 }} />
+                        <span>{item.workaround || "No requiere mitigación activa por parte del operador de la flota."}</span>
+                      </div>
                     )}
                   </div>
-
-                  {/* Title */}
-                  <h3 style={{
-                    color: 'var(--secondary)',
-                    fontSize: '1.2rem',
-                    marginBottom: '1rem',
-                    lineHeight: '1.4',
-                    fontFamily: 'var(--cinzel-font)',
-                    letterSpacing: '1px',
-                    borderBottom: '1px solid rgba(255,255,255,0.05)',
-                    paddingBottom: '0.5rem',
-                    textTransform: 'uppercase'
-                  }}>
-                    {item.titulo}
-                  </h3>
-
-                  {/* Description */}
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-main)', lineHeight: '1.5', marginBottom: '1.2rem' }}>
-                    {item.descripcion}
-                  </p>
-
-                  {/* Gameplay Effect */}
-                  <div style={{ background: 'rgba(239,68,68,0.03)', border: '1px solid rgba(239,68,68,0.1)', borderRadius: '4px', padding: '0.8rem 1rem', marginBottom: '1rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', color: '#f87171', fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'var(--cinzel-font)', letterSpacing: '1px' }}>
-                      <AlertOctagon size={14} />
-                      <span>Efecto en la Jugabilidad</span>
-                    </div>
-                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#fca5a5', lineHeight: '1.5' }}>
-                      {item.efecto_jugabilidad}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Workaround */}
-                <div style={{
-                  background: item.workaround && !item.workaround.includes("No requiere") ? 'rgba(212,175,55,0.03)' : 'rgba(16,185,129,0.03)',
-                  border: '1px solid',
-                  borderColor: item.workaround && !item.workaround.includes("No requiere") ? 'rgba(212,175,55,0.15)' : 'rgba(16,185,129,0.15)',
-                  borderRadius: '4px',
-                  padding: '0.8rem 1rem',
-                  marginTop: '0.5rem'
-                }}>
-                  {item.workaround && !item.workaround.includes("No requiere") ? (
-                    <>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', color: 'var(--secondary)', fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'var(--cinzel-font)', letterSpacing: '1px' }}>
-                        <Wrench size={14} />
-                        <span>Protocolo de Mitigación (Workaround)</span>
-                      </div>
-                      <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-main)', lineHeight: '1.5' }}>
-                        {item.workaround}
-                      </p>
-                    </>
-                  ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#34d399', fontSize: '0.85rem', lineHeight: '1.5' }}>
-                      <CheckCircle2 size={16} style={{ flexShrink: 0 }} />
-                      <span>{item.workaround || "No requiere mitigación activa por parte del operador de la flota."}</span>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </div>
       )}
