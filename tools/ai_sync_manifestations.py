@@ -2,7 +2,7 @@
 """
 ai_sync_manifestations.py
 =========================
-Actualiza automáticamente la tabla de manifestaciones del vacío utilizando la API de Gemini.
+Actualiza automáticamente la tabla de manifestaciones del vacío utilizando la API de Gemini (versión 3.5).
 Compara el JSON actual con un reporte de parches, notas de CIG o publicaciones de Reddit
 para agregar nuevos bugs, actualizar workarounds y marcar como "Resueltos" aquellos que
 hayan sido corregidos.
@@ -16,6 +16,20 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent
 JSON_PATH = SCRIPT_DIR.parent / "sc-frontend" / "public" / "data" / "manifestaciones.json"
+
+def load_env():
+    # Intenta cargar variables desde .env en tools o raíz del proyecto
+    for env_path in [SCRIPT_DIR / ".env", SCRIPT_DIR.parent / ".env"]:
+        if env_path.exists():
+            try:
+                with open(env_path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith("#") and "=" in line:
+                            k, v = line.split("=", 1)
+                            os.environ[k.strip()] = v.strip()
+            except Exception:
+                pass
 
 def get_current_version():
     try:
@@ -46,7 +60,8 @@ def save_json(data):
         print(f"[ERROR] No se pudo guardar el JSON: {e}")
 
 def call_gemini(api_key, current_json, version, source_text):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    # Usando el modelo Gemini 3.5 Flash solicitado
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
     headers = {"Content-Type": "application/json"}
     
     prompt = f"""
@@ -104,7 +119,7 @@ def call_gemini(api_key, current_json, version, source_text):
     
     req = urllib.request.Request(url, data=json.dumps(data).encode("utf-8"), headers=headers, method="POST")
     try:
-        print("[AI] Procesando reporte con Gemini AI...")
+        print("[AI] Procesando reporte con Gemini 3.5 AI...")
         with urllib.request.urlopen(req) as response:
             res_data = json.loads(response.read().decode("utf-8"))
             raw_text = res_data["candidates"][0]["content"]["parts"][0]["text"]
@@ -129,15 +144,12 @@ def fetch_url(url):
         print(f"[Descarga] Obteniendo contenido de {url}...")
         with urllib.request.urlopen(req, timeout=10) as response:
             html = response.read().decode("utf-8", errors="ignore")
-            # Un formateador básico para extraer texto de páginas web
-            # Si es JSON, lo decodifica y formatea
             try:
                 js = json.loads(html)
                 return json.dumps(js, indent=2, ensure_ascii=False)
             except Exception:
                 pass
             
-            # Limpiar etiquetas HTML básicas si es HTML para no saturar tokens
             import re
             text = re.sub(r'<script.*?</script>', '', html, flags=re.DOTALL)
             text = re.sub(r'<style.*?</style>', '', text, flags=re.DOTALL)
@@ -149,15 +161,28 @@ def fetch_url(url):
         return None
 
 def run_ai_sync():
-    print("\n=== SINCRONIZACIÓN INTELIGENTE DE ANOMALÍAS (GEMINI AI) ===")
+    print("\n=== SINCRONIZACIÓN INTELIGENTE DE ANOMALÍAS (GEMINI 3.5) ===")
     
-    # Cargar API Key
+    # Cargar API Key desde archivo .env si existe
+    load_env()
+    
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         api_key = input("Ingrese su API Key de Gemini: ").strip()
         if not api_key:
             print("[ERROR] Se requiere una API Key de Gemini para este proceso.")
             return
+        
+        # Registrar y guardar la API key para futuras ejecuciones
+        save_key = input("¿Desea registrar/guardar esta API Key localmente en la app para futuras ejecuciones? (s/n): ").strip().lower()
+        if save_key == "s":
+            try:
+                env_path = SCRIPT_DIR / ".env"
+                with open(env_path, "w", encoding="utf-8") as f:
+                    f.write(f"GEMINI_API_KEY={api_key}\n")
+                print(f"[OK] API Key registrada y guardada en {env_path.name}")
+            except Exception as e:
+                print(f"[WARN] No se pudo guardar la API Key: {e}")
 
     # Cargar base de datos actual
     current_json = load_json()
@@ -195,7 +220,7 @@ def run_ai_sync():
         print("[ERROR] El texto del reporte está vacío o es muy corto.")
         return
 
-    # Ejecutar AI
+    # Ejecutar AI con el modelo 3.5
     updated_data = call_gemini(api_key, current_json, version, source_text)
     
     if updated_data and isinstance(updated_data, list):
