@@ -2,23 +2,37 @@
 """
 ai_sync_manifestations.py
 =========================
-Actualiza automáticamente la tabla de manifestaciones del vacío utilizando la API de Gemini (versión 3.5).
-Compara el JSON actual con un reporte de parches, notas de CIG o publicaciones de Reddit
-para agregar nuevos bugs, actualizar workarounds y marcar como "Resueltos" aquellos que
-hayan sido corregidos.
+Actualiza automáticamente la tabla de manifestaciones del vacío utilizando la API de Gemini (versión 3.5)
+y Playwright para realizar el scraping del Issue Council de RSI (https://issue-council.robertsspaceindustries.com).
+
+Se autentica usando una sesión persistente, navega, busca bugs de la versión activa, extrae los detalles
+y usa IA para correlacionar, traducir y actualizar el JSON final.
 """
 
 import os
+import sys
 import json
+import subprocess
 import urllib.request
 import urllib.error
 from pathlib import Path
 
+# Instalar dependencias necesarias automáticamente si faltan
+try:
+    from playwright.async_api import async_playwright, Page, TimeoutError as PWTimeout
+except ImportError:
+    print("[Playwright] Instalando dependencia 'playwright'...")
+    subprocess.run([sys.executable, "-m", "pip", "install", "playwright"], check=True)
+    subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
+    from playwright.async_api import async_playwright, Page, TimeoutError as PWTimeout
+
+import asyncio
+
 SCRIPT_DIR = Path(__file__).parent
 JSON_PATH = SCRIPT_DIR.parent / "sc-frontend" / "public" / "data" / "manifestaciones.json"
+AUTH_STATE_PATH = SCRIPT_DIR / "auth_state.json"
 
 def load_env():
-    # Intenta cargar variables desde .env en tools o raíz del proyecto
     for env_path in [SCRIPT_DIR / ".env", SCRIPT_DIR.parent / ".env"]:
         if env_path.exists():
             try:
@@ -51,7 +65,6 @@ def load_json():
 
 def save_json(data):
     try:
-        # Ordenar por ID para consistencia
         data = sorted(data, key=lambda x: x["id"])
         with open(JSON_PATH, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
@@ -59,14 +72,96 @@ def save_json(data):
     except Exception as e:
         print(f"[ERROR] No se pudo guardar el JSON: {e}")
 
-def call_gemini(api_key, current_json, version, source_text):
-    # Usando el modelo Gemini 3.5 Flash solicitado
+async def handle_authentication(playwright):
+    browser = await playwright.chromium.launch(headless=False)
+    context = await browser.new_context()
+    page = await context.new_page()
+    
+    print("\n" + "="*80)
+    print("INICIO DE SESIÓN EN ISSUE COUNCIL (REQUISITO ÚNICO)")
+    print("="*80)
+    print("Se abrirá una ventana de navegador.")
+    print("1. Por favor, inicie sesión con su cuenta de RSI y complete el código MFA.")
+    print("2. Permanezca en la página una vez que haya ingresado con éxito.")
+    print("3. Vuelva a esta consola de comandos y presione Enter para registrar sus credenciales.")
+    print("="*80 + "\n")
+    
+    await page.goto("https://issue-council.robertsspaceindustries.com/projects/STAR-CITIZEN/issues")
+    
+    input("Presione ENTER en esta consola después de haber iniciado sesión con éxito en el navegador...")
+    
+    # Guardar cookies y almacenamiento local
+    await context.storage_state(path=str(AUTH_STATE_PATH))
+    print(f"[OK] Credenciales registradas exitosamente en {AUTH_STATE_PATH.name}")
+    await browser.close()
+
+async def scrape_issue_council(version_query):
+    async with async_playwright() as p:
+        # Verificar si existe estado de autenticación
+        if not AUTH_STATE_PATH.exists():
+            await handle_authentication(p)
+            
+        print("[Scraper] Iniciando navegador en modo oculto (headless)...")
+        browser = await p.chromium.launch(headless=True)
+        
+        # Cargar contexto con sesión iniciada
+        context = await browser.new_context(storage_state=str(AUTH_STATE_PATH))
+        page = await context.new_page()
+        
+        # Buscar bugs activos filtrando por la versión actual
+        search_url = f"https://issue-council.robertsspaceindustries.com/projects/STAR-CITIZEN/issues?search={version_query}&statuses=confirmed,investigating,under_investigation"
+        print(f"[Scraper] Buscando incidencias activas en URL:\n          {search_url}")
+        
+        try:
+            await page.goto(search_url, wait_until="networkidle", timeout=30000)
+        except Exception:
+            # Reintentar si falla la carga completa de red
+            await page.goto(search_url, wait_until="domcontentloaded")
+            
+        await page.wait_for_timeout(3000)
+        
+        # Extraer todos los enlaces de la página y filtrar aquellos con formato STARC-XXXXXX
+        print("[Scraper] Escaneando enlaces de incidencias...")
+        hrefs = await page.evaluate("""
+            () => Array.from(document.querySelectorAll('a'))
+                       .map(a => a.href)
+                       .filter(href => href.includes('/issues/STARC-'))
+        """)
+        
+        # Deduplicar enlaces
+        unique_urls = list(set(hrefs))
+        print(f"[Scraper] Encontrados {len(unique_urls)} reportes de bugs únicos.")
+        
+        scraped_bugs = []
+        # Limitar la extracción a los primeros 10 bugs para optimizar tiempo y cuota de API
+        target_urls = unique_urls[:10]
+        
+        for idx, bug_url in enumerate(target_urls):
+            print(f"[Scraper] ({idx+1}/{len(target_urls)}) Extrayendo contenido de: {bug_url.split('/')[-1]}")
+            try:
+                await page.goto(bug_url, wait_until="domcontentloaded", timeout=15000)
+                await page.wait_for_timeout(2000)
+                
+                # Obtener el texto completo de la página
+                page_text = await page.evaluate("() => document.body.innerText")
+                scraped_bugs.append({
+                    "url": bug_url,
+                    "id_ic": bug_url.split('/')[-1],
+                    "content": page_text
+                })
+            except Exception as e:
+                print(f"[WARN] Error al acceder a la incidencia {bug_url}: {e}")
+                
+        await browser.close()
+        return scraped_bugs
+
+def call_gemini_update(api_key, current_json, version, scraped_data):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
     headers = {"Content-Type": "application/json"}
     
     prompt = f"""
     Eres un analista de aseguramiento de calidad (QA) y sistemas de Star Citizen para la org de juego 'Ancalagon Oblivion Fleet'.
-    Tu tarea es procesar un texto de reporte (patch notes, hilos de Reddit, reportes de bugs) para actualizar una base de datos JSON de 'Manifestaciones del Vacío' (regresiones y fallos de la versión {version} de Star Citizen).
+    Tu tarea es procesar el contenido de texto extraído directamente de múltiples incidencias del Issue Council para actualizar una base de datos JSON de 'Manifestaciones del Vacío' (regresiones y fallos de la versión {version} de Star Citizen).
 
     Datos de entrada:
     1. Base de datos JSON actual:
@@ -74,27 +169,26 @@ def call_gemini(api_key, current_json, version, source_text):
 
     2. Compilación del juego analizada: {version}
 
-    3. Texto del nuevo reporte / fuente:
-    ---
-    {source_text}
-    ---
+    3. Incidencias extraídas (Issue Council):
+    {json.dumps(scraped_data, ensure_ascii=False, indent=2)}
 
     Instrucciones de procesamiento:
-    1. Analiza el Texto del nuevo reporte para identificar fallos técnicos, regresiones críticas, bugs o menciones de corrección de errores (fixes) que apliquen a la versión {version} o superiores.
-    2. Compara los hallazgos con la Base de datos JSON actual:
-       - Si identificas que un bug del reporte ya existe en el JSON (coincide por título, descripción o código STARC de Issue Council):
-         - Si el reporte indica que fue CORREGIDO, SOLUCIONADO o ARREGLADO ("fixed", "resolved"), cambia su "estado" a "Resuelto".
-         - Si sigue activo, mantén su estado como "Activo", pero enriquece o corrige la "descripcion", "efecto_jugabilidad" o "workaround" si el nuevo reporte aporta mejores contramedidas o detalles.
-       - Si identificas un nuevo bug o regresión que NO existe en el JSON actual:
-         - Añádelo a la lista con un nuevo ID consecutivo (comenzando después del ID más alto del JSON actual).
+    1. Lee cada incidencia provista en los datos extraídos (que contiene el ID de Issue Council y el texto de la página).
+    2. Compara cada una con la Base de datos JSON actual:
+       - Si identificas que la incidencia ya existe en el JSON (coincide con el código de "issue_council"):
+         - Si del texto se infiere que ya fue solucionada/corregida ("Fixed", "Resolved" o notas de parches), cambia su "estado" a "Resuelto".
+         - Si sigue activa, mantén su estado como "Activo", pero enriquece o corrige la "descripcion", "efecto_jugabilidad" o "workaround" basándote en la información real extraída.
+       - Si identificas una incidencia que NO existe en el JSON actual y es relevante para la versión {version} o superior:
+         - Añádela a la lista con un nuevo ID consecutivo (comenzando después del ID más alto del JSON actual).
          - Asígnale un "titulo" claro y formal en español.
          - Escribe una "descripcion" técnica de la causa en el motor/servidor.
          - Escribe su "efecto_jugabilidad" (el impacto para los operadores).
-         - Si hay pasos descritos para mitigar el error, redacta un "workaround" detallado. Si no hay solución viable, escribe null.
-         - Asígnale el código "issue_council" de RSI (ej. STARC-XXXXXX) si el reporte lo menciona; si no, escribe null.
+         - Escribe un "workaround" detallado si hay soluciones temporales mencionadas en la página (consejos de usuarios, etc.). Si no hay solución viable, escribe null.
+         - Asígnale su código de "issue_council" real (ej. STARC-XXXXXX).
          - Asígnale el estado "Activo".
-    3. Para aquellos bugs del JSON actual que NO se mencionen en el nuevo texto de reporte, manténlos exactamente igual en la lista (no los elimines ni alteres).
-    4. Genera el resultado final como una lista JSON válida de objetos que respeten la estructura:
+    3. Revisa la lista de bugs en el JSON actual: si el texto extraído indica que alguna de ellas ha cambiado su estado a corregido o cerrado, actualízalo a "Resuelto".
+    4. Para aquellos bugs del JSON actual que no tengan correspondencia en el reporte extraído, manténlos exactamente igual en la lista (no los elimines ni alteres).
+    5. Genera el resultado final como una lista JSON válida de objetos que respeten la estructura:
        - id (entero)
        - titulo (cadena)
        - issue_council (cadena o null)
@@ -119,7 +213,7 @@ def call_gemini(api_key, current_json, version, source_text):
     
     req = urllib.request.Request(url, data=json.dumps(data).encode("utf-8"), headers=headers, method="POST")
     try:
-        print("[AI] Procesando reporte con Gemini 3.5 AI...")
+        print("[AI] Procesando incidencias extraídas con Gemini 3.5...")
         with urllib.request.urlopen(req) as response:
             res_data = json.loads(response.read().decode("utf-8"))
             raw_text = res_data["candidates"][0]["content"]["parts"][0]["text"]
@@ -135,37 +229,11 @@ def call_gemini(api_key, current_json, version, source_text):
         print(f"[ERROR] Error en el procesamiento del resultado: {e}")
         return None
 
-def fetch_url(url):
-    try:
-        req = urllib.request.Request(
-            url, 
-            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
-        )
-        print(f"[Descarga] Obteniendo contenido de {url}...")
-        with urllib.request.urlopen(req, timeout=10) as response:
-            html = response.read().decode("utf-8", errors="ignore")
-            try:
-                js = json.loads(html)
-                return json.dumps(js, indent=2, ensure_ascii=False)
-            except Exception:
-                pass
-            
-            import re
-            text = re.sub(r'<script.*?</script>', '', html, flags=re.DOTALL)
-            text = re.sub(r'<style.*?</style>', '', text, flags=re.DOTALL)
-            text = re.sub(r'<[^>]+>', ' ', text)
-            text = re.sub(r'\s+', ' ', text).strip()
-            return text
-    except Exception as e:
-        print(f"[ERROR] No se pudo descargar la URL: {e}")
-        return None
-
 def run_ai_sync():
-    print("\n=== SINCRONIZACIÓN INTELIGENTE DE ANOMALÍAS (GEMINI 3.5) ===")
+    print("\n=== SINCRONIZACIÓN AUTOMÁTICA INTELIGENTE (SCRAPING + GEMINI 3.5) ===")
     
-    # Cargar API Key desde archivo .env si existe
+    # Cargar API Key
     load_env()
-    
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         api_key = input("Ingrese su API Key de Gemini: ").strip()
@@ -173,7 +241,6 @@ def run_ai_sync():
             print("[ERROR] Se requiere una API Key de Gemini para este proceso.")
             return
         
-        # Registrar y guardar la API key para futuras ejecuciones
         save_key = input("¿Desea registrar/guardar esta API Key localmente en la app para futuras ejecuciones? (s/n): ").strip().lower()
         if save_key == "s":
             try:
@@ -184,63 +251,49 @@ def run_ai_sync():
             except Exception as e:
                 print(f"[WARN] No se pudo guardar la API Key: {e}")
 
-    # Cargar base de datos actual
-    current_json = load_json()
-    print(f"[Info] Base de datos cargada: {len(current_json)} anomalías registradas.")
-    
-    # Obtener versión
+    # Obtener versión activa
     version = get_current_version()
-    print(f"[Info] Versión de compilación activa detectada: {version}")
-
-    # Seleccionar fuente
-    print("\nSeleccione la fuente del reporte:")
-    print("1. Pegar texto manualmente (consola)")
-    print("2. Descargar desde URL (Reddit, Patch notes, etc.)")
-    op = input("Opción (1-2): ").strip()
-
-    source_text = ""
-    if op == "2":
-        url = input("Ingrese la URL del reporte: ").strip()
-        if url:
-            source_text = fetch_url(url)
-    else:
-        print("\nPegue el contenido del reporte / patch notes / post. Ingrese una línea vacía al final para terminar:")
-        lines = []
-        while True:
-            try:
-                line = input()
-                if line == "":
-                    break
-                lines.append(line)
-            except EOFError:
-                break
-        source_text = "\n".join(lines)
-
-    if not source_text or len(source_text.strip()) < 10:
-        print("[ERROR] El texto del reporte está vacío o es muy corto.")
+    # Buscar usando la base de la versión (ej: "4.9")
+    version_base = ".".join(version.split(".")[:2]) if "." in version else "4.9"
+    
+    print(f"[Info] Base de datos destino: {JSON_PATH.name}")
+    print(f"[Info] Versión de compilación activa: {version} (Búsqueda en IC: {version_base})")
+    
+    # 1. Ejecutar scraping de Issue Council
+    try:
+        scraped_data = asyncio.run(scrape_issue_council(version_base))
+    except Exception as e:
+        print(f"[ERROR] Falló el proceso de scraping automatizado: {e}")
         return
 
-    # Ejecutar AI con el modelo 3.5
-    updated_data = call_gemini(api_key, current_json, version, source_text)
+    if not scraped_data:
+        print("[INFO] No se extrajeron incidencias activas del Issue Council. Abortando actualización.")
+        return
+
+    print(f"[Scraper] Extracción finalizada. {len(scraped_data)} incidencias procesadas para análisis.")
+
+    # Cargar base de datos actual
+    current_json = load_json()
+
+    # 2. Enviar a Gemini para análisis y actualización
+    updated_data = call_gemini_update(api_key, current_json, version, scraped_data)
     
     if updated_data and isinstance(updated_data, list):
-        print(f"\n[AI] Procesamiento completado. Total de anomalías generadas: {len(updated_data)}.")
-        
-        # Validar llaves de estructura básica
+        # Validar estructura de los datos devueltos
         valid_items = []
         for item in updated_data:
             if all(k in item for k in ("id", "titulo", "descripcion", "efecto_jugabilidad", "workaround", "estado")):
                 valid_items.append(item)
             else:
-                print(f"[WARN] Omitiendo item inválido devuelto por la IA: {item.get('titulo', 'Sin título')}")
+                print(f"[WARN] Omitiendo item inválido de la IA: {item.get('titulo', 'Sin título')}")
 
         if valid_items:
             save_json(valid_items)
-            print("[OK] Sincronización realizada con éxito.")
+            print("[OK] Sincronización e integración de incidencias finalizada con éxito.")
         else:
-            print("[ERROR] La IA no devolvió ningún elemento con la estructura correcta.")
+            print("[ERROR] La IA no retornó datos en el formato estructural correcto.")
     else:
-        print("[ERROR] No se pudo obtener una respuesta válida de la IA.")
+        print("[ERROR] No se pudo obtener una respuesta válida del modelo de IA.")
 
 if __name__ == "__main__":
     run_ai_sync()
