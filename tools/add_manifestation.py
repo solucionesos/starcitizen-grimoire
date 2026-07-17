@@ -12,6 +12,7 @@ import os
 import json
 import sys
 from pathlib import Path
+from ai_sync_manifestations import run_ai_sync
 
 SCRIPT_DIR = Path(__file__).parent
 JSON_PATH = SCRIPT_DIR.parent / "sc-frontend" / "public" / "data" / "manifestaciones.json"
@@ -199,9 +200,10 @@ def main():
         print("2. Registrar nueva anomalía")
         print("3. Editar anomalía existente")
         print("4. Eliminar/Resolver anomalía")
-        print("5. Salir")
+        print("5. Sincronización Automática con IA (Gemini)")
+        print("6. Salir")
         
-        choice = input("\nSeleccione una opción (1-5): ").strip()
+        choice = input("\nSeleccione una opción (1-6): ").strip()
         
         if choice == "1":
             list_manifestations(data)
@@ -212,6 +214,9 @@ def main():
         elif choice == "4":
             delete_manifestation(data)
         elif choice == "5":
+            run_ai_sync()
+            data = load_data()
+        elif choice == "6":
             print("Cerrando gestor.")
             break
         else:
