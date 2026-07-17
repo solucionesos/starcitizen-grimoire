@@ -17,7 +17,6 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 
-# Instalar dependencias necesarias automáticamente si faltan
 try:
     from playwright.async_api import async_playwright, Page, TimeoutError as PWTimeout
 except ImportError:
@@ -101,8 +100,9 @@ async def scrape_issue_council(version_query):
         if not AUTH_STATE_PATH.exists():
             await handle_authentication(p)
             
-        print("[Scraper] Iniciando navegador en modo oculto (headless)...")
-        browser = await p.chromium.launch(headless=True)
+        print("[Scraper] Iniciando navegador en modo visible para evitar bloqueos...")
+        # Usar headless=False para evitar bloqueos por Cloudflare u otras protecciones de CIG
+        browser = await p.chromium.launch(headless=False)
         
         # Cargar contexto con sesión iniciada
         context = await browser.new_context(storage_state=str(AUTH_STATE_PATH))
@@ -113,10 +113,11 @@ async def scrape_issue_council(version_query):
         print(f"[Scraper] Buscando incidencias activas en URL:\n          {search_url}")
         
         try:
-            await page.goto(search_url, wait_until="networkidle", timeout=30000)
-        except Exception:
-            # Reintentar si falla la carga completa de red
-            await page.goto(search_url, wait_until="domcontentloaded")
+            await page.goto(search_url, wait_until="domcontentloaded", timeout=30000)
+            # Esperar a que los elementos dinámicos de incidencias carguen en el DOM
+            await page.wait_for_selector('.c-issue-card', timeout=15000)
+        except Exception as e:
+            print(f"[WARN] Error al esperar los elementos de la tabla: {e}")
             
         await page.wait_for_timeout(3000)
         
@@ -125,7 +126,7 @@ async def scrape_issue_council(version_query):
         hrefs = await page.evaluate("""
             () => Array.from(document.querySelectorAll('a'))
                        .map(a => a.href)
-                       .filter(href => href.includes('/issues/STARC-'))
+                       .filter(href => href.includes('STARC-'))
         """)
         
         # Deduplicar enlaces
@@ -140,6 +141,8 @@ async def scrape_issue_council(version_query):
             print(f"[Scraper] ({idx+1}/{len(target_urls)}) Extrayendo contenido de: {bug_url.split('/')[-1]}")
             try:
                 await page.goto(bug_url, wait_until="domcontentloaded", timeout=15000)
+                # Esperar a que el título o contenedor principal de la incidencia esté cargado
+                await page.wait_for_selector('h1', timeout=10000)
                 await page.wait_for_timeout(2000)
                 
                 # Obtener el texto completo de la página
@@ -253,7 +256,6 @@ def run_ai_sync():
 
     # Obtener versión activa
     version = get_current_version()
-    # Buscar usando la base de la versión (ej: "4.9")
     version_base = ".".join(version.split(".")[:2]) if "." in version else "4.9"
     
     print(f"[Info] Base de datos destino: {JSON_PATH.name}")
