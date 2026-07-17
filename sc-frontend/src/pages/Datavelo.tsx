@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Database, Lock, ShoppingCart } from 'lucide-react';
+import { Shield, Database, Lock, ShoppingCart, AlertTriangle } from 'lucide-react';
 import Wikelo from './Wikelo';
 import Bovedas from './Bovedas';
+import Manifestaciones from './Manifestaciones';
 
 const Datavelo: React.FC = () => {
-    const [activeTab, setActiveTab ] = useState<'bovedas' | 'wikelo' | 'deflection'>('bovedas');
+    const [activeTab, setActiveTab ] = useState<'bovedas' | 'wikelo' | 'manifestaciones'>('bovedas');
 
     useEffect(() => {
         document.title = 'Star Grimoire | DATAVELO';
     }, []);
 
-        const tabs = [
+    const tabs = [
         { id: 'bovedas', label: 'BÓVEDAS DEL VACÍO', icon: Lock, color: 'var(--accent-silver)' },
         { id: 'wikelo', label: 'EL ESTAFADOR (BANU)', icon: ShoppingCart, color: '#ff4444' },
+        { id: 'manifestaciones', label: 'MANIFESTACIONES DEL VACÍO', icon: AlertTriangle, color: 'var(--primary)' },
     ];
 
     return (
@@ -134,6 +136,17 @@ const Datavelo: React.FC = () => {
                             transition={{ duration: 0.3 }}
                         >
                             <Wikelo />
+                        </motion.div>
+                    )}
+                    {activeTab === 'manifestaciones' && (
+                        <motion.div
+                            key="manifestaciones"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Manifestaciones />
                         </motion.div>
                     )}
                 </AnimatePresence>

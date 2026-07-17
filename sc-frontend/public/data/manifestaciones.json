@@ -1,0 +1,154 @@
+[
+  {
+    "id": 1,
+    "titulo": "Error 41013 y Fuga de Hangares",
+    "issue_council": "STARC-182112",
+    "descripcion": "Desincronización crítica en el protocolo de enlace de red (network handshake) al intentar reestablecer la conexión con el fragmento de simulación activa.",
+    "efecto_jugabilidad": "Provoca bloqueos recurrentes durante el proceso de autenticación e inicio de sesión de los perfiles de usuario. Al realizar la reparación de personaje para solventar el bloqueo, genera una regresión secundaria que elimina temporalmente el hangar personalizado del perfil del usuario, forzando al sistema a asignar un espacio de alojamiento genérico.",
+    "workaround": "Ejecutar reparación de personaje (Character Repair) en la consola web de RSI; se asume la pérdida temporal del acceso al hangar personalizado."
+  },
+  {
+    "id": 2,
+    "titulo": "Error 19003 e Incompatibilidad de Firmas",
+    "issue_council": "STARC-214865",
+    "descripcion": "Desajuste y corrupción en la firma digital de los datos del perfil de jugador tras la migración de versión en el backend.",
+    "efecto_jugabilidad": "Inhabilita por completo el inicio de sesión del jugador. A diferencia de otros errores de la misma categoría, la reparación de personaje resulta completamente ineficaz para corregir esta incidencia.",
+    "workaround": "Requiere la depuración manual del caché local o esperar la actualización del microparche del servidor por parte de los administradores de red de CIG."
+  },
+  {
+    "id": 3,
+    "titulo": "Saturación de Red y Errores 19k",
+    "issue_council": null,
+    "descripcion": "Sobrecarga física en los balanceadores de carga y servicios de red por saturación de peticiones de inicio de sesión durante las fases de carga inicial.",
+    "efecto_jugabilidad": "El sistema interrumpe el flujo de datos y provoca la desconexión del cliente, resultando en la aparición sistemática de errores con código de error 19k.",
+    "workaround": "Sincronizar el reloj del sistema operativo Windows, verificar archivos del juego en el launcher y realizar un vaciado de DNS en la consola ejecutando 'ipconfig /flushdns'."
+  },
+  {
+    "id": 4,
+    "titulo": "Errores 30k / 30000",
+    "issue_council": null,
+    "descripcion": "Caída del servidor dedicado de simulación (DGS) o corrupción de hilos de persistencia al desloguear en literas de naves.",
+    "efecto_jugabilidad": "Desconexión forzada del servidor de juego y bloqueo de los hilos de persistencia del perfil. Se manifiesta de forma recurrente tras el cierre inesperado del cliente durante las secuencias de tutorial o al realizar desconexiones en literas de naves espaciales.",
+    "workaround": "Ejecutar reparación de personaje y evitar a toda costa el cierre forzado del cliente de juego durante las fases de tutorial."
+  },
+  {
+    "id": 5,
+    "titulo": "Bloqueos de Shard (Error 60029)",
+    "issue_council": null,
+    "descripcion": "Retención de sesión activa en la base de datos de persistencia del fragmento (shard) de simulación.",
+    "efecto_jugabilidad": "El sistema no logra dar de baja el registro de la sesión anterior, manteniendo el perfil en un estado de doble presencia que bloquea permanentemente nuevos accesos.",
+    "workaround": "Cerrar completamente el RSI Launcher, aplicar Character Repair y mantener la cuenta inactiva por un mínimo de 60 minutos."
+  },
+  {
+    "id": 6,
+    "titulo": "Spawn Resolver (Errores 64006 / 64010)",
+    "issue_council": null,
+    "descripcion": "Fallo técnico en el gestor de reubicación física de entidades en los puntos de inicio de sesión.",
+    "efecto_jugabilidad": "Fallo al asignar e instanciar físicamente el personaje en la zona de spawn, bloqueando la carga de la partida.",
+    "workaround": "Aplicar reparación de personaje en la consola web de RSI y abstenerse de interactuar con la cuenta durante el proceso de restauración."
+  },
+  {
+    "id": 7,
+    "titulo": "Bloqueo de Capacitadores y Selectores de Energía",
+    "issue_council": "STARC-188610",
+    "descripcion": "Congelación persistente del backend de asignación de potencia en MFDs de grandes naves al asumir el control de naves capitales y de gran tamaño (RSI Polaris, Aegis Idris, Anvil Scorpius, Drake Ironclad o corbeta Paladin).",
+    "efecto_jugabilidad": "Los operadores de cabina y torretas pierden la capacidad de desplazar los selectores de energía (pips) hacia motores, escudos o armas. Esto limita las torretas basadas en energía a su carga mínima de fábrica (ráfagas extremadamente cortas, típicamente limitadas a diez disparos) sin posibilidad de regenerar munición debido a la falta de transferencia de potencia de los generadores auxiliares.",
+    "workaround": "Sustituir la totalidad de los sistemas de armas energéticas por variantes balísticas, las cuales ignoran el estado bloqueado de los pips de energía. Como alternativa para recuperar las MFDs, se puede desactivar el suavizado de movimiento (smooth motion) en el panel de control de la tarjeta gráfica (Nvidia Global Settings) y ejecutar un reinicio manual de la energía de la nave mediante la pulsación rápida de la tecla de distribución de energía física."
+  },
+  {
+    "id": 8,
+    "titulo": "Colisión Incompleta del Haz Láser de la Idris",
+    "issue_council": "STARC-170290",
+    "descripcion": "Omisión del cálculo de daño del cañón láser S10 que equipa la variante Aegis Idris K-Kit debido a que el código del arma utiliza el algoritmo estático de haz de reciclaje proveniente de naves de salvamento.",
+    "efecto_jugabilidad": "Si el operador mantiene el haz de energía inmóvil sobre el centro de masa de una nave enemiga, el servidor solo procesa el daño térmico contra los escudos deflectores, ignorando por completo el daño físico sobre el fuselaje o componentes una vez caen los escudos.",
+    "workaround": "Activar el zoom táctico y desplazar el haz del láser S10 de manera oscilatoria sobre el objetivo, dibujando líneas de impacto que crucen las uniones de las compuertas de hangares, anclajes de torretas y motores de maniobra para obligar al servidor a actualizar los registros de daño."
+  },
+  {
+    "id": 9,
+    "titulo": "Bloqueo Hidráulico de Elevadores en Hangares Persistentes",
+    "issue_council": "STARC-205714",
+    "descripcion": "Desincronización del estado hidráulico de los elevadores de carga en hangares persistentes debido a que el sistema detecta falsos desajustes de volumen y peso, interpretando que hay una sobrecarga en la rejilla física.",
+    "efecto_jugabilidad": "Al ordenar el traslado de cajas o materiales refinados desde el almacén local a la plataforma física, el sistema hidráulico se bloquea indefinidamente en posición de descenso.",
+    "workaround": "Se han validado tres soluciones: 1. Cancelación de Ciclo: Ordenar el ascenso en la terminal del elevador y pulsar inmediatamente la tecla ESC (o la 'X' en la UI) para anular la verificación de peso y forzar el movimiento físico. 2. Arrastre Directo: Arrastrar manualmente los iconos de los objetos desde el inventario del hangar al del elevador para evitar el exceso de volumen virtual. 3. Reset de Entidad: Si el elevador se bloquea por cajas invisibles previas, colocar una botella de agua física o un lápiz médico en la plataforma y ordenar un ciclo completo para limpiar los metadatos de la cuadrícula."
+  },
+  {
+    "id": 10,
+    "titulo": "Conflicto de Peso Virtual en Elevadores Externos",
+    "issue_council": "STARC-175588",
+    "descripcion": "Conflicto de peso virtual por presencia de objetos fantasma no registrados en la terminal del elevador, común en terminales externas de estaciones públicas de Pyro y Stanton.",
+    "efecto_jugabilidad": "Bloqueo por exceso de volumen virtual, impidiendo el uso y movimiento de los elevadores externos de carga.",
+    "workaround": "Evitar usar el botón de transferencia automática 'Mover a Elevador'. En su lugar, arrastrar manualmente los iconos de los contenedores desde el inventario del hangar al inventario físico del elevador."
+  },
+  {
+    "id": 11,
+    "titulo": "Terminales de Carga de Estaciones (Error Interno)",
+    "issue_council": "STARC-174769",
+    "descripcion": "Error interno (Internal Error) provocado al depositar objetos sueltos de inventario sobre la plataforma física del elevador.",
+    "efecto_jugabilidad": "Fallo en las terminales y bloqueo de las operaciones comerciales o de almacenamiento del hangar.",
+    "workaround": "Mantener libre de objetos sueltos la superficie del elevador y esperar a que el servidor actualice y procese los comandos pendientes."
+  },
+  {
+    "id": 12,
+    "titulo": "Consolas de Carga de Outposts",
+    "issue_council": "STARC-174707",
+    "descripcion": "Desconexión temporal entre la simulación visual del elevador de carga y el estado de la plataforma registrado en el servidor.",
+    "efecto_jugabilidad": "Bloquea e interrumpe las operaciones de carga al aparecer carga fantasma que no coincide con el estado real del servidor.",
+    "workaround": "Evitar bajar el elevador cuando aparezca carga fantasma en la pantalla; cerrar la consola y volver a abrir la interfaz."
+  },
+  {
+    "id": 13,
+    "titulo": "Desincronización de HUD y Consolas de Minería",
+    "issue_council": "STARC-113044",
+    "descripcion": "Anomalías severas de visualización de la interfaz minera (Mining HUD) que afectan de forma directa a las naves RSI Arrastra, ARGO Mole y MISC Orion.",
+    "efecto_jugabilidad": "Afecta a la minería industrial multicrew en entornos de juego grupal, impidiendo ver los datos de minado y las lecturas de los nodos.",
+    "workaround": "Uso obligatorio de la nave de préstamo (loaner) MISC Prospector, la cual es asignada automáticamente por CIG a las cuentas afectadas."
+  },
+  {
+    "id": 14,
+    "titulo": "NPCs Desnudos de Nine Tails",
+    "issue_council": "STARC-206402",
+    "descripcion": "Incompatibilidad de modelos al actualizar las armaduras de Nine Tails. El motor de juego carece de las referencias de equipamiento de los nuevos modelos en el entorno LIVE, a pesar de haber eliminado los enlaces antiguos.",
+    "efecto_jugabilidad": "Al instanciarse en misiones de defensa de instalaciones y búnkeres, las fuerzas enemigas enemigas aparecen completamente desprovistas de vestimenta, armadura o armas de fuego. Esto inhabilita las rutinas de combate de la IA, reduciendo a cero la dificultad de las misiones mercenarias y facilitando la recolección de recompensas sin resistencia.",
+    "workaround": "No requiere mitigación activa por parte del jugador; simplifica de forma inusual las misiones de búnkeres en el fragmento."
+  },
+  {
+    "id": 15,
+    "titulo": "Síndrome de Doble Casco e Insuficiencia Cardíaca",
+    "issue_council": "STARC-133437",
+    "descripcion": "Conflicto lógico de simulación física corporal y atmosférica provocado por un fallo de persistencia de inventario al equipar simultáneamente cascos en las ranuras de la cabeza y la cadera (activado por usar LAlt + H).",
+    "efecto_jugabilidad": "El backend interpreta que el personaje está utilizando dos sistemas de sellado de manera simultánea en una zona despresurizada, lo que interrumpe el flujo interno de aire. Esto causa asfixia progresiva, hiperventilación extrema, agotamiento severo del personaje y eventual muerte, incluso si el entorno se encuentra completamente presurizado con oxígeno respirable.",
+    "workaround": "Abrir el inventario personal de manera manual, desvincular físicamente el casco secundario alojado en el anclaje físico de la cadera o el cinturón de la armadura, y desecharlo directamente en el suelo de la instancia física."
+  },
+  {
+    "id": 16,
+    "titulo": "Físicas y Persistencia de Actores (G-Forces)",
+    "issue_council": "STARC-97938",
+    "descripcion": "Degradación de las variables de estado del jugador provocada por cálculos incorrectos de inercia y G-Forces en el motor físico del actor.",
+    "efecto_jugabilidad": "Provoca fallos inesperados de estado físico en el personaje, aumentando la vulnerabilidad o provocando muertes/lesiones absurdas.",
+    "workaround": "Evitar maniobras evasivas extremas de alta aceleración angular, especialmente cuando se lleven cargas de inventario físico elevadas."
+  },
+  {
+    "id": 17,
+    "titulo": "Mecánicas PvP y Despojo sin Penalización",
+    "issue_council": "STARC-163327",
+    "descripcion": "Interacción física no deseada que permite reanimar y despojar del equipamiento a jugadores abatidos sin recibir penalizaciones de criminalidad (CrimeStat).",
+    "efecto_jugabilidad": "Facilita el 'griefing' y el robo abusivo de equipamiento de jugadores caídos en combate sin repercusiones legales in-game.",
+    "workaround": "Declarado oficialmente por CIG como 'no es un error/exploit' por ahora; se sugiere al jugador afectado usar la autoliquidación rápida (manteniendo pulsado Backspace)."
+  },
+  {
+    "id": 18,
+    "titulo": "Bloqueo de Colocación de Gadgets Mineros en EVA",
+    "issue_council": null,
+    "descripcion": "Imposibilidad de anclar los dispositivos de asistencia minera (Mining Gadgets) en la superficie de los asteroides al flotar en gravedad cero, debido a microoscilaciones y movimientos inerciales constantes del personaje introducidos por el modelo de movimiento físico extravehicular (desde la versión 4.8).",
+    "efecto_jugabilidad": "El motor de física no detecta que el personaje se encuentra sobre una base firme, por lo que el sistema de colocación contextual bloquea el botón de anclaje de la interfaz, inutilizando el uso de gadgets en EVA.",
+    "workaround": "Equipar el dispositivo de asistencia minera de forma activa en las manos, mantener pulsada la tecla de interacción 'F' para habilitar el cursor libre, pasar el cursor sobre el gadget, seleccionar la opción 'Detach' (Separar) para transformarlo en un holograma flotante, y guiarlo manualmente hasta la superficie del asteroide."
+  },
+  {
+    "id": 19,
+    "titulo": "Inyección Masiva de Extintores en Hangares",
+    "issue_council": null,
+    "descripcion": "Fallo en el script de transición y consolidación de bases de datos de inventario. El algoritmo diseñado para compensar a los usuarios por la pérdida de mercancías refinadas durante caídas de servidor de la versión 4.8 asoció erróneamente los IDs de recursos minerales perdidos con el ID de entidad física del extintor de incendios estándar.",
+    "efecto_jugabilidad": "Aparición masiva de decenas de páginas repletas de extintores (entre 200 y 1,000 unidades) en el almacenamiento local de ciudades principales. Dado que cada extintor se puede vender a 359 aUEC en Dumper's Depot, causó un desbalance y exploit económico masivo que alteró temporalmente la economía interna del juego.",
+    "workaround": "No requiere mitigación técnica directa para jugar; los jugadores pueden vender el excedente para liquidarlo de sus inventarios."
+  }
+]
