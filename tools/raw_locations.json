@@ -1,0 +1,21 @@
+{
+  "system_id": "NYX",
+  "locations": [
+    {
+      "parent": "NYX_SYSTEM", 
+      "nombre": "Delamar",
+      "tipo": "planet",
+      "threat": "MEDIO",
+      "faction": "People's Alliance",
+      "raw_description": "Asteroide masivo del tamaño de una pequeña luna, oculto en el cinturón de asteroides de Nyx. Contiene la zona de aterrizaje Levski, un refugio para exiliados políticos y activistas anti-UEE."
+    },
+    {
+      "parent": "Delamar",
+      "nombre": "Levski",
+      "tipo": "city",
+      "threat": "ALTO",
+      "faction": "People's Alliance",
+      "raw_description": "Instalación subterránea construida en una mina abandonada en Delamar. Es un laberinto de túneles oscuros y mercado negro, ideal para quienes buscan operar fuera de la ley."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "version": "4.9.0-live.12232306",
+  "version": "4.9.0-live.12302499",
   "missions": [
     {
       "id": "b663a2f6-a889-47eb-821d-194da213a9ed",
@@ -167193,7 +167193,7 @@
         "height": 6.5
       },
       "component_sizes": {
-        "weapon": "2x4, 2x3",
+        "weapon": "1x4, 2x3",
         "shield": "2x1"
       },
       "manufacturer": "Aegis Dynamics"
@@ -167310,7 +167310,7 @@
         "height": 5.5
       },
       "component_sizes": {
-        "weapon": "3x3",
+        "weapon": "2x3",
         "shield": "2x1"
       },
       "manufacturer": "Aegis Dynamics"
@@ -167351,13 +167351,13 @@
         "height": 5.5
       },
       "component_sizes": {
-        "weapon": "3x3",
+        "weapon": "2x3",
         "shield": "2x1"
       },
       "manufacturer": "Aegis Dynamics"
     },
     {
-      "id": "395f30ae-f930-4929-b881-d711fde7e70f",
+      "id": "d46f4de1-8dc1-473b-9739-88c9ba7e75a6",
       "name": "Hammerhead",
       "description": "A fast patrol ship with multiple turrets designed to combat fighters, the Hammerhead is equally suited to support larger capital ships in a fleet or act as a flagship for fighter groups.",
       "description_lore": "A fast patrol ship with multiple turrets designed to combat fighters, the Hammerhead is equally suited to support larger capital ships in a fleet or act as a flagship for fighter groups.",
@@ -167377,7 +167377,7 @@
         "physical": 531,
         "energy": 380
       },
-      "cargo_capacity": 64,
+      "cargo_capacity": 40,
       "speed": {
         "scm": 160,
         "max": 1000
@@ -167460,13 +167460,16 @@
       "manufacturer": "Aegis Dynamics"
     },
     {
-      "id": "841e3ff7-7e71-4573-82a9-909973ae3c05",
+      "id": "e829391e-d1de-408a-ad23-cfa80003f559",
       "name": "Idris-P",
       "description": "The Aegis Idris has long served the UEE Navy as its go-to frigate, striking fear into every soul unfortunate enough to meet it. Fly the civilianized Idris-P to experience the full might of Humanity’s most devastating capital-class gunship.",
       "description_lore": "The Aegis Idris has long served the UEE Navy as its go-to frigate, striking fear into every soul unfortunate enough to meet it. Fly the civilianized Idris-P to experience the full might of Humanity’s most devastating capital-class gunship.",
       "msrp": 1900,
-      "image": "https://robertsspaceindustries.com/media/rfjjekm57en5jr/store_slideshow_large/IDRISdownfrontquarter_copy.jpg",
       "uex_prices": [],
+      "deflection": {
+        "physical": 554,
+        "energy": 485
+      },
       "cargo_capacity": 1374,
       "speed": {
         "scm": 110,
@@ -167482,9 +167485,10 @@
         "height": 57.5
       },
       "component_sizes": {
-        "weapon": "7x2x5, 1x1x5",
+        "weapon": "8x2x5, 11x1x1",
         "shield": "2x4"
       },
+      "image": "https://robertsspaceindustries.com/media/rfjjekm57en5jr/store_slideshow_large/IDRISdownfrontquarter_copy.jpg",
       "manufacturer": "Aegis Dynamics"
     },
     {
@@ -167773,7 +167777,7 @@
         "height": 5
       },
       "component_sizes": {
-        "weapon": "4x3",
+        "weapon": "2x3",
         "shield": "2x1"
       },
       "manufacturer": "Aegis Dynamics"
@@ -168183,7 +168187,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x3",
+        "weapon": "1x1x3, 3x3",
         "shield": "1x1"
       },
       "manufacturer": "Anvil Aerospace"
@@ -168484,13 +168488,13 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "4x1",
+        "weapon": "2x1",
         "shield": "1x1"
       },
       "manufacturer": "Anvil Aerospace"
     },
     {
-      "id": "f6d606c9-b324-4efa-814f-15a59047a6a5",
+      "id": "1c5ffd9c-92d5-4922-a0dd-826a2bcebf02",
       "name": "Carrack",
       "description": "The Anvil Carrack features reinforced fuel tanks for long-duration flight, an advanced jump drive, and a dedicated computer core for jump charting operations. Originally a military exclusive, the Carrack is now available for civilian use. On-board accommodations include crew medical and repair facilities, and a mapping-oriented sensor suite.",
       "description_lore": "The Anvil Carrack features reinforced fuel tanks for long-duration flight, an advanced jump drive, and a dedicated computer core for jump charting operations. Originally a military exclusive, the Carrack is now available for civilian use. On-board accommodations include crew medical and repair facilities, and a mapping-oriented sensor suite.",
@@ -168637,7 +168641,7 @@
         "height": 7.5
       },
       "component_sizes": {
-        "weapon": "1x2x3, 2x4",
+        "weapon": "1x2x3, 1x5, 2x4, 1x3",
         "shield": "2x1"
       },
       "manufacturer": "Anvil Aerospace"
@@ -168668,7 +168672,7 @@
         "height": 6.5
       },
       "component_sizes": {
-        "weapon": "1x2x3, 2x4",
+        "weapon": "1x2x3, 1x5, 2x4, 1x3",
         "shield": "2x1"
       },
       "manufacturer": "Anvil Aerospace"
@@ -168791,7 +168795,7 @@
         "height": 7.5
       },
       "component_sizes": {
-        "weapon": "1x1x3, 1x1x1, 2x3",
+        "weapon": "1x1x3, 1x1x1, 1x5, 2x3",
         "shield": "2x1"
       },
       "manufacturer": "Anvil Aerospace"
@@ -168822,7 +168826,7 @@
         "height": 7.5
       },
       "component_sizes": {
-        "weapon": "1x1x3, 1x4, 2x3",
+        "weapon": "1x1x3, 1x5, 3x3",
         "shield": "2x1"
       }
     },
@@ -168853,7 +168857,7 @@
         "height": 6.5
       },
       "component_sizes": {
-        "weapon": "1x1x3, 1x4, 2x3",
+        "weapon": "1x1x3, 1x5, 3x3",
         "shield": "3x1"
       }
     },
@@ -168893,7 +168897,7 @@
         "height": 7.5
       },
       "component_sizes": {
-        "weapon": "1x1x2, 2x3",
+        "weapon": "1x1x2, 1x5, 3x3",
         "shield": "2x1"
       },
       "manufacturer": "Anvil Aerospace"
@@ -168925,7 +168929,7 @@
         "height": 6.5
       },
       "component_sizes": {
-        "weapon": "1x2x3, 2x4",
+        "weapon": "1x2x3, 1x5, 2x4, 1x3",
         "shield": "3x1"
       },
       "manufacturer": "Anvil Aerospace"
@@ -169149,7 +169153,7 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "1x1x2, 4x3, 2x2",
+        "weapon": "1x1x2, 3x3, 2x2",
         "shield": "2x2"
       }
     },
@@ -169180,7 +169184,7 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "1x1x2, 4x3, 2x2",
+        "weapon": "1x1x2, 3x3, 2x2",
         "shield": "2x2"
       },
       "manufacturer": "Anvil Aerospace"
@@ -169211,7 +169215,7 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "1x1x2, 4x3, 2x2",
+        "weapon": "1x1x2, 3x3, 2x2",
         "shield": "2x2"
       },
       "manufacturer": "Anvil Aerospace"
@@ -169350,7 +169354,7 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "4x2, 3x1",
+        "weapon": "4x2, 2x1",
         "shield": "2x1"
       },
       "manufacturer": "Anvil Aerospace"
@@ -169526,7 +169530,7 @@
         "height": 7.5
       },
       "component_sizes": {
-        "weapon": "1x1x2",
+        "weapon": "1x1x2, 2x3",
         "shield": "2x2"
       },
       "manufacturer": "Anvil Aerospace"
@@ -169567,7 +169571,7 @@
         "height": 7.5
       },
       "component_sizes": {
-        "weapon": "1x2",
+        "weapon": "1x3",
         "shield": "2x2"
       },
       "manufacturer": "Anvil Aerospace"
@@ -169601,7 +169605,7 @@
       }
     },
     {
-      "id": "6f0e14a9-cb6c-4b71-ae92-376867bb1be8",
+      "id": "881e3879-a186-44da-8b47-1d8f0a846438",
       "name": "Valkyrie",
       "description": "In the days of antiquity, the Valkyrie were believed to choose who would live and who would die on the field of war. Now, Anvil is putting that choice in your hands. Seize fate and turn the tide of battle.\n\nRugged, high-performance jump seats safely transport up to twenty personnel into and out of the fray. A vehicle bay and speed ramp efficiently launch ground-based transport or reconnaissance vehicles for unmatched support. Four powerful VTOL thrusters facilitate surgically precise take-offs and landings, while a devastating array of weaponry blurs the line between dropship and gunship.",
       "description_lore": "In the days of antiquity, the Valkyrie were believed to choose who would live and who would die on the field of war. Now, Anvil is putting that choice in your hands. Seize fate and turn the tide of battle.\n\nRugged, high-performance jump seats safely transport up to twenty personnel into and out of the fray. A vehicle bay and speed ramp efficiently launch ground-based transport or reconnaissance vehicles for unmatched support. Four powerful VTOL thrusters facilitate surgically precise take-offs and landings, while a devastating array of weaponry blurs the line between dropship and gunship.",
@@ -169790,7 +169794,16 @@
       "description_lore": "Meet the next evolution of Xi'an tech and design innovation. The San’tok.yāi is a fighter that literally flies circles around the competition.",
       "msrp": 240,
       "image": "https://media.starcitizen.tools/c/cb/San%27Tok.Yai_in_battle_over_world_firing_weapons_-_Cut.jpg",
-      "uex_prices": [],
+      "uex_prices": [
+        {
+          "price_buy": 9355500,
+          "terminal_name": "Astro Armada - Area 18",
+          "starmap_location": {
+            "name": "Area18",
+            "star_system_name": "Stanton"
+          }
+        }
+      ],
       "deflection": {
         "physical": 20,
         "energy": 16
@@ -170240,7 +170253,7 @@
         "height": 0
       },
       "component_sizes": {
-        "weapon": "2x2",
+        "weapon": "1x4, 2x2",
         "shield": "1x3"
       },
       "manufacturer": "Argo Astronautics"
@@ -170485,7 +170498,7 @@
         "height": 9.5
       },
       "component_sizes": {
-        "weapon": "?",
+        "weapon": "1x1",
         "shield": "1x2"
       },
       "manufacturer": "Argo Astronautics"
@@ -170696,7 +170709,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x1",
+        "weapon": "1x1x3, 1x3",
         "shield": "2x1"
       },
       "manufacturer": "Consolidated Outland"
@@ -170737,7 +170750,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "1x1x1, 2x1",
+        "weapon": "1x1x1, 1x3",
         "shield": "2x1"
       },
       "manufacturer": "Consolidated Outland"
@@ -170768,7 +170781,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "1x1x1",
+        "weapon": "1x1x1, 1x3",
         "shield": "2x1"
       }
     },
@@ -170849,7 +170862,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "2x1",
+        "weapon": "1x3, 2x1",
         "shield": "2x1"
       },
       "manufacturer": "Consolidated Outland"
@@ -170881,7 +170894,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "2x1",
+        "weapon": "1x3, 2x1",
         "shield": "2x1"
       },
       "manufacturer": "Consolidated Outland"
@@ -170932,7 +170945,7 @@
       "manufacturer": "Consolidated Outland"
     },
     {
-      "id": "4ce214f3-16e2-d9ea-2b2c-16d0bf1359ba",
+      "id": "4da0c1b0-cc77-86e4-93d5-759a2e6f7581",
       "name": "Corsair",
       "description": "",
       "uex_prices": [
@@ -171006,7 +171019,7 @@
         "height": 10
       },
       "component_sizes": {
-        "weapon": "1x1x3, 1x1x2, 2x3",
+        "weapon": "1x1x3, 1x1x2, 3x3, 1x1",
         "shield": "1x2"
       },
       "manufacturer": "Crusader Industries"
@@ -171239,7 +171252,7 @@
         "height": 10
       },
       "component_sizes": {
-        "weapon": "1x1x2, 1x1x3, 2x3",
+        "weapon": "1x1x2, 1x1x3, 3x3",
         "shield": "1x2"
       },
       "manufacturer": "Crusader Industries"
@@ -171497,7 +171510,7 @@
       "manufacturer": "Crusader Industries"
     },
     {
-      "id": "bf785bee-f393-4904-aaa8-987952570938",
+      "id": "4484a044-bbd5-e716-736a-2dda30a3efa4",
       "name": "Cutlass Black",
       "description": "",
       "uex_prices": [
@@ -171737,7 +171750,7 @@
         "height": 18
       },
       "component_sizes": {
-        "weapon": "4x3",
+        "weapon": "2x3",
         "shield": "2x1"
       },
       "manufacturer": "Drake Interplanetary"
@@ -171799,7 +171812,7 @@
       }
     },
     {
-      "id": "13c3f610-7bbd-4464-bd36-d716de49a125",
+      "id": "eefb1595-cb25-409e-997b-db328e28f1e5",
       "name": "Cutlass Blue",
       "description": "Sleek, mean, and royal. The Cutlass Blue adds missiles, a more aggressive engine, and Durasteel holding cells in the cargo bay to the standard model. The Cutlass Blue is the outworld militia standard ship of choice for patrols.",
       "description_lore": "Sleek, mean, and royal. The Cutlass Blue adds missiles, a more aggressive engine, and Durasteel holding cells in the cargo bay to the standard model. The Cutlass Blue is the outworld militia standard ship of choice for patrols.",
@@ -171899,7 +171912,7 @@
         "height": 11.5
       },
       "component_sizes": {
-        "weapon": "4x3",
+        "weapon": "1x1x4, 2x3",
         "shield": "1x2"
       },
       "manufacturer": "Drake Interplanetary"
@@ -172067,7 +172080,7 @@
         "height": 6
       },
       "component_sizes": {
-        "weapon": "1x1x2",
+        "weapon": "1x1x2, 2x2",
         "shield": "1x1"
       },
       "manufacturer": "Drake Interplanetary"
@@ -172391,7 +172404,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "2x2",
+        "weapon": "1x3, 2x2",
         "shield": "2x1"
       },
       "manufacturer": "Drake Interplanetary"
@@ -172715,7 +172728,7 @@
         "height": 15
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x5",
+        "weapon": "1x1x3, 3x5",
         "shield": "4x2"
       },
       "manufacturer": "Esperia Incorporation"
@@ -172756,7 +172769,7 @@
         "height": 15
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x4",
+        "weapon": "1x1x3, 1x5, 2x4",
         "shield": "4x2"
       },
       "manufacturer": "Esperia Incorporation"
@@ -173138,7 +173151,7 @@
         "height": 5
       },
       "component_sizes": {
-        "weapon": "1x1x2",
+        "weapon": "1x1x2, 1x1",
         "shield": "?"
       },
       "manufacturer": "Greycat Industrial"
@@ -173397,7 +173410,8 @@
       "component_sizes": {
         "weapon": "?",
         "shield": "1x1"
-      }
+      },
+      "manufacturer": "Grey&apos;s Market"
     },
     {
       "id": "3a7bfe4f-7a6c-4818-aba8-0f1019c3a647",
@@ -173431,7 +173445,7 @@
         "height": 11.5
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x4",
+        "weapon": "1x1x3, 2x4, 1x3",
         "shield": "1x2"
       },
       "manufacturer": "Grey&apos;s Market"
@@ -174621,7 +174635,7 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "1x1",
+        "weapon": "1x5",
         "shield": "1x2"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -174653,7 +174667,7 @@
         "height": 10.7
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x3",
+        "weapon": "1x1x3, 1x4, 2x3",
         "shield": "4x2"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -174694,7 +174708,7 @@
         "height": 26.28
       },
       "component_sizes": {
-        "weapon": "1x2x3",
+        "weapon": "1x2x3, 1x5",
         "shield": "3x3"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -174860,7 +174874,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "2x2",
+        "weapon": "1x4, 2x2",
         "shield": "2x1"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -174901,7 +174915,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "2x2",
+        "weapon": "2x4, 2x2",
         "shield": "2x1"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -174942,7 +174956,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "2x2",
+        "weapon": "2x4, 2x2",
         "shield": "2x1"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -174983,7 +174997,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "2x3, 2x2",
+        "weapon": "2x4, 2x2",
         "shield": "2x1"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -175254,7 +175268,7 @@
         "height": 9.07
       },
       "component_sizes": {
-        "weapon": "1x1x2, 2x2",
+        "weapon": "1x1x2, 3x2",
         "shield": "2x1"
       },
       "manufacturer": "Musashi Industrial and Starflight Concern"
@@ -175426,7 +175440,7 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "3x3",
+        "weapon": "2x3",
         "shield": "2x1"
       },
       "manufacturer": "Origin Jumpworks"
@@ -175549,7 +175563,7 @@
         "height": 8
       },
       "component_sizes": {
-        "weapon": "3x3",
+        "weapon": "2x3",
         "shield": "2x1"
       },
       "manufacturer": "Origin Jumpworks"
@@ -175743,7 +175757,16 @@
       "description_lore": "Elegantly styled and meticulously constructed, the 85X is a versatile and comprehensive away-vessel that features precision control in and out of atmosphere. Utilizing much of the same thruster technology as the 300 series, it has the power of a racer with the reliability of a touring ship. Whether descending down to the planet surface or taking in the sights of your system, this runabout continues Origin’s proud tradition of turning heads.\n",
       "msrp": 50,
       "image": "https://cstone.space/uifimages/9dc9c257-c413-416a-ab9b-06fbadf18d1e.png",
-      "uex_prices": [],
+      "uex_prices": [
+        {
+          "price_buy": 544635,
+          "terminal_name": "New Deal - Teasa Spaceport - Lorville",
+          "starmap_location": {
+            "name": "Lorville",
+            "star_system_name": "Stanton"
+          }
+        }
+      ],
       "deflection": {
         "physical": 9,
         "energy": 7
@@ -175763,7 +175786,7 @@
         "height": 4
       },
       "component_sizes": {
-        "weapon": "1x1x2, 2x1",
+        "weapon": "1x1x2, 1x3, 2x1",
         "shield": "1x1"
       }
     },
@@ -175823,7 +175846,16 @@
       "description_lore": "If you want to get from point A to point B as quickly as possible and with as much style as possible then ORIGIN's M50 is for you. Featuring supercharged engines that counter a tiny weapons loadout, the M50 goes extremely fast and looks incredibly good doing it. As Origin’s premier racing chassis, you shouldn’t expect anything less.",
       "msrp": 100,
       "image": "https://cstone.space/uifimages/1b57cdac-693b-410b-8343-68fa194c94ae.png",
-      "uex_prices": [],
+      "uex_prices": [
+        {
+          "price_buy": 1499400,
+          "terminal_name": "Astro Armada - Area 18",
+          "starmap_location": {
+            "name": "Area18",
+            "star_system_name": "Stanton"
+          }
+        }
+      ],
       "deflection": {
         "physical": 9,
         "energy": 7
@@ -175843,7 +175875,7 @@
         "height": 3.5
       },
       "component_sizes": {
-        "weapon": "2x1",
+        "weapon": "2x2",
         "shield": "1x1"
       }
     },
@@ -176049,7 +176081,7 @@
         "height": 14
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x4",
+        "weapon": "1x1x3, 2x4, 1x3",
         "shield": "4x2"
       },
       "image": "https://robertsspaceindustries.com/media/qtbgmjijc8g1vr/store_slideshow_large/RSI_Apollo_Promo_Recovery_Drone_AL01_PJ01-Squashed.jpg",
@@ -176087,7 +176119,7 @@
         "height": 14
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x4",
+        "weapon": "1x1x3, 2x4, 1x3",
         "shield": "4x2"
       },
       "manufacturer": "Roberts Space Industries"
@@ -176160,7 +176192,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "4x1",
+        "weapon": "2x1",
         "shield": "2x1"
       },
       "manufacturer": "Roberts Space Industries"
@@ -176205,7 +176237,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "4x1",
+        "weapon": "2x1",
         "shield": "2x1"
       },
       "manufacturer": "Roberts Space Industries"
@@ -176319,7 +176351,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "4x1",
+        "weapon": "2x1",
         "shield": "2x1"
       },
       "manufacturer": "Roberts Space Industries"
@@ -176360,7 +176392,7 @@
         "height": 4.5
       },
       "component_sizes": {
-        "weapon": "4x1",
+        "weapon": "2x1",
         "shield": "2x1"
       },
       "manufacturer": "Roberts Space Industries"
@@ -176657,7 +176689,7 @@
         "height": 14
       },
       "component_sizes": {
-        "weapon": "1x1x4, 2x4",
+        "weapon": "1x1x4, 2x4, 1x3",
         "shield": "4x2"
       },
       "manufacturer": "Roberts Space Industries"
@@ -176698,7 +176730,7 @@
         "height": 3.5
       },
       "component_sizes": {
-        "weapon": "1x1x1",
+        "weapon": "1x1x1, 1x1",
         "shield": "?"
       },
       "manufacturer": "Roberts Space Industries"
@@ -176822,7 +176854,7 @@
       "image": "https://media.robertsspaceindustries.com/wzzgz1hzpl4bs/store_slideshow_large.jpg",
       "uex_prices": [
         {
-          "price_buy": 39680000,
+          "price_buy": 39690000,
           "terminal_name": "Astro Armada - Area 18",
           "starmap_location": {
             "name": "Area 18",
@@ -177069,7 +177101,7 @@
         "height": 3.5
       },
       "component_sizes": {
-        "weapon": "1x1x1",
+        "weapon": "1x1x1, 1x2",
         "shield": "?"
       },
       "manufacturer": "Roberts Space Industries"
@@ -177101,7 +177133,7 @@
         "height": 3.5
       },
       "component_sizes": {
-        "weapon": "1x1x1",
+        "weapon": "1x1x1, 1x2",
         "shield": "?"
       },
       "manufacturer": "Roberts Space Industries"
@@ -177146,7 +177178,7 @@
         "height": 3.5
       },
       "component_sizes": {
-        "weapon": "1x1x1",
+        "weapon": "1x1x1, 1x2",
         "shield": "?"
       },
       "manufacturer": "Roberts Space Industries"
@@ -177215,7 +177247,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x4",
+        "weapon": "1x1x3, 2x4, 1x3",
         "shield": "3x2"
       },
       "manufacturer": "Roberts Space Industries"
@@ -177256,7 +177288,7 @@
         "height": 9
       },
       "component_sizes": {
-        "weapon": "1x1x3, 2x4",
+        "weapon": "1x1x3, 2x4, 1x3",
         "shield": "4x2"
       },
       "manufacturer": "Roberts Space Industries"
@@ -177618,7 +177650,7 @@
         "height": 11
       },
       "component_sizes": {
-        "weapon": "1x1x2, 1x5",
+        "weapon": "1x1x2, 1x4",
         "shield": "?"
       },
       "manufacturer": "Tumbril Land Systems"
@@ -177659,7 +177691,7 @@
         "height": 4
       },
       "component_sizes": {
-        "weapon": "1x1x3",
+        "weapon": "1x1x3, 1x3",
         "shield": "?"
       },
       "manufacturer": "Tumbril Land Systems"
@@ -177700,7 +177732,7 @@
         "height": 4
       },
       "component_sizes": {
-        "weapon": "?",
+        "weapon": "1x3",
         "shield": "?"
       },
       "manufacturer": "Tumbril Land Systems"
@@ -177968,7 +178000,16 @@
       "fire_rate": 350,
       "range": 1605,
       "dps": 198.3,
-      "uex_prices": []
+      "uex_prices": [
+        {
+          "price_buy": 10780,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        }
+      ]
     },
     {
       "id": "ea6b4297-83a4-476f-aee0-9d4f87168cf7",
@@ -178000,7 +178041,16 @@
       "fire_rate": 350,
       "range": 1924,
       "dps": 501.7,
-      "uex_prices": []
+      "uex_prices": [
+        {
+          "price_buy": 54580,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        }
+      ]
     },
     {
       "id": "8d868b78-eccd-4ba5-a4a5-57e2f20bdc35",
@@ -178247,22 +178297,6 @@
       "uex_prices": []
     },
     {
-      "id": "5453a817-dfd4-4143-aa11-840ca428540c",
-      "name": "CF-227 Badger Repeater",
-      "description_lore": "The CF-227 Badger is Klaus & Werner's dependable size two repeating laser. Its increased output and high rate of fire make it a solid contender in any fight.",
-      "size": 2,
-      "type": "Laser Repeater",
-      "alpha": {
-        "physical": 0,
-        "energy": 26.244
-      },
-      "projectile_speed": 1495,
-      "fire_rate": 750,
-      "range": 1734,
-      "dps": 328.1,
-      "uex_prices": []
-    },
-    {
       "id": "0e3f4b37-8085-4641-a360-40e4e372cd15",
       "name": "CF-227 Badger Repeater",
       "description_lore": "The CF-227 Badger is Klaus & Werner's dependable size two repeating laser. Its increased output and high rate of fire make it a solid contender in any fight.",
@@ -178278,6 +178312,14 @@
       "dps": 328.1,
       "uex_prices": [
         {
+          "price_buy": 18895,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
           "price_buy": 16138,
           "terminal_name": "CenterMass - New Babbage",
           "starmap_location": {
@@ -178286,6 +178328,22 @@
           }
         }
       ]
+    },
+    {
+      "id": "5453a817-dfd4-4143-aa11-840ca428540c",
+      "name": "CF-227 Badger Repeater",
+      "description_lore": "The CF-227 Badger is Klaus & Werner's dependable size two repeating laser. Its increased output and high rate of fire make it a solid contender in any fight.",
+      "size": 2,
+      "type": "Laser Repeater",
+      "alpha": {
+        "physical": 0,
+        "energy": 26.244
+      },
+      "projectile_speed": 1495,
+      "fire_rate": 750,
+      "range": 1734,
+      "dps": 328.1,
+      "uex_prices": []
     },
     {
       "id": "e4870a3c-b2f8-462b-8be2-dd04520551cf",
@@ -178318,6 +178376,22 @@
       "range": 1924,
       "dps": 545.6,
       "uex_prices": [
+        {
+          "price_buy": 42715,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
+          "price_buy": 42715,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 36308,
           "terminal_name": "CenterMass - New Babbage",
@@ -178456,6 +178530,14 @@
       "range": 2703,
       "dps": 405,
       "uex_prices": [
+        {
+          "price_buy": 26720,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 26720,
           "terminal_name": "CenterMass - New Babbage",
@@ -178662,7 +178744,16 @@
       "fire_rate": 50,
       "range": 999,
       "dps": 420,
-      "uex_prices": []
+      "uex_prices": [
+        {
+          "price_buy": 14375,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        }
+      ]
     },
     {
       "id": "ac55431a-d662-4d92-bda7-ea44f27ca597",
@@ -178736,6 +178827,14 @@
       "range": 1202,
       "dps": 171.3,
       "uex_prices": [
+        {
+          "price_buy": 12940,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 12940,
           "terminal_name": "CenterMass - New Babbage",
@@ -178944,6 +179043,14 @@
       "uex_prices": [
         {
           "price_buy": 79100,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
+          "price_buy": 79100,
           "terminal_name": "Ship Weapons - Baijini Point",
           "starmap_location": {
             "name": "Baijini Point",
@@ -179107,7 +179214,7 @@
       "uex_prices": []
     },
     {
-      "id": "501a4017-d754-43d7-933b-72773d761303",
+      "id": "4312c1a5-f575-4e06-9892-2c5270982e9e",
       "name": "Jericho XL",
       "description_lore": "The Jericho XL rocket pod from Hurston Dynamics is compatible with any size three hardpoint and capable of carrying eighteen S1 rockets.",
       "size": 3,
@@ -179123,7 +179230,7 @@
       "uex_prices": []
     },
     {
-      "id": "4312c1a5-f575-4e06-9892-2c5270982e9e",
+      "id": "501a4017-d754-43d7-933b-72773d761303",
       "name": "Jericho XL",
       "description_lore": "The Jericho XL rocket pod from Hurston Dynamics is compatible with any size three hardpoint and capable of carrying eighteen S1 rockets.",
       "size": 3,
@@ -179384,6 +179491,14 @@
       "dps": 303.8,
       "uex_prices": [
         {
+          "price_buy": 14845,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
           "price_buy": 15461,
           "terminal_name": "CenterMass - New Babbage",
           "starmap_location": {
@@ -179432,6 +179547,14 @@
       "range": 2165,
       "dps": 455.6,
       "uex_prices": [
+        {
+          "price_buy": 33400,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 34786,
           "terminal_name": "CenterMass - New Babbage",
@@ -179515,6 +179638,14 @@
       "dps": 1025.5,
       "uex_prices": [
         {
+          "price_buy": 169080,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
           "price_buy": 176093,
           "terminal_name": "CenterMass - New Babbage",
           "starmap_location": {
@@ -179539,6 +179670,14 @@
       "range": 4003,
       "dps": 1536.3,
       "uex_prices": [
+        {
+          "price_buy": 380430,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 396209,
           "terminal_name": "CenterMass - New Babbage",
@@ -179566,35 +179705,19 @@
       "uex_prices": []
     },
     {
-      "id": "af019617-94ee-4a91-b62b-124c93f2a45e",
+      "id": "a1ea51dd-1665-41cf-923a-d6a42a7130ce",
       "name": "M9A Cannon",
       "description_lore": "Strike at the very heart of your enemies with the devastating impact of Behring's M9A energy autocannon. When fully charged, the massive stopping power of this laser weapon has the potential to halt even capital ships in their tracks.",
-      "size": 7,
+      "size": 12,
       "type": "Laser Cannon",
       "alpha": {
-        "physical": 0,
-        "energy": 2075.706
+        "physical": 200000,
+        "energy": 0
       },
-      "projectile_speed": 1048,
-      "fire_rate": 100,
-      "range": 7284,
-      "dps": 3459.5,
-      "uex_prices": []
-    },
-    {
-      "id": "6bf837a5-2763-4cd3-aa9c-869b0e798cb3",
-      "name": "M9A Cannon",
-      "description_lore": "Strike at the very heart of your enemies with the devastating impact of Behring's M9A energy autocannon. When fully charged, the massive stopping power of this laser weapon has the potential to halt even capital ships in their tracks.",
-      "size": 8,
-      "type": "Laser Cannon",
-      "alpha": {
-        "physical": 0,
-        "energy": 3113.64
-      },
-      "projectile_speed": 1016,
-      "fire_rate": 100,
-      "range": 7762,
-      "dps": 5189.4,
+      "projectile_speed": 924,
+      "fire_rate": 10,
+      "range": 12003,
+      "dps": 33333.3,
       "uex_prices": []
     },
     {
@@ -179614,6 +179737,38 @@
       "uex_prices": []
     },
     {
+      "id": "6bf837a5-2763-4cd3-aa9c-869b0e798cb3",
+      "name": "M9A Cannon",
+      "description_lore": "Strike at the very heart of your enemies with the devastating impact of Behring's M9A energy autocannon. When fully charged, the massive stopping power of this laser weapon has the potential to halt even capital ships in their tracks.",
+      "size": 8,
+      "type": "Laser Cannon",
+      "alpha": {
+        "physical": 0,
+        "energy": 3113.64
+      },
+      "projectile_speed": 1016,
+      "fire_rate": 100,
+      "range": 7762,
+      "dps": 5189.4,
+      "uex_prices": []
+    },
+    {
+      "id": "af019617-94ee-4a91-b62b-124c93f2a45e",
+      "name": "M9A Cannon",
+      "description_lore": "Strike at the very heart of your enemies with the devastating impact of Behring's M9A energy autocannon. When fully charged, the massive stopping power of this laser weapon has the potential to halt even capital ships in their tracks.",
+      "size": 7,
+      "type": "Laser Cannon",
+      "alpha": {
+        "physical": 0,
+        "energy": 2075.706
+      },
+      "projectile_speed": 1048,
+      "fire_rate": 100,
+      "range": 7284,
+      "dps": 3459.5,
+      "uex_prices": []
+    },
+    {
       "id": "f9a6c670-a830-4c44-9e26-7ca2a9070264",
       "name": "M9A Cannon",
       "description_lore": "Strike at the very heart of your enemies with the devastating impact of Behring's M9A energy autocannon. When fully charged, the massive stopping power of this laser weapon has the potential to halt even capital ships in their tracks.",
@@ -179627,22 +179782,6 @@
       "fire_rate": 100,
       "range": 9097,
       "dps": 3843.9,
-      "uex_prices": []
-    },
-    {
-      "id": "a1ea51dd-1665-41cf-923a-d6a42a7130ce",
-      "name": "M9A Cannon",
-      "description_lore": "Strike at the very heart of your enemies with the devastating impact of Behring's M9A energy autocannon. When fully charged, the massive stopping power of this laser weapon has the potential to halt even capital ships in their tracks.",
-      "size": 12,
-      "type": "Laser Cannon",
-      "alpha": {
-        "physical": 200000,
-        "energy": 0
-      },
-      "projectile_speed": 924,
-      "fire_rate": 10,
-      "range": 12003,
-      "dps": 33333.3,
       "uex_prices": []
     },
     {
@@ -179945,6 +180084,14 @@
       "dps": 546.8,
       "uex_prices": [
         {
+          "price_buy": 75145,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
           "price_buy": 78262,
           "terminal_name": "CenterMass - New Babbage",
           "starmap_location": {
@@ -179977,6 +180124,14 @@
       "range": 2165,
       "dps": 364.5,
       "uex_prices": [
+        {
+          "price_buy": 33400,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 34786,
           "terminal_name": "CenterMass - New Babbage",
@@ -180069,6 +180224,14 @@
       "dps": 1846,
       "uex_prices": [
         {
+          "price_buy": 855965,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
           "price_buy": 891466,
           "terminal_name": "CenterMass - New Babbage",
           "starmap_location": {
@@ -180128,6 +180291,39 @@
       "uex_prices": []
     },
     {
+      "id": "93b774da-e792-4648-bf79-acfd8b5d0f9d",
+      "name": "PyroBurst Scattergun",
+      "description_lore": "You ship will spread havoc with A&R's PyroBurst plasma shotgun. Effective in close quarters, the PyroBurst sprays self-detonating plasma projectiles, sacrificing pinpoint accuracy for area saturation.",
+      "size": 3,
+      "type": "Plasma Scattergun",
+      "alpha": {
+        "physical": 0,
+        "energy": 416
+      },
+      "projectile_speed": 843.6,
+      "fire_rate": 40,
+      "range": 1350,
+      "dps": 277.3,
+      "uex_prices": [
+        {
+          "price_buy": 60115,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
+          "price_buy": 62609,
+          "terminal_name": "CenterMass - New Babbage",
+          "starmap_location": {
+            "name": "New Babbage",
+            "star_system_name": "Stanton"
+          }
+        }
+      ]
+    },
+    {
       "id": "aa41e4d8-6b99-4f63-90d5-b0956e70c1d8",
       "name": "PyroBurst Scattergun",
       "description_lore": "You ship will spread havoc with A&R's PyroBurst plasma shotgun. Effective in close quarters, the PyroBurst sprays self-detonating plasma projectiles, sacrificing pinpoint accuracy for area saturation.",
@@ -180144,31 +180340,6 @@
       "uex_prices": []
     },
     {
-      "id": "93b774da-e792-4648-bf79-acfd8b5d0f9d",
-      "name": "PyroBurst Scattergun",
-      "description_lore": "You ship will spread havoc with A&R's PyroBurst plasma shotgun. Effective in close quarters, the PyroBurst sprays self-detonating plasma projectiles, sacrificing pinpoint accuracy for area saturation.",
-      "size": 3,
-      "type": "Plasma Scattergun",
-      "alpha": {
-        "physical": 0,
-        "energy": 416
-      },
-      "projectile_speed": 843.6,
-      "fire_rate": 40,
-      "range": 1350,
-      "dps": 277.3,
-      "uex_prices": [
-        {
-          "price_buy": 62609,
-          "terminal_name": "CenterMass - New Babbage",
-          "starmap_location": {
-            "name": "New Babbage",
-            "star_system_name": "Stanton"
-          }
-        }
-      ]
-    },
-    {
       "id": "cfacea3e-afbc-405c-b220-2d1d3b6e20b1",
       "name": "Quarreler Cannon",
       "description_lore": "Crafted with precision manufactured parts forged to extremely tight tolerances, designed for top-of-class heat management and assembled to exceed all industry standards, the Quarreler laser autocannon was created by Kruger Intergalactic for true defensive dependability.",
@@ -180183,6 +180354,14 @@
       "range": 2404,
       "dps": 546.8,
       "uex_prices": [
+        {
+          "price_buy": 83055,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 90653,
           "terminal_name": "CenterMass - New Babbage",
@@ -180226,6 +180405,22 @@
       "uex_prices": []
     },
     {
+      "id": "a2c01b55-7c88-4b8a-a45c-c99951ab9e11",
+      "name": "Revenant Gatling",
+      "description_lore": "If it ain't broke, don't fix it. And if you want it broke, aim a Revenant at it. Solidly built on a foundation of centuries-old tech, Apocalypse Arms puts an innovative spin on battle-tested designs to create a rugged ballistic Gatling that can steadily hurtle death across the void. Though it's slow to spin up and cool down, the Revenant's dependability makes it a favorite for those expecting to find trouble.",
+      "size": 6,
+      "type": "Ballistic Gatling",
+      "alpha": {
+        "physical": 189.9,
+        "energy": 0
+      },
+      "projectile_speed": 1215,
+      "fire_rate": 900,
+      "range": 6002,
+      "dps": 2848.5,
+      "uex_prices": []
+    },
+    {
       "id": "8bd04e05-8694-4f25-801f-a92c2a6b0169",
       "name": "Revenant Gatling",
       "description_lore": "If it ain't broke, don't fix it. And if you want it broke, aim a Revenant at it. Solidly built on a foundation of centuries-old tech, Apocalypse Arms puts an innovative spin on battle-tested designs to create a rugged ballistic Gatling that can steadily hurtle death across the void. Though it's slow to spin up and cool down, the Revenant's dependability makes it a favorite for those expecting to find trouble.",
@@ -180264,22 +180459,6 @@
       "fire_rate": 1200,
       "range": 2799,
       "dps": 1266,
-      "uex_prices": []
-    },
-    {
-      "id": "a2c01b55-7c88-4b8a-a45c-c99951ab9e11",
-      "name": "Revenant Gatling",
-      "description_lore": "If it ain't broke, don't fix it. And if you want it broke, aim a Revenant at it. Solidly built on a foundation of centuries-old tech, Apocalypse Arms puts an innovative spin on battle-tested designs to create a rugged ballistic Gatling that can steadily hurtle death across the void. Though it's slow to spin up and cool down, the Revenant's dependability makes it a favorite for those expecting to find trouble.",
-      "size": 6,
-      "type": "Ballistic Gatling",
-      "alpha": {
-        "physical": 189.9,
-        "energy": 0
-      },
-      "projectile_speed": 1215,
-      "fire_rate": 900,
-      "range": 6002,
-      "dps": 2848.5,
       "uex_prices": []
     },
     {
@@ -180330,6 +180509,14 @@
       "dps": 338.7,
       "uex_prices": [
         {
+          "price_buy": 10685,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
           "price_buy": 12494,
           "terminal_name": "CenterMass - New Babbage",
           "starmap_location": {
@@ -180356,7 +180543,7 @@
       ]
     },
     {
-      "id": "0995529d-f2ce-4436-9807-1389fa429569",
+      "id": "51264411-1e57-48b9-b1d8-6fab4fb3a687",
       "name": "SF7B Gatling",
       "description_lore": "Slug it out with large spacecraft and swiftly shred smaller ships with the SF7B ballistic Gatling. Built specifically for the Ares Inferno Star Fighter, the weapon seamlessly integrates into the body of the ship. The weapon's impressive rate of fire unleashes high-density rounds that tear through armor and shields, making it a perfect choice for situations where target saturation is key.",
       "size": 7,
@@ -180372,7 +180559,7 @@
       "uex_prices": []
     },
     {
-      "id": "51264411-1e57-48b9-b1d8-6fab4fb3a687",
+      "id": "0995529d-f2ce-4436-9807-1389fa429569",
       "name": "SF7B Gatling",
       "description_lore": "Slug it out with large spacecraft and swiftly shred smaller ships with the SF7B ballistic Gatling. Built specifically for the Ares Inferno Star Fighter, the weapon seamlessly integrates into the body of the ship. The weapon's impressive rate of fire unleashes high-density rounds that tear through armor and shields, making it a perfect choice for situations where target saturation is key.",
       "size": 7,
@@ -180623,6 +180810,22 @@
       "uex_prices": [
         {
           "price_buy": 18750,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
+          "price_buy": 18750,
+          "terminal_name": "Ship Weapons - Nyx Gateway (Pyro)",
+          "starmap_location": {
+            "name": "Nyx Gateway",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
+          "price_buy": 18750,
           "terminal_name": "Ship Weapons - Cousin Crow's - Providence Platform - Orison",
           "starmap_location": {
             "name": "Orison",
@@ -180654,6 +180857,14 @@
       "range": 1625,
       "dps": 202.5,
       "uex_prices": [
+        {
+          "price_buy": 42190,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
         {
           "price_buy": 42190,
           "terminal_name": "Ship Weapons - Cousin Crow's - Providence Platform - Orison",
@@ -180811,6 +181022,14 @@
       "dps": 375,
       "uex_prices": [
         {
+          "price_buy": 36070,
+          "terminal_name": "Ship Parts - Patch City",
+          "starmap_location": {
+            "name": "Patch City",
+            "star_system_name": "Pyro"
+          }
+        },
+        {
           "price_buy": 37566,
           "terminal_name": "CenterMass - New Babbage",
           "starmap_location": {
@@ -180895,22 +181114,6 @@
       ]
     },
     {
-      "id": "0c60b4ec-ba9c-42e5-9246-6f241f138167",
-      "name": "Tarantula GT-870 Mark 3 Cannon",
-      "description_lore": "Fed by Gallenson Tactical's patented SpinGlide drum ammunition system, the Tarantula GT-870 Mk3 can smoothly and accurately deliver a consistent stream of ballistic shells. Though it only has a moderate rate of fire, its trustworthy durability makes it a dependable addition to any fight.",
-      "size": 3,
-      "type": "Ballistic Cannon",
-      "alpha": {
-        "physical": 136.62,
-        "energy": 0
-      },
-      "projectile_speed": 1184,
-      "fire_rate": 200,
-      "range": 2996,
-      "dps": 455.4,
-      "uex_prices": []
-    },
-    {
       "id": "42e5fc33-1e86-4141-b876-c74aaec72a25",
       "name": "Tarantula GT-870 Mark 3 Cannon",
       "description_lore": "Fed by Gallenson Tactical's patented SpinGlide drum ammunition system, the Tarantula GT-870 Mk3 can smoothly and accurately deliver a consistent stream of ballistic shells. Though it only has a moderate rate of fire, its trustworthy durability makes it a dependable addition to any fight.",
@@ -180924,6 +181127,22 @@
       "fire_rate": 100,
       "range": 9097,
       "dps": 4271,
+      "uex_prices": []
+    },
+    {
+      "id": "0c60b4ec-ba9c-42e5-9246-6f241f138167",
+      "name": "Tarantula GT-870 Mark 3 Cannon",
+      "description_lore": "Fed by Gallenson Tactical's patented SpinGlide drum ammunition system, the Tarantula GT-870 Mk3 can smoothly and accurately deliver a consistent stream of ballistic shells. Though it only has a moderate rate of fire, its trustworthy durability makes it a dependable addition to any fight.",
+      "size": 3,
+      "type": "Ballistic Cannon",
+      "alpha": {
+        "physical": 136.62,
+        "energy": 0
+      },
+      "projectile_speed": 1184,
+      "fire_rate": 200,
+      "range": 2996,
+      "dps": 455.4,
       "uex_prices": []
     },
     {
@@ -181185,22 +181404,6 @@
       "uex_prices": []
     },
     {
-      "id": "fde9335b-a9b7-4d7d-a4a4-69b1158de320",
-      "name": "'WRATH' Cannon",
-      "description_lore": "This laser repeater is typically found on Vanduul war ships and is commonly known by its UEE Navy designation of 'WRATH'.",
-      "size": 5,
-      "type": "Plasma Canon",
-      "alpha": {
-        "physical": 0,
-        "energy": 970
-      },
-      "projectile_speed": 1056.4,
-      "fire_rate": 50,
-      "range": 4500,
-      "dps": 808.3,
-      "uex_prices": []
-    },
-    {
       "id": "2148a144-a9a2-457c-8bb5-e96f0492a0bc",
       "name": "'WRATH' Cannon",
       "description_lore": "This laser repeater is typically found on Vanduul war ships and is commonly known by its UEE Navy designation of 'WRATH'.",
@@ -181214,6 +181417,22 @@
       "fire_rate": 50,
       "range": 4500,
       "dps": 810,
+      "uex_prices": []
+    },
+    {
+      "id": "fde9335b-a9b7-4d7d-a4a4-69b1158de320",
+      "name": "'WRATH' Cannon",
+      "description_lore": "This laser repeater is typically found on Vanduul war ships and is commonly known by its UEE Navy designation of 'WRATH'.",
+      "size": 5,
+      "type": "Plasma Canon",
+      "alpha": {
+        "physical": 0,
+        "energy": 970
+      },
+      "projectile_speed": 1056.4,
+      "fire_rate": 50,
+      "range": 4500,
+      "dps": 808.3,
       "uex_prices": []
     },
     {

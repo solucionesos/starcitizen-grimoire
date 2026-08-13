@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "Rsi-Token",
+      "value": "5e41203da4ca4cd8f479462aa471cf5c",
+      "domain": ".robertsspaceindustries.com",
+      "path": "/",
+      "expires": 1924896000,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "Rsi-Token",
+      "value": "5e41203da4ca4cd8f479462aa471cf5c",
+      "domain": "issue-council.robertsspaceindustries.com",
+      "path": "/",
+      "expires": 1924896000,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}
