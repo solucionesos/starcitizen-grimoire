@@ -38,6 +38,13 @@ const CodexShips: React.FC = () => {
 
     const currentShip = ships.find(s => s.id === selectedShip);
 
+    let currentPurchasePrices: any[] = [];
+    if (currentShip) {
+        if (Array.isArray(currentShip.prices)) currentPurchasePrices = currentPurchasePrices.concat(currentShip.prices);
+        if (Array.isArray(currentShip.uex_prices)) currentPurchasePrices = currentPurchasePrices.concat(currentShip.uex_prices);
+        else if (currentShip.uex_prices?.purchase) currentPurchasePrices = currentPurchasePrices.concat(currentShip.uex_prices.purchase);
+    }
+
     const piercingWeapons = currentShip ? weapons.filter(w => {
         if (!currentShip.deflection) return false;
         
@@ -82,17 +89,24 @@ const CodexShips: React.FC = () => {
                         {ships.filter(s => {
                             if (!shipListSearch) return true;
                             const search = shipListSearch.toLowerCase();
-                            return s.name.toLowerCase().includes(search) || (s.manufacturer && s.manufacturer.toLowerCase().includes(search));
+                            const mfgName = typeof s.manufacturer === 'object' ? s.manufacturer?.name : s.manufacturer;
+                            return s.name.toLowerCase().includes(search) || (mfgName && mfgName.toLowerCase().includes(search));
                         }).map(s => {
-                            const minUecPrice = s.uex_prices && s.uex_prices.length > 0 
-                                ? Math.min(...s.uex_prices.map(p => p.price_buy || Infinity))
+                            let purchasePrices: any[] = [];
+                            if (Array.isArray(s.prices)) purchasePrices = purchasePrices.concat(s.prices);
+                            if (Array.isArray(s.uex_prices)) purchasePrices = purchasePrices.concat(s.uex_prices);
+                            else if (s.uex_prices?.purchase) purchasePrices = purchasePrices.concat(s.uex_prices.purchase);
+
+                            const minUecPrice = purchasePrices.length > 0 
+                                ? Math.min(...purchasePrices.map(p => p.price_buy || Infinity))
                                 : null;
+                            const imageUrl = s.images?.[0]?.thumbnail_url || s.images?.[0]?.original_url || s.image;
 
                             return (
                                 <div key={s.id} className="glass-card hover-primary" onClick={() => setSelectedShip(s.id)} style={{ cursor: 'pointer', padding: 0, overflow: 'hidden', borderTop: '2px solid var(--accent-gold)', display: 'flex', flexDirection: 'column' }}>
                                     <div style={{ width: '100%', height: '150px', background: 'rgba(0,0,0,0.5)', overflow: 'hidden' }}>
-                                        {s.image ? (
-                                            <img src={s.image} alt={s.name} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }} />
+                                        {imageUrl ? (
+                                            <img src={imageUrl} alt={s.name} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }} />
                                         ) : (
                                             <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>Sin Imagen</div>
                                         )}
@@ -100,7 +114,7 @@ const CodexShips: React.FC = () => {
                                     <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
                                         <div>
                                             <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text-main)' }}>{s.name}</div>
-                                            <div style={{ fontSize: '0.8rem', color: 'var(--accent-silver)', textTransform: 'uppercase', letterSpacing: '1px' }}>{s.manufacturer || 'Desconocido'}</div>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--accent-silver)', textTransform: 'uppercase', letterSpacing: '1px' }}>{typeof s.manufacturer === 'object' ? s.manufacturer?.name : (s.manufacturer || 'Desconocido')}</div>
                                         </div>
                                         
                                         <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
@@ -123,13 +137,13 @@ const CodexShips: React.FC = () => {
 
             {currentShip && (
                 <div className="glass-card">
-                    {currentShip.image && (
+                    {(currentShip.images?.[0]?.original_url || currentShip.image) && (
                         <div style={{ width: '100%', height: '300px', marginBottom: '1.5rem', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--accent-gold)' }}>
-                            <img src={currentShip.image} alt={currentShip.name} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={currentShip.images?.[0]?.original_url || currentShip.image} alt={currentShip.name} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
                     )}
                     <h2 style={{ color: 'var(--accent-gold)', marginBottom: '0.2rem' }}>{currentShip.name}</h2>
-                    <h3 style={{ color: 'var(--accent-silver)', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>{currentShip.manufacturer || 'Desconocido'}</h3>
+                    <h3 style={{ color: 'var(--accent-silver)', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>{typeof currentShip.manufacturer === 'object' ? currentShip.manufacturer?.name : (currentShip.manufacturer || 'Desconocido')}</h3>
                     {currentShip.description_lore && (
                         <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: '1.5rem', borderLeft: '2px solid var(--accent-gold)', paddingLeft: '1rem' }}>
                             {currentShip.description_lore}
@@ -163,11 +177,11 @@ const CodexShips: React.FC = () => {
                             Valor Pledge: <span className="accent-gold">${currentShip.msrp} USD</span>
                         </div>
                     )}
-                    {currentShip.uex_prices && currentShip.uex_prices.length > 0 && (
+                    {currentPurchasePrices.length > 0 && (
                         <div style={{ marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem', marginBottom: '1.5rem' }}>
                             <h4 style={{ color: 'var(--text-color)', marginBottom: '0.5rem' }}>Disponibilidad In-Game (LIVE):</h4>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                {currentShip.uex_prices.map((price, idx) => (
+                                {currentPurchasePrices.map((price, idx) => (
                                     <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '0.5rem', borderRadius: '4px' }}>
                                         <p style={{ margin: '0', fontSize: '0.9rem' }}><strong>Lugar:</strong> {price.terminal_name} {price.starmap_location ? `(${price.starmap_location.name}, ${price.starmap_location.star_system_name})` : ''}</p>
                                         <p style={{ margin: '0', fontSize: '0.9rem', color: '#ffd700' }}><strong>Costo:</strong> {price.price_buy?.toLocaleString()} aUEC</p>

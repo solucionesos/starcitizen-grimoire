@@ -9,11 +9,13 @@ export interface Ship {
   name: string;
   className?: string;
   image?: string;
-  manufacturer?: string;
+  images?: { thumbnail_url?: string; original_url?: string }[];
+  manufacturer?: string | { name: string, code?: string, uuid?: string, link?: string };
   description: string;
   description_lore?: string;
   msrp?: number;
-  uex_prices?: UexPrice[];
+  uex_prices?: { purchase?: UexPrice[], rental?: UexPrice[] } | UexPrice[];
+  prices?: UexPrice[];
   deflection?: { physical: number; energy: number };
   cargo_capacity?: number;
   speed?: { scm: number; max: number };

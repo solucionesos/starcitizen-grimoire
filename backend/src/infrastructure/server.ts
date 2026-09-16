@@ -179,6 +179,23 @@ app.get('/api/commodities', async (req, res) => {
   }
 });
 
+app.post('/api/sync/update', async (req, res) => {
+  try {
+    const gameData = req.body;
+    if (!gameData || !gameData.version) {
+      res.status(400).json({ error: 'Payload inválido. Se esperaba GameData.' });
+      return;
+    }
+    await repository.save(gameData);
+    console.log(`[n8n] Datos recibidos y guardados correctamente. Version: ${gameData.version}, Naves: ${gameData.ships?.length || 0}`);
+    res.json({ success: true, message: 'Base de datos sincronizada desde n8n' });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Error al guardar JSON';
+    console.error('[n8n] Error recibiendo data:', msg);
+    res.status(500).json({ error: msg });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Star Cat Backend running at http://localhost:${port}`);
 });
