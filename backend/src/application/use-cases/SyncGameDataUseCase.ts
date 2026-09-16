@@ -22,8 +22,14 @@ export class SyncGameDataUseCase {
       if (this.wikiFetcher) {
         console.log(`[SyncGameDataUseCase] Enriching with Wiki API...`);
 
-        gameData.ships = await this.wikiFetcher.fetchShips();
-        gameData.vehicleWeapons = await this.wikiFetcher.fetchVehicleWeapons();
+        const [ships, weapons, components] = await Promise.all([
+          this.wikiFetcher.fetchShips(),
+          this.wikiFetcher.fetchVehicleWeapons(),
+          this.wikiFetcher.fetchVehicleComponents()
+        ]);
+        gameData.ships = ships;
+        gameData.vehicleWeapons = weapons;
+        gameData.vehicleComponents = components;
 
         if (this.uexFetcher) {
             console.log(`[SyncGameDataUseCase] Overwriting prices with UEX API (LIVE data)...`);
@@ -40,7 +46,7 @@ export class SyncGameDataUseCase {
             }
 
             // Map UEX vehicle by name/slug to find ID
-            for (const ship of gameData.ships) {
+            for (const ship of (gameData.ships || [])) {
                 // Find matching vehicle in UEX by name (ignoring spaces/case, or partial match)
                 const uexV = uexVehicles.find(v => 
                     (v.name && ship.name && v.name.toLowerCase() === ship.name.toLowerCase()) || 
@@ -82,7 +88,11 @@ export class SyncGameDataUseCase {
                     }
                 }
             }
-
+            
+            // Enrich weapons and components
+            const uexItemPrices = await this.uexFetcher.fetchItemPurchasePrices();
+            gameData.vehicleWeapons = this.mergeItems(gameData.vehicleWeapons || [], uexItemPrices);
+            gameData.vehicleComponents = this.mergeItems(gameData.vehicleComponents || [], uexItemPrices);
         }
 
         for (const mission of gameData.missions) {
@@ -147,4 +157,25 @@ export class SyncGameDataUseCase {
     }
   }
 
+  private mergeItems(items: any[], uexPrices: any[]) {
+    // Create a dictionary for fast lookup O(1) instead of nested filtering O(N^2)
+    const uexMap = new Map<string, any[]>();
+    for (const up of uexPrices) {
+      if (!up.name) continue;
+      const lowerName = up.name.toLowerCase();
+      if (!uexMap.has(lowerName)) {
+        uexMap.set(lowerName, []);
+      }
+      uexMap.get(lowerName)!.push({
+        price_buy: up.price_buy,
+        terminal_name: up.terminal_name,
+        starmap_location: up.starmap_location
+      });
+    }
+
+    return items.map(item => ({
+      ...item,
+      uex_prices: item.name ? (uexMap.get(item.name.toLowerCase()) || []) : []
+    }));
+  }
 }

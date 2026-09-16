@@ -142,8 +142,8 @@ const CodexShips: React.FC = () => {
                             <BookOpen size={16} /> Buscar Tecnomilagro
                         </Link>
                         {/* BOTÓN HACIA ERKUL CALCULATOR */}
-                        <a href="https://erkul.games/calculator" target="_blank" rel="noopener noreferrer" className="btn" style={{ background: 'rgba(255, 255, 255, 0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', fontSize: '0.8rem', padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
-                            <ExternalLink size={16} /> Erkul Calculator
+                        <a href={`https://erkul.games/ship/${(currentShip.className || currentShip.name).toLowerCase().replace(/[^a-z0-9]+/g, '_')}`} target="_blank" rel="noopener noreferrer" className="btn" style={{ background: 'rgba(255, 255, 255, 0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', fontSize: '0.8rem', padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                            <ExternalLink size={16} /> Simular Loadout en Erkul
                         </a>
                     </div>
 

@@ -4,6 +4,8 @@ import path from 'path';
 import { ISCDataFetcher } from '../../domain/ports/ISCDataFetcher.js';
 import { GameData } from '../../domain/models.js';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 // Bypass Cloudflare bot-blocks by masking as standard Chromium browser.
 axios.defaults.headers.common['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
@@ -46,11 +48,11 @@ export class SCMDBAdapter implements ISCDataFetcher {
   }
 
   async fetchGameData(version: string): Promise<GameData> {
-    const [missions, blueprints, mining] = await Promise.all([
-      axios.get(`${this.baseUrl}/merged-${version}.json`),
-      axios.get(`${this.baseUrl}/crafting_blueprints-${version}.json`),
-      axios.get(`${this.baseUrl}/mining_data-${version}.json`)
-    ]);
+    const missions = await axios.get(`${this.baseUrl}/merged-${version}.json`);
+    await delay(1000);
+    const blueprints = await axios.get(`${this.baseUrl}/crafting_blueprints-${version}.json`);
+    await delay(1000);
+    const mining = await axios.get(`${this.baseUrl}/mining_data-${version}.json`);
 
     const missionsData = missions.data.missions || missions.data;
     const factions = missionsData.factions || {};

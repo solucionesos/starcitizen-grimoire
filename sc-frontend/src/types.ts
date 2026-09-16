@@ -7,6 +7,7 @@ export interface UexPrice {
 export interface Ship {
   id: string;
   name: string;
+  className?: string;
   image?: string;
   manufacturer?: string;
   description: string;

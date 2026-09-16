@@ -37,6 +37,7 @@ import asyncio
 import json
 import argparse
 import sys
+import random
 from pathlib import Path
 from datetime import datetime
 
@@ -64,8 +65,7 @@ TITLE_SELECTOR = "h2.detail-title"      # título en el panel de detalle lateral
 CONTAINER_SEL  = ".contract-table-body" # contenedor scrollable de misiones
 CLOSE_KEY      = "Escape"
 SCROLL_STEP    = 400          # px por scroll (paso pequeño para no saltarse filas)
-PAUSE_MS       = 500          # espera tras click (ms)
-SCROLL_PAUSE   = 1_000        # espera tras scroll para renderizado de virtual-list
+# Los delays son calculados de manera aleatoria en las llamadas para evadir protección de bots
 INIT_WAIT_MS   = 4_000        # espera inicial tras carga de página
 CONTAINER_TIMEOUT = 20_000    # tiempo máximo esperando el contenedor (ms)
 
@@ -91,7 +91,7 @@ async def extract_visible_rows(page: Page) -> dict:
             # Scroll al elemento
             await row.scroll_into_view_if_needed(timeout=3_000)
             await row.click(timeout=4_000)
-            await page.wait_for_timeout(PAUSE_MS)
+            await page.wait_for_timeout(random.randint(1500, 3000))
 
             # Esperar panel de detalle
             try:
@@ -207,7 +207,7 @@ async def scrape_scmdb(
                 await container.evaluate(
                     f"(el) => el.scrollTop += {SCROLL_STEP}"
                 )
-                await page.wait_for_timeout(SCROLL_PAUSE)
+                await page.wait_for_timeout(random.randint(2500, 4500))
 
                 rows_after = await page.query_selector_all(ROW_SELECTOR)
                 count_after = len(rows_after)

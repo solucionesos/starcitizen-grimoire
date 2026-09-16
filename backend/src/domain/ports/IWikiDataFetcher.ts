@@ -5,4 +5,5 @@ export interface IWikiDataFetcher {
   fetchItemDetails(query: string): Promise<any>;
   fetchShips(): Promise<Ship[]>;
   fetchVehicleWeapons(): Promise<VehicleWeapon[]>;
+  fetchVehicleComponents(): Promise<any[]>;
 }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Database, Lock, ShoppingCart, AlertTriangle } from 'lucide-react';
+import { Shield, Database, Lock, ShoppingCart, Radio, TrendingUp } from 'lucide-react';
 import Wikelo from './Wikelo';
 import Bovedas from './Bovedas';
-import Manifestaciones from './Manifestaciones';
+import Comunicaciones from './Comunicaciones';
+import RutasComerciales from './RutasComerciales';
 
 const Datavelo: React.FC = () => {
-    const [activeTab, setActiveTab ] = useState<'bovedas' | 'wikelo' | 'manifestaciones'>('bovedas');
+    const [activeTab, setActiveTab ] = useState<'bovedas' | 'wikelo' | 'comunicaciones' | 'comercio' | 'loadouts'>('bovedas');
 
     useEffect(() => {
         document.title = 'Star Grimoire | DATAVELO';
@@ -15,7 +16,8 @@ const Datavelo: React.FC = () => {
     const tabs = [
         { id: 'bovedas', label: 'BÓVEDAS DEL VACÍO', icon: Lock, color: 'var(--accent-silver)' },
         { id: 'wikelo', label: 'EL ESTAFADOR (BANU)', icon: ShoppingCart, color: '#ff4444' },
-        { id: 'manifestaciones', label: 'MANIFESTACIONES DEL VACÍO', icon: AlertTriangle, color: 'var(--primary)' },
+        { id: 'comunicaciones', label: 'RED DE COMUNICACIONES', icon: Radio, color: '#00d2ff' },
+        { id: 'comercio', label: 'RUTAS COMERCIALES', icon: TrendingUp, color: '#ffd700' }
     ];
 
     return (
@@ -138,15 +140,26 @@ const Datavelo: React.FC = () => {
                             <Wikelo />
                         </motion.div>
                     )}
-                    {activeTab === 'manifestaciones' && (
+                    {activeTab === 'comunicaciones' && (
                         <motion.div
-                            key="manifestaciones"
+                            key="comunicaciones"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <Manifestaciones />
+                            <Comunicaciones />
+                        </motion.div>
+                    )}
+                    {activeTab === 'comercio' && (
+                        <motion.div
+                            key="comercio"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <RutasComerciales />
                         </motion.div>
                     )}
                 </AnimatePresence>

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { IWikiDataFetcher } from '../../domain/ports/IWikiDataFetcher.js';
-import { Ship, VehicleWeapon, UexPrice } from '../../domain/models.js';
+import { Ship, VehicleWeapon, VehicleComponent, UexPrice } from '../../domain/models.js';
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export class WikiAPIAdapter implements IWikiDataFetcher {
   private readonly baseUrl = 'https://api.star-citizen.wiki/api/v2';
@@ -50,6 +52,7 @@ export class WikiAPIAdapter implements IWikiDataFetcher {
                 shipsMap.set(baseName, {
                   id: item.uuid,
                   name: baseName, // Use the cleaned name
+                  className: item.class_name,
                   description: item.description?.es_ES || item.description?.en_EN || item.description || '',
                   ...(item.description ? { description_lore: item.description?.es_ES || item.description?.en_EN || item.description } : {}),
                   ...(item.msrp || (item.skus && item.skus[0]?.price) ? { msrp: item.msrp || (item.skus && item.skus[0]?.price) } : {}),
@@ -83,6 +86,9 @@ export class WikiAPIAdapter implements IWikiDataFetcher {
             }
         }
         page++;
+        if (page <= lastPage) {
+          await delay(1500 + Math.random() * 2000);
+        }
       } catch (err) {
         console.error('[WikiAPI] Error fetching ships:', err);
         break;
@@ -286,6 +292,9 @@ export class WikiAPIAdapter implements IWikiDataFetcher {
           }
         }
         page++;
+        if (page <= lastPage) {
+          await delay(1500 + Math.random() * 2000);
+        }
       } catch (err) {
         console.error('[WikiAPI] Error fetching vehicle weapons:', err);
         break;
@@ -295,11 +304,53 @@ export class WikiAPIAdapter implements IWikiDataFetcher {
     return weapons;
   }
 
+  async fetchVehicleComponents(): Promise<VehicleComponent[]> {
+    const components: VehicleComponent[] = [];
+    const types = ['Shield', 'QuantumDrive', 'PowerPlant', 'Cooler'];
+    
+    console.log('[WikiAPI] Fetching vehicle components...');
+    for (const type of types) {
+        let page = 1;
+        let lastPage = 1;
+        do {
+          try {
+            const response = await axios.get(`${this.baseUrl}/items?filter[type]=${type}&limit=100&page=${page}`);
+            const data = response.data;
+            lastPage = data.meta?.last_page || 1;
+
+            for (const item of data.data) {
+                components.push({
+                  id: item.uuid,
+                  name: item.name,
+                  description_lore: item.description?.es_ES || item.description?.en_EN || item.description,
+                  size: item.size || 1,
+                  type: item.type_label || type,
+                  manufacturer: item.manufacturer?.name,
+                  grade: item.grade,
+                  class: item.class,
+                  uex_prices: this.extractUexPrices(item)
+                });
+            }
+            page++;
+            if (page <= lastPage) {
+              await delay(1500 + Math.random() * 1000);
+            }
+          } catch (err) {
+            console.error(`[WikiAPI] Error fetching components of type ${type}:`, err);
+            break;
+          }
+        } while (page <= lastPage);
+    }
+
+    return components;
+  }
+
   async fetchMissionDetails(query: string): Promise<any> {
     try {
       // The API uses query parameter for searching
-      const response = await axios.get(`${this.baseUrl}/missions?search=${encodeURIComponent(query)}`);
-      const data = response.data.data;
+      console.log(`[WikiAPI] Fetching mission details for: ${query.substring(0,30)}...`);
+      const response = await axios.get(`${this.baseUrl}/missions?search=${encodeURIComponent(query)}`, { signal: AbortSignal.timeout(5000) });
+      const data = response.data?.data;
       if (data && data.length > 0) {
         // Find best match using fuzzy search (Levenshtein)
         let bestMatch = data[0];

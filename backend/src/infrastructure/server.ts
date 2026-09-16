@@ -3,6 +3,8 @@ import { JSONFileRepository } from './repositories/JSONFileRepository.js';
 import { SCMDBAdapter } from './adapters/SCMDBAdapter.js';
 import { WikiAPIAdapter } from './adapters/WikiAPIAdapter.js';
 import { UexAPIAdapter } from './adapters/UexAPIAdapter.js';
+import { RedditAPIAdapter } from './adapters/RedditAPIAdapter.js';
+import { RSIStatusAdapter } from './adapters/RSIStatusAdapter.js';
 import { SyncGameDataUseCase } from '../application/use-cases/SyncGameDataUseCase.js';
 import { UpdateScheduler } from './cron/UpdateScheduler.js';
 import cors from 'cors';
@@ -19,6 +21,8 @@ const repository = new JSONFileRepository(path.join(process.cwd(), 'data', 'db.j
 const fetcher = new SCMDBAdapter();
 const wikiFetcher = new WikiAPIAdapter();
 const uexFetcher = new UexAPIAdapter();
+const redditFetcher = new RedditAPIAdapter();
+const statusFetcher = new RSIStatusAdapter();
 const syncUseCase = new SyncGameDataUseCase(repository, fetcher, wikiFetcher, uexFetcher);
 const scheduler = new UpdateScheduler(syncUseCase);
 
@@ -53,6 +57,11 @@ app.get('/api/ships', async (req, res) => {
 app.get('/api/weapons', async (req, res) => {
   const weapons = await repository.getAllVehicleWeapons();
   res.json(weapons);
+});
+
+app.get('/api/components', async (req, res) => {
+  const components = await repository.getAllVehicleComponents();
+  res.json(components);
 });
 
 app.get('/api/version', async (req, res) => {
@@ -123,6 +132,50 @@ app.get('/api/news', async (_req, res) => {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Error desconocido';
     res.status(502).json({ error: msg });
+  }
+});
+
+app.get('/api/devtracker', async (req, res) => {
+  try {
+    const posts = await redditFetcher.fetchDevPosts();
+    res.json(posts);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Error desconocido';
+    res.status(500).json({ error: msg });
+  }
+});
+
+app.get('/api/status', async (req, res) => {
+  try {
+    const [status, incidents] = await Promise.all([
+      statusFetcher.fetchStatus(),
+      statusFetcher.fetchIncidents()
+    ]);
+    res.json({ status, incidents });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Error desconocido';
+    res.status(500).json({ error: msg });
+  }
+});
+
+app.get('/api/commodities', async (req, res) => {
+  try {
+    const [commodities, terminals] = await Promise.all([
+      uexFetcher.fetchCommoditiesPrices(),
+      uexFetcher.fetchTerminals()
+    ]);
+
+    const terminalMap = new Map(terminals.map(t => [t.id, t.is_auto_load]));
+
+    const enrichedCommodities = commodities.map(c => ({
+      ...c,
+      is_auto_load: terminalMap.get(c.id_terminal) ?? 0
+    }));
+
+    res.json(enrichedCommodities);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Error desconocido';
+    res.status(500).json({ error: msg });
   }
 });
 

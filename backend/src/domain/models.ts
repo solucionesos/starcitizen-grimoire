@@ -55,6 +55,7 @@ export interface Ship {
     name: string;
     image?: string;
     manufacturer?: string;
+    className?: string;
     description: string;
     description_lore?: string;
     deflection?: { physical: number; energy: number };
@@ -81,6 +82,18 @@ export interface VehicleWeapon {
     uex_prices?: UexPrice[];
 }
 
+export interface VehicleComponent {
+    id: string;
+    name: string;
+    description_lore?: string;
+    size: number;
+    type: string;
+    manufacturer?: string;
+    grade?: string;
+    class?: string;
+    uex_prices?: UexPrice[];
+}
+
 export interface GameData {
   version: string;
   missions: Mission[];
@@ -88,4 +101,5 @@ export interface GameData {
   resources: Resource[];
   ships?: Ship[];
   vehicleWeapons?: VehicleWeapon[];
+  vehicleComponents?: VehicleComponent[];
 }
