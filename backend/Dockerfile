@@ -27,7 +27,8 @@ RUN npm ci --omit=dev
 
 # Copy compiled code from builder
 COPY --from=builder /app/dist ./dist
-# Note: we will mount the data directory as a volume via docker-compose, but we copy it just in case
+# Keep a reference copy of bundled data outside the /app/data volume mount so db.json can auto-upgrade on container rebuild
+COPY --from=builder /app/data ./bundled_data
 COPY --from=builder /app/data ./data
 
 EXPOSE 3001

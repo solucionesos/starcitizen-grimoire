@@ -10,6 +10,50 @@ export class JSONFileRepository implements IGameDataRepository {
 
   constructor(filePath?: string) {
     this.filePath = filePath || path.join(process.cwd(), 'data/db.json');
+    this.syncBundledDataIfNeeded();
+  }
+
+  private extractVersionFast(targetPath: string): string | null {
+    try {
+      if (!fs.pathExistsSync(targetPath)) return null;
+      const fd = fs.openSync(targetPath, 'r');
+      const buf = Buffer.alloc(512);
+      const bytesRead = fs.readSync(fd, buf, 0, 512, 0);
+      fs.closeSync(fd);
+      const head = buf.subarray(0, bytesRead).toString('utf8');
+      const match = head.match(/"version"\s*:\s*"([^"]+)"/);
+      if (match && match[1]) return match[1];
+      const full = fs.readJSONSync(targetPath);
+      return full?.version || null;
+    } catch {
+      return null;
+    }
+  }
+
+  private syncBundledDataIfNeeded(): void {
+    try {
+      const bundledDbPath = path.join(process.cwd(), 'bundled_data/db.json');
+      if (fs.pathExistsSync(bundledDbPath)) {
+        const bundledVer = this.extractVersionFast(bundledDbPath);
+        const currentVer = this.extractVersionFast(this.filePath);
+
+        if (bundledVer && bundledVer !== currentVer) {
+          console.log(
+            `[JSONFileRepository] Actualizando db.json en volumen persistente: ${currentVer || 'ninguna'} -> ${bundledVer}`
+          );
+          fs.copyFileSync(bundledDbPath, this.filePath);
+          this.cachedData = null;
+        }
+      }
+
+      const cronTarget = path.join(process.cwd(), 'data/chronicles.json');
+      const cronBundled = path.join(process.cwd(), 'bundled_data/chronicles.json');
+      if (!fs.pathExistsSync(cronTarget) && fs.pathExistsSync(cronBundled)) {
+        fs.copyFileSync(cronBundled, cronTarget);
+      }
+    } catch (err) {
+      console.error('[JSONFileRepository] Error sincronizando bundled_data:', err);
+    }
   }
 
   private async loadData(): Promise<GameData | null> {
