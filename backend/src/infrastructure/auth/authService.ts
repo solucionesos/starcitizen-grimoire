@@ -309,16 +309,34 @@ export function bindUserToRosterProfile(currentUserId: string, targetHandleOrId:
 
   if (sourceUser.id !== targetRoster.id) {
     const mergeTx = db.transaction(() => {
-      db.prepare('UPDATE OR IGNORE altar_items SET user_id = ? WHERE user_id = ?').run(
+      db.prepare('UPDATE OR IGNORE altars SET user_id = ? WHERE user_id = ?').run(
         targetRoster.id,
         sourceUser.id
       );
-      db.prepare('DELETE FROM altar_items WHERE user_id = ?').run(sourceUser.id);
-      db.prepare('UPDATE OR IGNORE poll_votes SET user_id = ? WHERE user_id = ?').run(
+      db.prepare('UPDATE OR IGNORE votes SET user_id = ? WHERE user_id = ?').run(
         targetRoster.id,
         sourceUser.id
       );
-      db.prepare('DELETE FROM poll_votes WHERE user_id = ?').run(sourceUser.id);
+      db.prepare('UPDATE OR IGNORE crusade_signups SET user_id = ? WHERE user_id = ?').run(
+        targetRoster.id,
+        sourceUser.id
+      );
+      db.prepare('UPDATE objectives SET creator_id = ? WHERE creator_id = ?').run(
+        targetRoster.id,
+        sourceUser.id
+      );
+      db.prepare('UPDATE objectives SET assigned_to = ? WHERE assigned_to = ?').run(
+        targetRoster.id,
+        sourceUser.id
+      );
+      db.prepare('UPDATE crusades SET creator_id = ? WHERE creator_id = ?').run(
+        targetRoster.id,
+        sourceUser.id
+      );
+      db.prepare('UPDATE polls SET creator_id = ? WHERE creator_id = ?').run(
+        targetRoster.id,
+        sourceUser.id
+      );
       db.prepare('DELETE FROM users WHERE id = ?').run(sourceUser.id);
 
       db.prepare(`
