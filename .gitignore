@@ -35,6 +35,13 @@ yarn-error.log*
 # Backend specific
 backend/dist/
 backend/node_modules/
+backend/.env
+backend/data/*.sqlite*
+data/
+error*.json
+execution.json
+workflow_temp.json
+fix*.py
 
 # Frontend specific
 sc-frontend/dist/

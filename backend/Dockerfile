@@ -1,6 +1,8 @@
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
+
+RUN apk add --no-cache python3 make g++
 
 # Copy package info and install dependencies
 COPY package*.json ./
@@ -13,9 +15,11 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production environment
-FROM node:20-alpine
+FROM node:22-alpine
 
 WORKDIR /app
+
+RUN apk add --no-cache python3 make g++
 
 # Install only production dependencies
 COPY package*.json ./

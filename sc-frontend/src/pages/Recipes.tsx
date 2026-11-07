@@ -126,7 +126,7 @@ const Recipes: React.FC = () => {
                     ))}
                 </div>
                 {searchParams.get('id') && (
-                    <button className="btn" style={{ fontSize: '0.7rem', padding: '0.4rem' }} onClick={() => navigate('/recipes')}>DISOLVER EDICTO</button>
+                    <button className="btn" style={{ fontSize: '0.7rem', padding: '0.4rem' }} onClick={() => navigate('/codice/tecnomilagros')}>DISOLVER EDICTO</button>
                 )}
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ const Recipes: React.FC = () => {
                                         if (part.resourceId) {
                                             navigate(`/recurso/${part.resourceId}`, { state: { breadcrumbLabel: `OFRENDA: ${part.label || part.name}` } });
                                         } else {
-                                            navigate(`/mapa?tags=${encodeURIComponent(part.label || part.name)}`);
+                                            navigate(`/codice/ofrendas?tags=${encodeURIComponent(part.label || part.name)}`);
                                         }
                                     }}
                                     title="Click para ver donde sacrificar"
@@ -189,7 +189,7 @@ const Recipes: React.FC = () => {
                                             <button 
                                                 key={mIdx}
                                                 className="filter-btn"
-                                                onClick={() => navigate(`/missions?id=${m.id}`, { state: { breadcrumbLabel: `EDICTO: ${friendlyName}` } })}
+                                                onClick={() => navigate(`/codice/mandatos?id=${m.id}`, { state: { breadcrumbLabel: `MANDATO: ${friendlyName}` } })}
                                                 style={{ 
                                                     fontSize: '0.65rem', 
                                                     maxWidth: '100%', 
@@ -224,7 +224,7 @@ const Recipes: React.FC = () => {
                                 className="btn" 
                                 onClick={() => {
                                     const tags = recipe.parts?.map((p: any) => encodeURIComponent(p.label || p.name)).join(',');
-                                    navigate(`/mapa?tags=${tags}`, { state: { breadcrumbLabel: `REQ: ${recipe.name || 'BLUEPRINT'}` } });
+                                    navigate(`/codice/ofrendas?tags=${tags}`, { state: { breadcrumbLabel: `REQ: ${recipe.name || 'BLUEPRINT'}` } });
                                 }}
                             >
                                 EXPLORAR CARTOGRAFÍA

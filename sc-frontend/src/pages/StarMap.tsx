@@ -360,7 +360,7 @@ const DetailPanel: React.FC<{
             </div>
             {/* Button to search all offerings in this location */}
             <button
-              onClick={() => navigate(`/mapa?system=${encodeURIComponent(systemName)}&body=${encodeURIComponent(searchBodyStr + ' (' + itemType + ')')}`)}
+              onClick={() => navigate(`/codice/ofrendas?system=${encodeURIComponent(systemName)}&body=${encodeURIComponent(searchBodyStr + ' (' + itemType + ')')}`)}
               style={{
                 width: '100%',
                 padding: '0.8rem',

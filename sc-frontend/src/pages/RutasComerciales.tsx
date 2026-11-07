@@ -1,297 +1,291 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Package, DollarSign, Box } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Compass, ShieldAlert, Flame, Layers } from 'lucide-react';
+import type { Resource } from '../types';
 
-interface Ship {
-  id: string;
-  name: string;
-  className?: string;
-  cargo_capacity?: number;
-}
-
-interface CommodityRecord {
-  id: number;
-  commodity_name: string;
-  terminal_name: string;
-  price_buy: number;
-  price_sell: number;
-  price_buy_avg: number;
-  price_sell_avg: number;
-  is_auto_load?: number;
-}
-
-interface Route {
-  commodity: string;
-  buyFrom: string;
-  sellTo: string;
+interface TradeRoute {
+  resource: string;
+  buyTerminal: string;
+  buySystem: string;
   buyPrice: number;
+  sellTerminal: string;
+  sellSystem: string;
   sellPrice: number;
-  units: number;
-  investment: number;
-  revenue: number;
-  profit: number;
+  profitPerUnit: number;
+  roi: number;
 }
 
 const RutasComerciales: React.FC = () => {
-  const [commodities, setCommodities] = useState<CommodityRecord[]>([]);
-  const [ships, setShips] = useState<Ship[]>([]);
-  
-  const [selectedShipSCU, setSelectedShipSCU] = useState<number>(0);
-  const [capital, setCapital] = useState<number>(100000);
-  const [requireAutoLoad, setRequireAutoLoad] = useState<boolean>(true);
-  
+  const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
+  const [scu, setScu] = useState<number>(96); // Taurus / Redeemer / Raft
+  const [investment, setInvestment] = useState<number>(500000);
+  const [systemFilter, setSystemFilter] = useState<string>('ALL');
 
   useEffect(() => {
-    Promise.all([
-      fetch('http://localhost:3001/api/commodities').then(r => r.json()),
-      fetch('http://localhost:3001/api/ships').then(r => r.json()),
-    ])
-    .then(([cData, sData]) => {
-      setCommodities(cData);
-      setShips(sData.filter((s: Ship) => s.cargo_capacity && s.cargo_capacity > 0)
-                    .sort((a: Ship, b: Ship) => a.name.localeCompare(b.name)));
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error(err);
-      setLoading(false);
-    });
+    document.title = 'Vías de Suministro y Tráfico de Ceniza | DATAVELO';
+    fetch('/api/resources')
+      .then((res) => res.json())
+      .then((data) => {
+        setResources(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
-  const topRoutes = useMemo(() => {
-    if (selectedShipSCU <= 0 || capital <= 0 || commodities.length === 0) return [];
+  const routes = useMemo(() => {
+    const calculatedRoutes: TradeRoute[] = [];
 
-    const routes: Route[] = [];
-    const grouped = commodities.reduce((acc, curr) => {
-      if (!acc[curr.commodity_name]) acc[curr.commodity_name] = [];
-      acc[curr.commodity_name].push(curr);
-      return acc;
-    }, {} as Record<string, CommodityRecord[]>);
+    resources.forEach((res) => {
+      if (!res.uex_prices || res.uex_prices.length < 2) return;
 
-    for (const [commodityName, records] of Object.entries(grouped)) {
-      // Best place to buy (lowest price_buy_avg > 0)
-      const sellers = records.filter(r => (r.price_buy_avg || r.price_buy) > 0 && (!requireAutoLoad || r.is_auto_load === 1))
-                             .sort((a, b) => (a.price_buy_avg || a.price_buy) - (b.price_buy_avg || b.price_buy));
-      // Best place to sell (highest price_sell_avg > 0)
-      const buyers = records.filter(r => (r.price_sell_avg || r.price_sell) > 0 && (!requireAutoLoad || r.is_auto_load === 1))
-                            .sort((a, b) => (b.price_sell_avg || b.price_sell) - (a.price_sell_avg || a.price_sell));
+      const buyers = res.uex_prices.filter((p: any) => p.price_buy && p.price_buy > 0);
+      const sellers = res.uex_prices.filter((p: any) => p.price_sell && p.price_sell > 0);
 
-      if (sellers.length > 0 && buyers.length > 0) {
-        const bestBuy = sellers[0];
-        const bestSell = buyers[0];
-        
-        const buyPrice = bestBuy.price_buy_avg || bestBuy.price_buy;
-        const sellPrice = bestSell.price_sell_avg || bestSell.price_sell;
-        
-        const profitPerUnit = sellPrice - buyPrice;
+      buyers.forEach((buy: any) => {
+        sellers.forEach((sell: any) => {
+          if (buy.terminal_name === sell.terminal_name) return;
 
-        if (profitPerUnit > 0) {
-          const maxCarryUnits = selectedShipSCU * 100;
-          const maxAffordUnits = Math.floor(capital / buyPrice);
-          const units = Math.min(maxCarryUnits, maxAffordUnits);
+          const profit = sell.price_sell - buy.price_buy;
+          if (profit > 0) {
+            const roi = (profit / buy.price_buy) * 100;
+            const buySys = buy.starmap_location?.star_system_name || 'Desconocido';
+            const sellSys = sell.starmap_location?.star_system_name || 'Desconocido';
 
-          if (units > 0) {
-            const investment = units * buyPrice;
-            const revenue = units * sellPrice;
-            const profit = revenue - investment;
+            if (systemFilter !== 'ALL' && buySys !== systemFilter && sellSys !== systemFilter) {
+              return;
+            }
 
-            routes.push({
-              commodity: commodityName,
-              buyFrom: bestBuy.terminal_name,
-              sellTo: bestSell.terminal_name,
-              buyPrice: buyPrice,
-              sellPrice: sellPrice,
-              units,
-              investment,
-              revenue,
-              profit
+            calculatedRoutes.push({
+              resource: res.name,
+              buyTerminal: buy.terminal_name,
+              buySystem: buySys,
+              buyPrice: buy.price_buy,
+              sellTerminal: sell.terminal_name,
+              sellSystem: sellSys,
+              sellPrice: sell.price_sell,
+              profitPerUnit: profit,
+              roi,
             });
           }
-        }
-      }
-    }
+        });
+      });
+    });
 
-    return routes.sort((a, b) => b.profit - a.profit).slice(0, 5);
-  }, [commodities, selectedShipSCU, capital, requireAutoLoad]);
+    return calculatedRoutes.sort((a, b) => b.profitPerUnit - a.profitPerUnit).slice(0, 50);
+  }, [resources, systemFilter]);
 
-  const handleShipChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const scu = parseInt(e.target.value) || 0;
-    setSelectedShipSCU(scu);
-  };
+  if (loading) {
+    return (
+      <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--secondary)', fontFamily: 'var(--cinzel-font)' }}>
+        TRAZANDO ARTERIAS DE SUMINISTRO EN LAS FISURAS DEL ORDEN...
+      </div>
+    );
+  }
 
   return (
-    <div style={{ color: 'var(--text-main)', padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      
-      {/* HEADER */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        style={{ marginBottom: '3rem', textAlign: 'center' }}
-      >
-        <h2 style={{ fontFamily: 'var(--cinzel-font)', fontSize: '2rem', color: '#ffd700', letterSpacing: '4px', textShadow: '0 0 15px rgba(255,215,0,0.3)' }}>
-          CALCULADORA DE RUTAS COMERCIALES
-        </h2>
-        <p style={{ color: 'var(--text-muted)' }}>Optimiza tus trayectos de Cargo Hauling en base a tu capital y capacidad de nave.</p>
-      </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      style={{ padding: '0 2rem 4rem', maxWidth: '1300px', margin: '0 auto' }}
+    >
+      <div style={{ textAlign: 'center', marginBottom: '2.2rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem', marginBottom: '0.5rem' }}>
+          <Compass size={34} color="var(--secondary)" />
+          <h1 style={{ fontFamily: 'var(--cinzel-font)', color: 'var(--secondary)', fontSize: '2.2rem', letterSpacing: '5px', margin: 0 }}>
+            VÍAS DE SUMINISTRO Y TRÁFICO DE CENIZA
+          </h1>
+        </div>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.98rem', maxWidth: '800px', margin: '0 auto' }}>
+          La Hermandad no acumula riqueza por vanidad: drena los recursos de <strong>La Gran Mentira</strong> para
+          alimentar la Forja Abisal y sostener la maquinaria de guerra de <strong>Ancalagon Oblivion Fleet</strong> en el
+          Ciclo 2956.
+        </p>
+      </div>
 
-      {/* CONTROLS */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        style={{ 
-          background: 'var(--bg-secondary)', 
-          padding: '2rem', 
-          borderRadius: '12px', 
-          border: '1px solid rgba(255,215,0,0.2)',
+      {/* Parámetros del Arca de Transporte */}
+      <div
+        className="glass-card"
+        style={{
+          padding: '1.5rem',
+          marginBottom: '2rem',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '2rem',
-          marginBottom: '3rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+          gap: '1.2rem',
+          borderTop: '3px solid var(--secondary)',
         }}
       >
         <div>
-          <label style={{ display: 'block', marginBottom: '0.5rem', color: '#ffd700', fontWeight: 'bold' }}>Nave Activa</label>
-          <div style={{ position: 'relative' }}>
-            <select 
-              onChange={handleShipChange}
-              style={{ 
-                width: '100%', padding: '0.8rem', paddingLeft: '2.5rem',
-                background: 'rgba(0,0,0,0.5)', color: 'white', border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '6px', outline: 'none', appearance: 'none',
-                fontFamily: 'inherit'
-              }}
-            >
-              <option value="0">Seleccionar nave...</option>
-              {ships.map(s => (
-                <option key={s.id} value={s.cargo_capacity}>{s.name} ({s.cargo_capacity} SCU)</option>
-              ))}
-            </select>
-            <Box size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-          </div>
-        </div>
-
-        <div>
-          <label style={{ display: 'block', marginBottom: '0.5rem', color: '#ffd700', fontWeight: 'bold' }}>Capacidad Manual (SCU)</label>
-          <input 
-            type="number" 
-            value={selectedShipSCU}
-            onChange={(e) => setSelectedShipSCU(parseInt(e.target.value) || 0)}
-            style={{ 
-              width: '100%', padding: '0.8rem', 
-              background: 'rgba(0,0,0,0.5)', color: 'white', border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '6px', outline: 'none'
+          <label
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: '0.75rem',
+              color: 'var(--secondary)',
+              fontFamily: 'var(--cinzel-font)',
+              marginBottom: '0.4rem',
             }}
+          >
+            <Layers size={14} /> CAPACIDAD DE BODEGA DEL ARCA (SCU)
+          </label>
+          <input
+            type="number"
+            min={1}
+            value={scu}
+            onChange={(e) => setScu(Math.max(1, Number(e.target.value)))}
+            className="search-input"
+            style={{ width: '100%' }}
           />
         </div>
 
         <div>
-          <label style={{ display: 'block', marginBottom: '0.5rem', color: '#ffd700', fontWeight: 'bold' }}>Capital Inicial (aUEC)</label>
-          <div style={{ position: 'relative' }}>
-            <input 
-              type="number" 
-              value={capital}
-              onChange={(e) => setCapital(parseInt(e.target.value) || 0)}
-              style={{ 
-                width: '100%', padding: '0.8rem', paddingLeft: '2.5rem',
-                background: 'rgba(0,0,0,0.5)', color: 'white', border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '6px', outline: 'none'
-              }}
-            />
-            <DollarSign size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-          </div>
-        </div>
-
-        <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', marginTop: '0.5rem' }}>
-          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', color: requireAutoLoad ? '#00ff00' : 'var(--text-muted)' }}>
-            <input 
-              type="checkbox" 
-              checked={requireAutoLoad}
-              onChange={(e) => setRequireAutoLoad(e.target.checked)}
-              style={{ marginRight: '10px', width: '20px', height: '20px', accentColor: '#ffd700' }}
-            />
-            <span style={{ fontSize: '1rem', fontWeight: 'bold' }}>Solo Terminales de Carga Automática (Evitar carga manual)</span>
+          <label
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: '0.75rem',
+              color: 'var(--secondary)',
+              fontFamily: 'var(--cinzel-font)',
+              marginBottom: '0.4rem',
+            }}
+          >
+            <Flame size={14} /> FONDO DE GUERRA DISPONIBLE (aUEC)
           </label>
+          <input
+            type="number"
+            min={1000}
+            value={investment}
+            onChange={(e) => setInvestment(Math.max(0, Number(e.target.value)))}
+            className="search-input"
+            style={{ width: '100%' }}
+          />
         </div>
-      </motion.div>
 
-      {/* RESULTS */}
-      <div>
-        <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', marginBottom: '1.5rem' }}>Mejores Rutas Calculadas</h3>
-        
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>Sincronizando mercado...</div>
-        ) : topRoutes.length === 0 ? (
-           <div style={{ textAlign: 'center', padding: '3rem', background: 'var(--bg-secondary)', borderRadius: '8px', border: '1px dashed rgba(255,255,255,0.2)' }}>
-              Selecciona una nave o introduce tu SCU y Capital para calcular rutas.
-           </div>
-        ) : (
-          <AnimatePresence>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {topRoutes.map((route, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%)',
-                    border: '1px solid rgba(255,215,0,0.3)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                  }}
-                >
-                  
-                  {/* Commodity & Locations */}
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                      <Package size={20} color="#ffd700" />
-                      <strong style={{ fontSize: '1.2rem', color: '#fff' }}>{route.commodity}</strong>
-                      <span style={{ fontSize: '0.8rem', background: 'rgba(255,215,0,0.1)', color: '#ffd700', padding: '2px 8px', borderRadius: '12px' }}>
-                        {route.units.toLocaleString()} uds ({(route.units / 100).toFixed(2)} SCU)
-                      </span>
-                    </div>
-                    
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#888' }}>Comprar en</span>
-                        <span style={{ color: '#fff' }}>{route.buyFrom}</span>
-                        <span style={{ color: '#ff4444' }}>{route.buyPrice} aUEC/ud</span>
-                      </div>
-                      
-                      <ArrowRight size={24} color="rgba(255,255,255,0.2)" />
-                      
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#888' }}>Vender en</span>
-                        <span style={{ color: '#fff' }}>{route.sellTo}</span>
-                        <span style={{ color: '#00d2ff' }}>{route.sellPrice} aUEC/ud</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Profit Math */}
-                  <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                      Inversión: <span style={{ color: '#ff4444' }}>-{route.investment.toLocaleString()} ¤</span>
-                    </div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                      Ingresos: <span style={{ color: '#00d2ff' }}>+{route.revenue.toLocaleString()} ¤</span>
-                    </div>
-                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#00ff00', textShadow: '0 0 10px rgba(0,255,0,0.2)', marginTop: '0.3rem' }}>
-                      Beneficio: {route.profit.toLocaleString()} ¤
-                    </div>
-                  </div>
-
-                </motion.div>
-              ))}
-            </div>
-          </AnimatePresence>
-        )}
+        <div>
+          <label
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: '0.75rem',
+              color: 'var(--secondary)',
+              fontFamily: 'var(--cinzel-font)',
+              marginBottom: '0.4rem',
+            }}
+          >
+            <ShieldAlert size={14} /> TEATRO ESTELAR
+          </label>
+          <select
+            value={systemFilter}
+            onChange={(e) => setSystemFilter(e.target.value)}
+            className="search-input"
+            style={{ width: '100%' }}
+          >
+            <option value="ALL">Todos los Sistemas (Stanton / Pyro / Nyx)</option>
+            <option value="Stanton">Stanton (Dominio de Los Custodios)</option>
+            <option value="Pyro">Pyro (Fisura de Fuego)</option>
+            <option value="Nyx">Nyx (Borde Exterior)</option>
+          </select>
+        </div>
       </div>
 
-    </div>
+      {/* Lista de Rutas */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {routes.map((r, i) => {
+          // Corrección C3: los precios UEX están expresados por SCU directamente (sin multiplicar por 100)
+          const maxUnitsByCapital = Math.floor(investment / r.buyPrice);
+          const unitsToBuy = Math.min(scu, maxUnitsByCapital);
+          const totalCost = unitsToBuy * r.buyPrice;
+          const totalProfit = unitsToBuy * r.profitPerUnit;
+
+          if (unitsToBuy <= 0) return null;
+
+          return (
+            <div
+              key={i}
+              className="glass-card"
+              style={{
+                padding: '1.4rem 1.8rem',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                gap: '1.2rem',
+                alignItems: 'center',
+                borderLeft: '4px solid var(--secondary)',
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--cinzel-font)', letterSpacing: '1px' }}>
+                  OFRENDA / SUMINISTRO
+                </span>
+                <h3 style={{ margin: '0.2rem 0', color: 'var(--secondary)', fontSize: '1.2rem', fontFamily: 'var(--cinzel-font)' }}>
+                  {r.resource}
+                </h3>
+                <span
+                  style={{
+                    fontSize: '0.75rem',
+                    background: 'rgba(212, 175, 55, 0.12)',
+                    color: 'var(--secondary)',
+                    border: '1px solid rgba(212, 175, 55, 0.3)',
+                    padding: '0.15rem 0.5rem',
+                    borderRadius: '4px',
+                    fontFamily: 'var(--cinzel-font)',
+                  }}
+                >
+                  RENDIMIENTO: +{r.roi.toFixed(1)}%
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', gridColumn: 'span 2' }}>
+                <div style={{ flex: 1, background: 'rgba(0,0,0,0.35)', padding: '0.8rem', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontFamily: 'var(--cinzel-font)' }}>
+                    PUNTO DE EXTRACCIÓN ({r.buySystem})
+                  </div>
+                  <div style={{ fontWeight: 'bold', fontSize: '0.92rem', color: 'var(--text-main)' }}>{r.buyTerminal}</div>
+                  <div style={{ color: 'var(--primary)', fontSize: '0.82rem', fontWeight: 'bold' }}>
+                    {r.buyPrice.toLocaleString()} aUEC / SCU
+                  </div>
+                </div>
+
+                <ArrowRight color="var(--secondary)" size={20} style={{ flexShrink: 0 }} />
+
+                <div style={{ flex: 1, background: 'rgba(0,0,0,0.35)', padding: '0.8rem', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontFamily: 'var(--cinzel-font)' }}>
+                    ENTREGA DE TRIBUTO ({r.sellSystem})
+                  </div>
+                  <div style={{ fontWeight: 'bold', fontSize: '0.92rem', color: 'var(--text-main)' }}>{r.sellTerminal}</div>
+                  <div style={{ color: 'var(--secondary)', fontSize: '0.82rem', fontWeight: 'bold' }}>
+                    {r.sellPrice.toLocaleString()} aUEC / SCU
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'var(--cinzel-font)' }}>
+                  TRIBUTO NETO PARA LA FLOTA
+                </div>
+                <div style={{ fontSize: '1.35rem', fontWeight: 'bold', color: 'var(--secondary)', fontFamily: 'var(--cinzel-font)' }}>
+                  +{totalProfit.toLocaleString()} aUEC
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  Inversión: {totalCost.toLocaleString()} aUEC ({unitsToBuy} SCU)
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {routes.length === 0 && (
+          <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+            No se hallaron vías de suministro activas con los parámetros indicados.
+          </div>
+        )}
+      </div>
+    </motion.div>
   );
 };
 

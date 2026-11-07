@@ -54,7 +54,7 @@ const LocationDetail: React.FC = () => {
 
     return (
         <div style={{ padding: '0 2rem' }}>
-            <Link to="/mapa" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', textDecoration: 'none', marginBottom: '2rem' }}>
+            <Link to="/codice/ofrendas" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', textDecoration: 'none', marginBottom: '2rem' }}>
                 <ArrowLeft size={16} /> VOLVER AL LOCALIZADOR
             </Link>
 

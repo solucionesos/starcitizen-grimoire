@@ -380,7 +380,7 @@ const Resources: React.FC = () => {
                                                 borderLeft: '2px solid var(--primary)'
                                             }}>
                                                 <Link 
-                                                    to={`/recipes?id=${bp.id}`}
+                                                    to={`/codice/tecnomilagros?id=${bp.id}`}
                                                     style={{ textDecoration: 'none', color: 'inherit', display: 'flex', justifyContent: 'space-between', width: '100%' }}
                                                 >
                                                     <span>{bp.name}</span>

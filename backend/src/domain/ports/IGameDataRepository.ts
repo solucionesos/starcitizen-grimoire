@@ -7,6 +7,7 @@ export interface IGameDataRepository {
   getAllBlueprints(): Promise<any[]>;
   getAllResources(): Promise<any[]>;
   getAllChronicles(): Promise<any[]>;
+  saveChronicle(chronicle: any): Promise<any>;
   getAllShips(): Promise<any[]>;
   getAllVehicleWeapons(): Promise<any[]>;
   getAllVehicleComponents(): Promise<any[]>;

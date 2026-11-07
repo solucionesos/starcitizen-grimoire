@@ -22,7 +22,7 @@ const Altar: React.FC = () => {
                     <PackageOpen size={48} style={{ color: 'var(--secondary)', marginBottom: '1rem', opacity: 0.5 }} />
                     <h3 style={{ fontFamily: 'var(--cinzel-font)', letterSpacing: '2px', color: 'var(--text-muted)' }}>EL ALTAR ESTÁ VACÍO</h3>
                     <p style={{ marginTop: '1rem' }}>
-                        <Link to="/recipes" className="btn" style={{ textDecoration: 'none' }}>EXAMINAR TECNOMILAGROS</Link>
+                        <Link to="/codice/tecnomilagros" className="btn" style={{ textDecoration: 'none' }}>EXAMINAR TECNOMILAGROS</Link>
                     </p>
                 </div>
             ) : (
@@ -97,7 +97,7 @@ const Altar: React.FC = () => {
                                             </Link>
                                         ) : (
                                             <Link 
-                                                to={`/mapa?tags=${encodeURIComponent(mat.label)}`}
+                                                to={`/codice/ofrendas?tags=${encodeURIComponent(mat.label)}`}
                                                 state={{ breadcrumbLabel: `MAPEO: ${mat.label}` }}
                                                 style={{ color: 'var(--text-muted)', textDecoration: 'none' }}
                                                 className="hover-primary"
@@ -119,7 +119,7 @@ const Altar: React.FC = () => {
                                 style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--cinzel-font)' }}
                                 onClick={() => {
                                     const allTags = materialKeys.map(k => encodeURIComponent(materials[k].label)).join(',');
-                                    navigate(`/mapa?tags=${allTags}`, { state: { breadcrumbLabel: 'MAPEO MASIVO' } });
+                                    navigate(`/codice/ofrendas?tags=${allTags}`, { state: { breadcrumbLabel: 'MAPEO MASIVO' } });
                                 }}
                             >
                                 <Target size={18} /> ESCANEAR TODAS EN MAPA

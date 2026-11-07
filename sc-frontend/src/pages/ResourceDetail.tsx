@@ -32,9 +32,9 @@ const ResourceDetail: React.FC = () => {
         const normalizedResourceName = resource.name.toLowerCase();
         return blueprints.filter(b => b.parts?.some((m: any) => {
             const partName = (m.label || m.name || "").toLowerCase();
-            return normalizedResourceName.includes(partName) || 
-                   partName.includes(normalizedResourceName) || 
-                   m.resourceId === resource.id;
+            return normalizedResourceName.includes(partName) ||
+                partName.includes(normalizedResourceName) ||
+                m.resourceId === resource.id;
         }));
     }, [blueprints, resource]);
 
@@ -47,7 +47,7 @@ const ResourceDetail: React.FC = () => {
 
     return (
         <div style={{ padding: '0 2rem' }}>
-            <Link to="/mapa" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', textDecoration: 'none', marginBottom: '2rem' }}>
+            <Link to="/codice/ofrendas" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', textDecoration: 'none', marginBottom: '2rem' }}>
                 <ArrowLeft size={16} /> REGRESAR A LA CARTOGRAFÍA ✠
             </Link>
 
@@ -58,7 +58,7 @@ const ResourceDetail: React.FC = () => {
                         <span style={{ fontSize: '0.8rem', background: 'rgba(255, 62, 62, 0.1)', color: 'var(--primary)', padding: '0.3rem 0.8rem', borderRadius: '4px', border: '1px solid currentColor' }}>
                             MÉTODO: {resource.type?.toUpperCase()}
                         </span>
-                        
+
                         <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '8px' }}>
                                 <Database className="accent-amber" size={24} />
@@ -122,7 +122,7 @@ const ResourceDetail: React.FC = () => {
                 </motion.div>
 
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                    
+
                     {resourceBlueprints.length > 0 && (
                         <div className="glass-card">
                             <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.5rem', color: 'var(--secondary)' }}>
@@ -130,9 +130,9 @@ const ResourceDetail: React.FC = () => {
                             </h2>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                                 {resourceBlueprints.map((bp) => (
-                                    <Link 
-                                        key={bp.id} 
-                                        to={`/recipes?id=${bp.id}`} 
+                                    <Link
+                                        key={bp.id}
+                                        to={`/codice/tecnomilagros?id=${bp.id}`}
                                         style={{ textDecoration: 'none', color: 'inherit' }}
                                     >
                                         <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderLeft: '4px solid var(--primary)', transition: 'transform 0.2s', cursor: 'pointer' }} className="hover-glow">
@@ -153,26 +153,26 @@ const ResourceDetail: React.FC = () => {
                         <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '2rem', color: 'var(--secondary)' }}>
                             <MapIcon className="accent-gold" size={28} /> LOCALIZACIONES SAGRADAS ({allLocations.length})
                         </h2>
-                        
+
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                             {allLocations.map((loc: any, idx: number) => (
-                                <Link 
-                                    key={idx} 
-                                    to={`/locacion/${loc.system}/${loc.name}`} 
+                                <Link
+                                    key={idx}
+                                    to={`/locacion/${loc.system}/${loc.name}`}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
-                                    <div style={{ 
-                                        padding: '1rem', 
-                                        background: 'rgba(255,255,255,0.03)', 
-                                        borderRadius: '8px', 
-                                        display: 'flex', 
-                                        justifyContent: 'space-between', 
+                                    <div style={{
+                                        padding: '1rem',
+                                        background: 'rgba(255,255,255,0.03)',
+                                        borderRadius: '8px',
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
                                         alignItems: 'center',
                                         borderLeft: '4px solid var(--primary)',
                                         transition: 'transform 0.2s',
                                         cursor: 'pointer'
                                     }}
-                                    className="hover-glow"
+                                        className="hover-glow"
                                     >
                                         <div>
                                             <div style={{ fontSize: '0.7rem', color: 'var(--primary)', marginBottom: '0.2rem' }}>{loc.system}</div>

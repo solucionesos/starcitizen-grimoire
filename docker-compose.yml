@@ -9,6 +9,9 @@ services:
       - "3001:3001"
     volumes:
       - backend_data:/app/data
+    env_file:
+      - path: ./backend/.env
+        required: false
     environment:
       - NODE_ENV=production
       - PORT=3001
