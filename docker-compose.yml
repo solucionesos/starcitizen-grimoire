@@ -18,6 +18,7 @@ services:
       - FRONTEND_URL=${FRONTEND_URL:-https://sc.ancalagongames.com}
       - JWT_SECRET=${JWT_SECRET:-ancalagon-jwt-secret-key-2956}
       - AGENT_SYNC_TOKEN=${AGENT_SYNC_TOKEN:-ancalagon-sync-secret}
+      - ENABLE_DEV_LOGIN=${ENABLE_DEV_LOGIN:-false}
     deploy:
       resources:
         limits:

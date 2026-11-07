@@ -48,7 +48,9 @@ authRouter.get('/discord/callback', async (req: Request, res: Response) => {
 // Configuración pública de autenticación (oculta botones de simulación cuando NODE_ENV=production)
 authRouter.get('/config', (_req: Request, res: Response) => {
   const isProd = process.env.NODE_ENV === 'production';
-  const devLoginEnabled = !isProd && process.env.ENABLE_DEV_LOGIN !== 'false';
+  const devLoginEnabled = isProd
+    ? process.env.ENABLE_DEV_LOGIN === 'true'
+    : process.env.ENABLE_DEV_LOGIN !== 'false';
   res.json({ devLoginEnabled });
 });
 
