@@ -3,6 +3,7 @@ import {
   getDiscordAuthUrl,
   handleDiscordCallback,
   devQuickLogin,
+  bindUserToRosterProfile,
   ESCALA_DEL_ABISMO,
   resolveUserRank,
 } from '../auth/authService.js';
@@ -73,6 +74,43 @@ authRouter.post('/dev-login', (req: Request, res: Response) => {
   });
 
   res.json({ success: true, token });
+});
+
+// Reclamar un expediente canónico del Roster Oficial (ej. Quaker - La Voz del Dragón) tras enlazar Discord
+authRouter.post('/claim-roster', requireAuth, (req: AuthenticatedRequest, res: Response) => {
+  const { handle, secret } = req.body as { handle?: string; secret?: string };
+  const expectedSecret = process.env.AGENT_SYNC_TOKEN || 'ancalagon-sync-secret';
+
+  if (!secret || secret.trim() !== expectedSecret) {
+    return res.status(403).json({
+      error: 'Sello del Oráculo inválido. No tienes autorización para reclamar este expediente.',
+    });
+  }
+
+  if (!handle) {
+    return res.status(400).json({ error: 'Debes indicar el expediente del Roster a reclamar (ej. Quaker).' });
+  }
+
+  try {
+    const userId = req.user?.userId || '';
+    const { token, user } = bindUserToRosterProfile(userId, handle.trim());
+
+    res.cookie('ancalagon_token', token, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
+      success: true,
+      token,
+      message: `Tu cuenta de Discord ha sido consagrada en el expediente de ${user.display_name} (${user.cargo}).`,
+    });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Error vinculando expediente.';
+    res.status(400).json({ error: msg });
+  }
 });
 
 // Lista pública de rangos de La Escala del Abismo

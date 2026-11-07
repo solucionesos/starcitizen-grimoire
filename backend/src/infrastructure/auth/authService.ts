@@ -287,3 +287,69 @@ export function devQuickLogin(roleType: 'consejo' | 'hermano' | 'neofito' | stri
     rankLevel: fallback.rank_level,
   });
 }
+
+// Vincula la cuenta actual de Discord de un usuario a un expediente canónico del Roster Oficial (ej. Quaker)
+export function bindUserToRosterProfile(currentUserId: string, targetHandleOrId: string) {
+  const sourceUser = db.prepare('SELECT * FROM users WHERE id = ?').get(currentUserId) as any;
+  if (!sourceUser) {
+    throw new Error('Usuario origen no encontrado.');
+  }
+
+  const targetRoster = db
+    .prepare(
+      `SELECT * FROM users
+       WHERE (LOWER(display_name) = LOWER(?) OR LOWER(rsi_handle) = LOWER(?) OR id = ?)
+         AND id LIKE 'usr-%'`
+    )
+    .get(targetHandleOrId, targetHandleOrId, targetHandleOrId) as any;
+
+  if (!targetRoster) {
+    throw new Error(`No se encontró el expediente canónico '${targetHandleOrId}' en el Roster Oficial.`);
+  }
+
+  if (sourceUser.id !== targetRoster.id) {
+    const mergeTx = db.transaction(() => {
+      db.prepare('UPDATE OR IGNORE altar_items SET user_id = ? WHERE user_id = ?').run(
+        targetRoster.id,
+        sourceUser.id
+      );
+      db.prepare('DELETE FROM altar_items WHERE user_id = ?').run(sourceUser.id);
+      db.prepare('UPDATE OR IGNORE poll_votes SET user_id = ? WHERE user_id = ?').run(
+        targetRoster.id,
+        sourceUser.id
+      );
+      db.prepare('DELETE FROM poll_votes WHERE user_id = ?').run(sourceUser.id);
+      db.prepare('DELETE FROM users WHERE id = ?').run(sourceUser.id);
+
+      db.prepare(`
+        UPDATE users
+        SET discord_id = ?,
+            discord_username = ?,
+            discord_discriminator = ?,
+            discord_avatar = COALESCE(?, discord_avatar),
+            status = 'approved',
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `).run(
+        sourceUser.discord_id,
+        sourceUser.discord_username,
+        sourceUser.discord_discriminator || '0',
+        sourceUser.discord_avatar,
+        targetRoster.id
+      );
+    });
+
+    mergeTx();
+  }
+
+  const updatedTarget = db.prepare('SELECT * FROM users WHERE id = ?').get(targetRoster.id) as any;
+  const token = signToken({
+    userId: updatedTarget.id,
+    discordId: updatedTarget.discord_id,
+    role: updatedTarget.role,
+    status: updatedTarget.status,
+    rankLevel: updatedTarget.rank_level,
+  });
+
+  return { token, user: updatedTarget };
+}

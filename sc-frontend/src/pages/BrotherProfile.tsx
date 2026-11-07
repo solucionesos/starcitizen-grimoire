@@ -44,6 +44,9 @@ export const BrotherProfile: React.FC = () => {
   const [editingMemberId, setEditingMemberId] = useState<string | null>(null);
   const [editRankId, setEditRankId] = useState<string>('sombras');
   const [editCargo, setEditCargo] = useState<string>('');
+  const [showClaimBox, setShowClaimBox] = useState(false);
+  const [claimHandle, setClaimHandle] = useState('Quaker');
+  const [claimSecret, setClaimSecret] = useState('');
 
   const isCouncil = user && ['consejo', 'admin'].includes(user.role);
   const isApproved = user && user.status === 'approved';
@@ -155,6 +158,26 @@ export const BrotherProfile: React.FC = () => {
       }
     } catch (err: any) {
       alert(err.response?.data?.error || 'Error al actualizar rango y cargo');
+    }
+  };
+
+  const handleClaimRoster = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('/auth/claim-roster', {
+        handle: claimHandle,
+        secret: claimSecret,
+      });
+      if (res.data.token) {
+        localStorage.setItem('ancalagon_token', res.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+      }
+      alert(res.data.message || 'Expediente consagrado exitosamente.');
+      setShowClaimBox(false);
+      setClaimSecret('');
+      await refreshUser();
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Error al reclamar expediente del Roster');
     }
   };
 
@@ -270,7 +293,24 @@ export const BrotherProfile: React.FC = () => {
             </div>
           </div>
 
-          <div>
+          <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+            {!user.id.startsWith('usr-') && (
+              <button
+                className="btn-secondary"
+                onClick={() => setShowClaimBox(!showClaimBox)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  fontSize: '0.78rem',
+                  borderColor: 'var(--secondary)',
+                  color: 'var(--secondary)',
+                }}
+              >
+                <Shield size={15} />
+                RECLAMAR EXPEDIENTE DEL ROSTER
+              </button>
+            )}
             {!isEditing && (
               <button
                 className="btn-secondary"
@@ -283,6 +323,68 @@ export const BrotherProfile: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* Claim Canonical Roster Profile Form */}
+        {showClaimBox && (
+          <form
+            onSubmit={handleClaimRoster}
+            style={{
+              marginTop: '1.8rem',
+              borderTop: '1px solid rgba(212, 175, 55, 0.25)',
+              paddingTop: '1.4rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+            }}
+          >
+            <div style={{ fontFamily: 'var(--cinzel-font)', color: 'var(--secondary)', fontSize: '0.9rem', letterSpacing: '1px' }}>
+              ☩ VINCULAR MI CUENTA DE DISCORD A UN EXPEDIENTE DEL ROSTER OFICIAL (CICLO 2956)
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
+              <div>
+                <label style={{ fontSize: '0.72rem', color: 'var(--secondary)', display: 'block', marginBottom: '0.35rem' }}>
+                  EXPEDIENTE CANÓNICO A RECLAMAR
+                </label>
+                <select
+                  className="select-filter"
+                  value={claimHandle}
+                  onChange={(e) => setClaimHandle(e.target.value)}
+                  style={{ width: '100%' }}
+                >
+                  <option value="Quaker">Quaker — [VI] Heraldo de Ancalagon (La Voz del Dragón / Admin)</option>
+                  <option value="Enanimus">Enanimus — [V] Profeta de la Ruina (Concilio / Admin)</option>
+                  <option value="Denoxx">Denoxx — [V] Profeta de la Ruina (Concilio / Admin)</option>
+                  <option value="Longhinus">Longhinus — [V] Profeta de la Ruina (Concilio / Admin)</option>
+                  <option value="Afol86">Afol86 — [IV] Voz del Abismo</option>
+                  <option value="Unknown-t20">Unknown-t20 — [III] Portador de Ceniza</option>
+                  <option value="Kannabistian420">Kannabistian420 — [II] Iniciado del Vacío</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ fontSize: '0.72rem', color: 'var(--secondary)', display: 'block', marginBottom: '0.35rem' }}>
+                  SELLO DEL ORÁCULO (AGENT_SYNC_TOKEN)
+                </label>
+                <input
+                  type="password"
+                  className="search-input"
+                  placeholder="Clave maestra del servidor..."
+                  value={claimSecret}
+                  onChange={(e) => setClaimSecret(e.target.value)}
+                  required
+                  style={{ width: '100%' }}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.8rem' }}>
+              <button type="button" className="btn-secondary" onClick={() => setShowClaimBox(false)} style={{ fontSize: '0.78rem' }}>
+                CANCELAR
+              </button>
+              <button type="submit" className="btn-primary" style={{ fontSize: '0.78rem' }}>
+                CONSAGRAR Y VINCULAR DISCORD
+              </button>
+            </div>
+          </form>
+        )}
 
         {/* Edit Form */}
         {isEditing && (
