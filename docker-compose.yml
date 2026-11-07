@@ -9,12 +9,15 @@ services:
       - "3001:3001"
     volumes:
       - backend_data:/app/data
-    env_file:
-      - path: ./backend/.env
-        required: false
     environment:
       - NODE_ENV=production
       - PORT=3001
+      - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID:-}
+      - DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET:-}
+      - DISCORD_REDIRECT_URI=${DISCORD_REDIRECT_URI:-https://sc.ancalagongames.com/api/auth/discord/callback}
+      - FRONTEND_URL=${FRONTEND_URL:-https://sc.ancalagongames.com}
+      - JWT_SECRET=${JWT_SECRET:-ancalagon-jwt-secret-key-2956}
+      - AGENT_SYNC_TOKEN=${AGENT_SYNC_TOKEN:-ancalagon-sync-secret}
     deploy:
       resources:
         limits:
