@@ -1,5 +1,13 @@
 import { Router, Response } from 'express';
-import { requireApproved, optionalAuth, AuthenticatedRequest } from '../auth/authMiddleware.js';
+import {
+  requireApproved,
+  requireOfficerOrAbove,
+  requireCouncil,
+  optionalAuth,
+  verifySyncToken,
+  AuthenticatedRequest,
+} from '../auth/authMiddleware.js';
+import { logCouncilAction } from '../auth/authService.js';
 import { db } from '../database/sqlite.js';
 import crypto from 'node:crypto';
 
@@ -214,10 +222,7 @@ conclaveRouter.get('/', requireApproved, (req: AuthenticatedRequest, res: Respon
 
 // POST /api/polls/agent (Endpoint directo para que el Oráculo / Agente IA proclame votaciones por orden del usuario)
 const handleAgentCreatePoll = (req: AuthenticatedRequest, res: Response) => {
-  const expectedToken = process.env.SYNC_SECRET_TOKEN || 'ancalagon-sync-secret';
-  const providedToken = req.headers['x-sync-token'] || req.headers['x-agent-token'] || req.body?.agent_token;
-
-  if (providedToken !== expectedToken) {
+  if (!verifySyncToken(req)) {
     return res.status(401).json({
       error: 'Sello del Oráculo inválido. Proporciona el encabezado X-Agent-Token o X-Sync-Token.',
     });
@@ -296,7 +301,7 @@ conclaveRouter.post('/proclaim', handleAgentCreatePoll);
 
 // GET /api/polls/:id
 conclaveRouter.get('/:id', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const pollId = req.params.id;
+  const pollId = String(req.params.id || '');
   const userId = req.user?.userId;
 
   const poll = db
@@ -367,7 +372,7 @@ conclaveRouter.post('/', requireApproved, (req: AuthenticatedRequest, res: Respo
 
 // POST /api/polls/:id/vote
 conclaveRouter.post('/:id/vote', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const pollId = req.params.id;
+  const pollId = String(req.params.id || '');
   const userId = req.user?.userId;
   const userRankLevel = req.user?.rankLevel ?? 0;
   const { option_id } = req.body;
@@ -415,20 +420,32 @@ conclaveRouter.post('/:id/vote', requireApproved, (req: AuthenticatedRequest, re
 });
 
 // POST /api/polls/:id/close
-conclaveRouter.post('/:id/close', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  if (!['oficial', 'consejo', 'admin'].includes(req.user?.role || '')) {
+conclaveRouter.post('/:id/close', requireOfficerOrAbove, (req: AuthenticatedRequest, res: Response) => {
+  const pollId = String(req.params.id || '');
+  const poll = db.prepare('SELECT * FROM polls WHERE id = ?').get(pollId) as any;
+  if (!poll) return res.status(404).json({ error: 'Deliberación no hallada' });
+
+  if (req.user!.role === 'oficial' && poll.creator_id !== req.user!.userId) {
     return res.status(403).json({
-      error: 'Solo los Profetas de la Ruina, las Voces del Abismo o el Heraldo pueden sellar el Veredicto.',
+      error: 'Solo el oficial convocante, los Profetas del Concilio o el Heraldo pueden sellar esta deliberación.',
     });
   }
 
-  const pollId = req.params.id;
-  const poll = db.prepare('SELECT * FROM polls WHERE id = ?').get(pollId) as any;
-  if (!poll) return res.status(404).json({ error: 'Deliberación no hallada' });
+  if (poll.status === 'closed') {
+    return res.status(400).json({ error: 'Esta deliberación del Cónclave ya ha sido sellada.' });
+  }
 
   const result = finalizePoll(poll);
   if (!result) {
     return res.status(400).json({ error: 'La deliberación no cuenta con opciones.' });
+  }
+
+  if (['consejo', 'admin'].includes(req.user?.role || '')) {
+    logCouncilAction(req.user!.userId, 'POLL_CLOSED', null, {
+      poll_id: pollId,
+      title: poll.title,
+      winner: result.winner,
+    });
   }
 
   res.json({
@@ -436,4 +453,25 @@ conclaveRouter.post('/:id/close', requireApproved, (req: AuthenticatedRequest, r
     message: 'El Concilio del Vacío ha concluido. El Veredicto ha sido inscrito en la portada y ejecutado en los Edictos. IN NOMINI OBLIVIONIS.',
     verdict: result,
   });
+});
+
+// DELETE /api/polls/:id (Solo Consejo o Heraldo)
+conclaveRouter.delete('/:id', requireCouncil, (req: AuthenticatedRequest, res: Response) => {
+  const pollId = String(req.params.id || '');
+  const poll = db.prepare('SELECT * FROM polls WHERE id = ?').get(pollId) as any;
+  if (!poll) return res.status(404).json({ error: 'Deliberación no hallada' });
+
+  const deleteTx = db.transaction(() => {
+    db.prepare('DELETE FROM votes WHERE poll_id = ?').run(pollId);
+    db.prepare('DELETE FROM verdicts WHERE poll_id = ?').run(pollId);
+    db.prepare('DELETE FROM poll_options WHERE poll_id = ?').run(pollId);
+    db.prepare('DELETE FROM polls WHERE id = ?').run(pollId);
+    logCouncilAction(req.user!.userId, 'POLL_DELETED', null, {
+      poll_id: pollId,
+      title: poll.title,
+    });
+  });
+
+  deleteTx();
+  res.json({ success: true, message: 'Deliberación del Cónclave disuelta y borrada del archivo.' });
 });

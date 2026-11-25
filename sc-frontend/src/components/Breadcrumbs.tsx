@@ -1,133 +1,227 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home, Trash2 } from 'lucide-react';
+import { PATH_LABELS, TERMINOLOGY } from '../constants/terminology';
 
 interface BreadcrumbItem {
-    label: string;
-    path: string;
+  label: string;
+  path: string;
+}
+
+interface LocationBreadcrumbState {
+  breadcrumbLabel?: string;
+  name?: string;
+}
+
+function readStoredHistory(): BreadcrumbItem[] {
+  try {
+    const stored = sessionStorage.getItem('breadcrumbHistory');
+    if (!stored) return [];
+    const parsed: unknown = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (item): item is BreadcrumbItem =>
+        Boolean(item) &&
+        typeof item === 'object' &&
+        typeof (item as BreadcrumbItem).label === 'string' &&
+        typeof (item as BreadcrumbItem).path === 'string',
+    );
+  } catch {
+    return [];
+  }
+}
+
+function safeDecodeURIComponent(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function resolveLabel(pathname: string, search: string, state: unknown): string {
+  const navState =
+    state && typeof state === 'object' ? (state as LocationBreadcrumbState) : undefined;
+  if (navState?.breadcrumbLabel) return navState.breadcrumbLabel;
+
+  const params = new URLSearchParams(search);
+
+  if (pathname.startsWith('/hermano/')) {
+    const rawHandle = pathname.slice('/hermano/'.length);
+    return `HERMANO: ${safeDecodeURIComponent(rawHandle)}`;
+  }
+
+  if (pathname.startsWith('/recurso/')) {
+    const rawId = pathname.slice('/recurso/'.length);
+    return `OFRENDA: ${safeDecodeURIComponent(rawId)}`;
+  }
+
+  if (pathname.startsWith('/locacion/')) {
+    const parts = pathname.split('/');
+    return `RITO: ${safeDecodeURIComponent(parts[3] || 'LOCALIZACIÓN')}`;
+  }
+
+  if (pathname === '/edictos') {
+    const tab = params.get('tab');
+    if (tab === 'designios') return TERMINOLOGY.designios.sacred.toUpperCase();
+    if (tab === 'cruzadas') return TERMINOLOGY.cruzadas.sacred.toUpperCase();
+    if (tab === 'calendario') return TERMINOLOGY.calendario.sacred.toUpperCase();
+  }
+
+  if (pathname === '/datavelo') {
+    const tab = params.get('tab');
+    if (tab === 'bovedas') return `DATAVELO · ${TERMINOLOGY.bovedas.sacred.toUpperCase()}`;
+    if (tab === 'wikelo') return `DATAVELO · ${TERMINOLOGY.wikelo.sacred.toUpperCase()}`;
+    if (tab === 'comunicaciones') return `DATAVELO · ${TERMINOLOGY.comunicaciones.sacred.toUpperCase()}`;
+    if (tab === 'comercio') return `DATAVELO · ${TERMINOLOGY.comercio.sacred.toUpperCase()}`;
+  }
+
+  if (pathname === '/divinitatus') {
+    const tab = params.get('tab');
+    if (tab === 'rituales') return TERMINOLOGY.rituales.sacred.toUpperCase();
+    if (tab === 'cronicas') return TERMINOLOGY.cronicas.sacred.toUpperCase();
+  }
+
+  if (params.get('id') && navState?.name) {
+    return navState.name;
+  }
+
+  const termEntry = PATH_LABELS[pathname];
+  if (termEntry) {
+    return termEntry.sacred.toUpperCase();
+  }
+
+  return 'REGISTRO';
 }
 
 const Breadcrumbs: React.FC = () => {
-    const location = useLocation();
-    const [history, setHistory] = useState<BreadcrumbItem[]>([]);
+  const location = useLocation();
+  const [history, setHistory] = useState<BreadcrumbItem[]>([]);
 
-    useEffect(() => {
-        const stored = sessionStorage.getItem('breadcrumbHistory');
-        let currentHistory: BreadcrumbItem[] = stored ? JSON.parse(stored) : [];
+  useEffect(() => {
+    let active = true;
+    const currentHistory = readStoredHistory();
+    const path = location.pathname + location.search;
+    const label = resolveLabel(location.pathname, location.search, location.state);
 
-        // Determine current label based on path and state
-        const path = location.pathname + location.search;
-        
-        const pathMapping: Record<string, string> = {
-            '/': 'INICIO',
-            '/edictos': 'EDICTOS DE LA FLOTA',
-            '/conclave': 'EL CÓNCLAVE',
-            '/hermano': 'EXPEDIENTE DEL HERMANO',
-            '/altar': 'ALTAR DE FORJA',
-            '/missions': 'MANDATOS PROFANOS',
-            '/codice/mandatos': 'MANDATOS PROFANOS',
-            '/nexo': 'NEXO ESTELAR',
-            '/lore': 'CRÓNICA DE ANCALAGON',
-            '/rituales': 'RITUALES SAGRADOS',
-            '/divinitatus': 'LECTITIO DIVINITATUS',
-            '/datavelo': 'DATAVELO',
-            '/wikelo': 'EL ESTAFADOR (BANU)',
-            '/bovedas': 'BÓVEDAS DEL VACÍO',
-            '/codice': 'EL CÓDICE',
-            '/codice/ofrendas': 'OFRENDAS',
-            '/codice/tecnomilagros': 'TECNOMILAGROS',
-            '/codice/arcas-estelares': 'ARCAS ESTELARES',
-            '/codice/armamentos': 'ARMAMENTOS',
-            '/codice/modulos': 'MÓDULOS'
-        };
+    const existingIndex = currentHistory.findIndex((item) => item.path === path);
+    const nextHistory =
+      existingIndex !== -1
+        ? currentHistory.slice(0, existingIndex + 1)
+        : [...currentHistory, { label, path }];
 
-        let label = pathMapping[location.pathname] || 'REGISTRO';
-        
-        // Try to get label from state or specific patterns
-        if (location.state && (location.state as any).breadcrumbLabel) {
-            label = (location.state as any).breadcrumbLabel;
-        } else if (location.pathname.startsWith('/recurso/')) {
-            label = `OFRENDA: ${location.pathname.split('/').pop()}`;
-        } else if (location.pathname.startsWith('/locacion/')) {
-            const parts = location.pathname.split('/');
-            label = `RITO: ${parts[3] || 'LOCALIZACIÓN'}`;
-        } else if (location.search.includes('id=')) {
-           // If we are in missions filter, we'll try to get it from state later
-           // for now we'll check if we have a name in state
-           if ((location.state as any)?.name) label = (location.state as any).name;
-        }
+    while (nextHistory.length > 8) {
+      nextHistory.shift();
+    }
 
-        // Check if path already exists
-        const existingIndex = currentHistory.findIndex(item => item.path === path);
+    try {
+      sessionStorage.setItem('breadcrumbHistory', JSON.stringify(nextHistory));
+    } catch {
+      // Ignore storage quota / privacy mode errors
+    }
 
-        if (existingIndex !== -1) {
-            // If it exists, we go back to that point
-            currentHistory = currentHistory.slice(0, existingIndex + 1);
-        } else {
-            // New path: Add it
-            // Special case: if we go from / to / again with different filters, maybe don't stack indefinitely
-            // But user asked for detailed registry.
-            
-            // If the last item is a generic category and we are now in a detail of that category
-            // we might want to keep both.
-            currentHistory.push({ label, path });
-        }
+    Promise.resolve().then(() => {
+      if (active) {
+        setHistory(nextHistory);
+      }
+    });
 
-        // Limit history to 8 items to avoid UI mess
-        if (currentHistory.length > 8) currentHistory.shift();
-
-        setHistory(currentHistory);
-        sessionStorage.setItem('breadcrumbHistory', JSON.stringify(currentHistory));
-    }, [location]);
-
-    if (history.length <= 1 && location.pathname === '/') return null;
-
-    const clearHistory = () => {
-        const reset = [{ label: 'INICIO', path: '/' }];
-        setHistory(reset);
-        sessionStorage.setItem('breadcrumbHistory', JSON.stringify(reset));
+    return () => {
+      active = false;
     };
+  }, [location]);
 
-    return (
-        <div style={{ padding: '0.8rem 2rem', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)' }}>
-            <Link to="/" onClick={clearHistory} style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none' }} className="hover-underline">
-                <Home size={14} />
+  if (history.length <= 1 && location.pathname === '/') return null;
+
+  const clearHistory = () => {
+    const reset: BreadcrumbItem[] = [{ label: 'INICIO', path: '/' }];
+    setHistory(reset);
+    try {
+      sessionStorage.setItem('breadcrumbHistory', JSON.stringify(reset));
+    } catch {
+      // Ignore storage errors
+    }
+  };
+
+  return (
+    <nav
+      aria-label="Ruta de navegación"
+      style={{
+        padding: '0.8rem 2rem',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        flexWrap: 'wrap',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        background: 'rgba(0,0,0,0.2)',
+      }}
+    >
+      <Link
+        to="/"
+        onClick={clearHistory}
+        aria-label="Ir al inicio"
+        style={{
+          color: 'var(--text-muted)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.3rem',
+          textDecoration: 'none',
+        }}
+        className="hover-underline"
+      >
+        <Home size={14} aria-hidden="true" />
+      </Link>
+
+      {history.map((item, index) => {
+        const isLast = index === history.length - 1;
+        return (
+          <React.Fragment key={`${index}-${item.path}`}>
+            <ChevronRight size={14} aria-hidden="true" style={{ opacity: 0.3 }} />
+            <Link
+              to={item.path}
+              aria-current={isLast ? 'page' : undefined}
+              style={{
+                color: isLast ? 'var(--primary)' : 'inherit',
+                textDecoration: 'none',
+                fontSize: '0.75rem',
+                fontWeight: isLast ? 'bold' : 'normal',
+                maxWidth: '180px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              className="hover-underline"
+              title={item.label}
+            >
+              {item.label}
             </Link>
-            
-            {history.map((item, index) => (
-                <React.Fragment key={index + item.path}>
-                    <ChevronRight size={14} style={{ opacity: 0.3 }} />
-                    <Link 
-                        to={item.path} 
-                        style={{ 
-                            color: index === history.length - 1 ? 'var(--primary)' : 'inherit', 
-                            textDecoration: 'none',
-                            fontSize: '0.75rem',
-                            fontWeight: index === history.length - 1 ? 'bold' : 'normal',
-                            maxWidth: '150px',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                        }} 
-                        className="hover-underline"
-                        title={item.label}
-                    >
-                        {item.label}
-                    </Link>
-                </React.Fragment>
-            ))}
+          </React.Fragment>
+        );
+      })}
 
-            {history.length > 2 && (
-                <button 
-                    onClick={clearHistory}
-                    style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.65rem' }}
-                    className="hover-primary"
-                >
-                    <Trash2 size={12} /> PURIFICAR RASTRO
-                </button>
-            )}
-        </div>
-    );
+      {history.length > 2 && (
+        <button
+          type="button"
+          onClick={clearHistory}
+          aria-label="Purificar rastro de navegación"
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-muted)',
+            cursor: 'pointer',
+            marginLeft: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.3rem',
+            fontSize: '0.65rem',
+          }}
+          className="hover-primary"
+        >
+          <Trash2 size={12} aria-hidden="true" /> PURIFICAR RASTRO
+        </button>
+      )}
+    </nav>
+  );
 };
 
 export default Breadcrumbs;

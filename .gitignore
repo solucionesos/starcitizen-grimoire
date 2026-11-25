@@ -48,3 +48,9 @@ sc-frontend/dist/
 sc-frontend/node_modules/
 sc-frontend/.env
 sc-frontend/.env.local
+
+# E2E testing artifacts
+e2e/node_modules/
+e2e/test-results/
+e2e/playwright-report/
+e2e/blob-report/

@@ -1,9 +1,80 @@
 import { Router, Response } from 'express';
-import { requireApproved, AuthenticatedRequest } from '../auth/authMiddleware.js';
+import {
+  requireApproved,
+  requireOfficerOrAbove,
+  requireCouncil,
+  verifySyncToken,
+  AuthenticatedRequest,
+} from '../auth/authMiddleware.js';
+import { logCouncilAction } from '../auth/authService.js';
 import { db } from '../database/sqlite.js';
 import crypto from 'node:crypto';
 
 export const crusadeRouter = Router();
+
+const CLOSED_CRUSADE_STATUSES = ['victoriosa', 'completada', 'archivada', 'cancelada'];
+const VALID_CRUSADE_STATUSES = [
+  'convocada',
+  'abierta',
+  'en_curso',
+  'victoriosa',
+  'completada',
+  'archivada',
+  'cancelada',
+] as const;
+
+const CRUSADE_TRANSITIONS: Record<string, string[]> = {
+  convocada: ['convocada', 'abierta', 'en_curso', 'victoriosa', 'completada', 'archivada', 'cancelada'],
+  abierta: ['convocada', 'abierta', 'en_curso', 'victoriosa', 'completada', 'archivada', 'cancelada'],
+  en_curso: ['en_curso', 'convocada', 'victoriosa', 'completada', 'archivada', 'cancelada'],
+  victoriosa: ['victoriosa', 'completada', 'archivada'],
+  completada: ['victoriosa', 'completada', 'archivada'],
+  archivada: ['archivada', 'cancelada', 'convocada'],
+  cancelada: ['archivada', 'cancelada', 'convocada'],
+};
+
+function parseShipsRequiredSafe(raw: unknown): string[] {
+  if (Array.isArray(raw)) return raw.map((s) => String(s));
+  if (typeof raw !== 'string' || !raw.trim()) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.map((s) => String(s)) : [];
+  } catch {
+    return [];
+  }
+}
+
+function parseMaxBrothersStrict(raw: unknown): { value?: number; error?: string } {
+  if (raw === null || typeof raw === 'boolean' || typeof raw === 'object') {
+    return {
+      error: 'El cupo máximo de hermanos (max_brothers) debe ser un número entero mayor o igual a 1.',
+    };
+  }
+  if (typeof raw === 'string' && raw.trim() === '') {
+    return {
+      error: 'El cupo máximo de hermanos (max_brothers) debe ser un número entero mayor o igual a 1.',
+    };
+  }
+  if (typeof raw !== 'number' && typeof raw !== 'string') {
+    return {
+      error: 'El cupo máximo de hermanos (max_brothers) debe ser un número entero mayor o igual a 1.',
+    };
+  }
+  const parsed = typeof raw === 'number' ? raw : Number(raw.trim());
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    return {
+      error: 'El cupo máximo de hermanos (max_brothers) debe ser un número entero mayor o igual a 1.',
+    };
+  }
+  return { value: parsed };
+}
+
+function parseMaxBrothersCreate(raw: unknown, defaultValue = 16): { value?: number; error?: string } {
+  if (raw === undefined || raw === null) {
+    return { value: defaultValue };
+  }
+  return parseMaxBrothersStrict(raw);
+}
 
 // Listar todos los Edictos Sagrados / Cruzadas
 crusadeRouter.get('/', requireApproved, (req: AuthenticatedRequest, res: Response) => {
@@ -21,7 +92,7 @@ crusadeRouter.get('/', requireApproved, (req: AuthenticatedRequest, res: Respons
 
   const enriched = crusades.map((c) => ({
     ...c,
-    ships_required: c.ships_required ? JSON.parse(c.ships_required) : [],
+    ships_required: parseShipsRequiredSafe(c.ships_required),
     user_is_signed: Boolean(c.user_is_signed),
   }));
 
@@ -30,10 +101,7 @@ crusadeRouter.get('/', requireApproved, (req: AuthenticatedRequest, res: Respons
 
 // Endpoint directo en caliente para que el Oráculo / Agente IA proclame Edictos de Cruzada por orden del usuario
 const handleAgentCreateCrusade = (req: AuthenticatedRequest, res: Response) => {
-  const expectedToken = process.env.SYNC_SECRET_TOKEN || 'ancalagon-sync-secret';
-  const providedToken = req.headers['x-sync-token'] || req.headers['x-agent-token'] || req.body?.agent_token;
-
-  if (providedToken !== expectedToken) {
+  if (!verifySyncToken(req)) {
     return res.status(401).json({
       error: 'Sello del Oráculo inválido. Proporciona el encabezado X-Agent-Token o X-Sync-Token.',
     });
@@ -47,7 +115,7 @@ const handleAgentCreateCrusade = (req: AuthenticatedRequest, res: Response) => {
     location = 'Pyro VI — Ruin Station',
     status = 'convocada',
     ships_required = ['Polaris', 'Redeemer', 'Eclipse'],
-    max_brothers = 24,
+    max_brothers,
     creator_handle = 'Enanimus',
     initial_signups = [],
   } = req.body;
@@ -55,6 +123,12 @@ const handleAgentCreateCrusade = (req: AuthenticatedRequest, res: Response) => {
   if (!title) {
     return res.status(400).json({ error: 'El título del Edicto de Cruzada (title) es obligatorio.' });
   }
+
+  const maxCheck = parseMaxBrothersCreate(max_brothers, 16);
+  if (maxCheck.error || maxCheck.value === undefined) {
+    return res.status(400).json({ error: maxCheck.error });
+  }
+  const resolvedMaxBrothers = maxCheck.value;
 
   const creatorUser =
     (db
@@ -94,7 +168,7 @@ const handleAgentCreateCrusade = (req: AuthenticatedRequest, res: Response) => {
     status,
     creatorUser.id,
     JSON.stringify(shipsArray),
-    Number(max_brothers) || 24
+    resolvedMaxBrothers
   );
 
   // Inscribir automáticamente al emisor o a la lista initial_signups si se proporciona
@@ -146,7 +220,7 @@ crusadeRouter.post('/proclaim', handleAgentCreateCrusade);
 
 // Detalle de Cruzada con contingente de hermanos consagrados
 crusadeRouter.get('/:id', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const id = req.params.id;
+  const id = String(req.params.id || '');
   const crusade = db
     .prepare(
       `SELECT c.*, u.display_name as creator_name, u.cargo as creator_cargo
@@ -160,9 +234,12 @@ crusadeRouter.get('/:id', requireApproved, (req: AuthenticatedRequest, res: Resp
 
   const roster = db
     .prepare(
-      `SELECT cs.*, u.display_name, u.discord_avatar, u.cargo, u.rank_id, u.rank_level
+      `SELECT cs.*, u.display_name, u.rsi_handle, u.discord_avatar, u.cargo, u.rank_id, u.rank_level,
+              ms.ship_id as catalog_ship_id, ms.ship_name, ms.manufacturer, ms.manufacturer as ship_manufacturer,
+              ms.ship_class, ms.callsign, ms.callsign as ship_callsign, ms.status as ship_status
        FROM crusade_signups cs
        JOIN users u ON cs.user_id = u.id
+       LEFT JOIN member_ships ms ON cs.member_ship_id = ms.id
        WHERE cs.crusade_id = ?
        ORDER BY u.rank_level DESC, cs.joined_at ASC`
     )
@@ -170,7 +247,7 @@ crusadeRouter.get('/:id', requireApproved, (req: AuthenticatedRequest, res: Resp
 
   res.json({
     ...crusade,
-    ships_required: crusade.ships_required ? JSON.parse(crusade.ships_required) : [],
+    ships_required: parseShipsRequiredSafe(crusade.ships_required),
     roster,
   });
 });
@@ -183,10 +260,24 @@ crusadeRouter.post('/', requireApproved, (req: AuthenticatedRequest, res: Respon
     });
   }
 
-  const { title, description, briefing, operation_date, location, ships_required = [], max_brothers = 16 } = req.body;
+  const { title, description, briefing, operation_date, location, ships_required = [], max_brothers } = req.body;
   if (!title || !operation_date || !location) {
     return res.status(400).json({ error: 'Título, fecha del ciclo y ubicación son obligatorios.' });
   }
+
+  const maxCheck = parseMaxBrothersCreate(max_brothers, 16);
+  if (maxCheck.error || maxCheck.value === undefined) {
+    return res.status(400).json({ error: maxCheck.error });
+  }
+
+  const shipsArray = Array.isArray(ships_required)
+    ? ships_required.map((s: unknown) => String(s))
+    : typeof ships_required === 'string'
+      ? ships_required
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
 
   const id = crypto.randomUUID();
   const creatorId = req.user?.userId;
@@ -204,43 +295,222 @@ crusadeRouter.post('/', requireApproved, (req: AuthenticatedRequest, res: Respon
     operation_date,
     location,
     creatorId,
-    JSON.stringify(ships_required),
-    max_brothers
+    JSON.stringify(shipsArray),
+    maxCheck.value
   );
 
   res.status(201).json({ id, title, success: true });
 });
 
-// Responder al Llamado (Alistarse en el contingente)
+// Responder al Llamado (Alistarse en el contingente con nave operativa del Hangar o como tripulación/infantería)
 crusadeRouter.post('/:id/signup', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const crusadeId = req.params.id;
-  const userId = req.user?.userId;
-  const { ship_brought, role_assigned = 'Vanguardia de Ceniza' } = req.body;
+  const crusadeId = String(req.params.id || '');
+  const userId = req.user!.userId;
+  const { member_ship_id, ship_brought, role_assigned } = req.body as {
+    member_ship_id?: string | null;
+    ship_brought?: string | null;
+    role_assigned?: string;
+  };
 
   const crusade = db.prepare('SELECT * FROM crusades WHERE id = ?').get(crusadeId) as any;
   if (!crusade) return res.status(404).json({ error: 'Cruzada no hallada' });
 
-  const count = (db.prepare('SELECT COUNT(*) as c FROM crusade_signups WHERE crusade_id = ?').get(crusadeId) as any).c;
-  if (count >= crusade.max_brothers) {
+  if (CLOSED_CRUSADE_STATUSES.includes(String(crusade.status))) {
+    return res.status(400).json({ error: 'Este Edicto de Cruzada ya no acepta nuevas inscripciones.' });
+  }
+
+  const existingSignup = db
+    .prepare('SELECT id FROM crusade_signups WHERE crusade_id = ? AND user_id = ?')
+    .get(crusadeId, userId);
+  if (existingSignup) {
+    return res.status(400).json({ error: 'Tu nombre ya figura en el contingente de este Edicto.' });
+  }
+
+  const countRow = db
+    .prepare('SELECT COUNT(*) as count FROM crusade_signups WHERE crusade_id = ?')
+    .get(crusadeId) as { count: number };
+  const parsedMax = Number(crusade.max_brothers);
+  const maxCap =
+    crusade.max_brothers !== null &&
+    crusade.max_brothers !== undefined &&
+    Number.isFinite(parsedMax) &&
+    parsedMax > 0
+      ? parsedMax
+      : 16;
+  if (countRow.count >= maxCap) {
     return res.status(400).json({ error: 'El contingente para este Edicto está completo.' });
   }
 
-  const id = crypto.randomUUID();
-  try {
-    db.prepare(
-      `INSERT INTO crusade_signups (id, crusade_id, user_id, ship_brought, role_assigned)
-       VALUES (?, ?, ?, ?, ?)`
-    ).run(id, crusadeId, userId, ship_brought || null, role_assigned);
+  const resolvedRole =
+    typeof role_assigned === 'string' && role_assigned.trim()
+      ? role_assigned.trim()
+      : 'Vanguardia de Ceniza';
 
-    res.json({ success: true, message: 'Has jurado tu sangre y tu nave para este Edicto. IN NOMINI OBLIVIONIS.' });
-  } catch {
-    res.status(400).json({ error: 'Tu nombre ya figura en el contingente de este Edicto.' });
+  let resolvedMemberShipId: string | null = null;
+  let resolvedShipBrought: string | null = null;
+
+  const cleanShipId = typeof member_ship_id === 'string' ? member_ship_id.trim() : '';
+  if (cleanShipId) {
+    const ship = db.prepare('SELECT * FROM member_ships WHERE id = ?').get(cleanShipId) as any;
+    if (!ship) {
+      return res.status(404).json({ error: 'Nave no encontrada en los registros del Hangar.' });
+    }
+    if (ship.user_id !== userId) {
+      return res.status(403).json({ error: 'No puedes desplegar una nave que pertenece a otro hermano.' });
+    }
+    if (ship.status !== 'operativa') {
+      return res.status(400).json({
+        error: "Solo puedes desplegar naves en estado 'operativa' de tu Hangar Personal.",
+      });
+    }
+    resolvedMemberShipId = ship.id;
+    resolvedShipBrought = ship.callsign ? `${ship.ship_name} — "${ship.callsign}"` : ship.ship_name;
+  } else {
+    resolvedMemberShipId = null;
+    resolvedShipBrought =
+      typeof ship_brought === 'string' && ship_brought.trim() ? ship_brought.trim() : null;
   }
+
+  const id = crypto.randomUUID();
+  db.prepare(
+    `INSERT INTO crusade_signups (id, crusade_id, user_id, member_ship_id, ship_brought, role_assigned)
+     VALUES (?, ?, ?, ?, ?, ?)`
+  ).run(id, crusadeId, userId, resolvedMemberShipId, resolvedShipBrought, resolvedRole);
+
+  res.json({
+    success: true,
+    message: 'Has jurado tu sangre y tu acero para este Edicto. IN NOMINI OBLIVIONIS.',
+  });
+});
+
+// Moderar / actualizar Edicto de Cruzada (Oficiales creadores, Consejo o Heraldo)
+crusadeRouter.patch('/:id', requireOfficerOrAbove, (req: AuthenticatedRequest, res: Response) => {
+  const id = String(req.params.id || '');
+  const existing = db.prepare('SELECT * FROM crusades WHERE id = ?').get(id) as any;
+  if (!existing) {
+    return res.status(404).json({ error: 'Edicto de Cruzada no hallado en los archivos.' });
+  }
+
+  if (req.user!.role === 'oficial' && existing.creator_id !== req.user!.userId) {
+    return res.status(403).json({
+      error: 'Solo el oficial creador de esta Cruzada o el Concilio del Vacío pueden modificarla.',
+    });
+  }
+
+  const { title, description, briefing, operation_date, location, ships_required, max_brothers, status } =
+    req.body;
+
+  const updates: string[] = [];
+  const params: any[] = [];
+
+  if (status !== undefined) {
+    if (!VALID_CRUSADE_STATUSES.includes(status)) {
+      return res.status(400).json({ error: `Estado de Cruzada inválido: '${status}'.` });
+    }
+    const allowedNext = CRUSADE_TRANSITIONS[existing.status] || VALID_CRUSADE_STATUSES;
+    if (!allowedNext.includes(status)) {
+      return res.status(400).json({
+        error: `Transición de estado no permitida: '${existing.status}' -> '${status}'.`,
+      });
+    }
+    if (
+      ['archivada', 'cancelada'].includes(existing.status) &&
+      status === 'convocada' &&
+      !['consejo', 'admin'].includes(req.user!.role)
+    ) {
+      return res.status(403).json({
+        error: 'Solo el Concilio del Vacío o el Heraldo pueden reabrir una Cruzada archivada o cancelada.',
+      });
+    }
+    updates.push('status = ?');
+    params.push(status);
+  }
+
+  if (title !== undefined) {
+    const cleanTitle = String(title).trim();
+    if (!cleanTitle) return res.status(400).json({ error: 'El título no puede estar vacío.' });
+    updates.push('title = ?');
+    params.push(cleanTitle);
+  }
+  if (description !== undefined) {
+    updates.push('description = ?');
+    params.push(String(description));
+  }
+  if (briefing !== undefined) {
+    updates.push('briefing = ?');
+    params.push(String(briefing));
+  }
+  if (operation_date !== undefined) {
+    updates.push('operation_date = ?');
+    params.push(String(operation_date));
+  }
+  if (location !== undefined) {
+    updates.push('location = ?');
+    params.push(String(location));
+  }
+  if (ships_required !== undefined) {
+    const shipsArr = Array.isArray(ships_required)
+      ? ships_required
+      : String(ships_required)
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+    updates.push('ships_required = ?');
+    params.push(JSON.stringify(shipsArr));
+  }
+  if (max_brothers !== undefined) {
+    const maxCheck = parseMaxBrothersStrict(max_brothers);
+    if (maxCheck.error) {
+      return res.status(400).json({ error: maxCheck.error });
+    }
+    updates.push('max_brothers = ?');
+    params.push(maxCheck.value!);
+  }
+
+  if (updates.length > 0) {
+    params.push(id);
+    db.prepare(`UPDATE crusades SET ${updates.join(', ')} WHERE id = ?`).run(...params);
+  }
+
+  if (['consejo', 'admin'].includes(req.user!.role)) {
+    logCouncilAction(req.user!.userId, 'CRUSADE_UPDATED', null, {
+      crusade_id: id,
+      title: title || existing.title,
+      previous_status: existing.status,
+      new_status: status || existing.status,
+    });
+  }
+
+  const updated = db.prepare('SELECT * FROM crusades WHERE id = ?').get(id) as any;
+  res.json({
+    success: true,
+    crusade: {
+      ...updated,
+      ships_required: parseShipsRequiredSafe(updated.ships_required),
+    },
+  });
+});
+
+// Disolver / eliminar Edicto de Cruzada (Solo Consejo o Heraldo)
+crusadeRouter.delete('/:id', requireCouncil, (req: AuthenticatedRequest, res: Response) => {
+  const id = String(req.params.id || '');
+  const existing = db.prepare('SELECT * FROM crusades WHERE id = ?').get(id) as any;
+  if (!existing) {
+    return res.status(404).json({ error: 'Edicto de Cruzada no hallado en los archivos.' });
+  }
+
+  db.prepare('DELETE FROM crusades WHERE id = ?').run(id);
+  logCouncilAction(req.user!.userId, 'CRUSADE_DELETED', null, {
+    crusade_id: id,
+    title: existing.title,
+  });
+
+  res.json({ success: true, message: 'Edicto de Cruzada disuelto y arrojado a La Ceniza Fría.' });
 });
 
 // Abandonar contingente (Advertencia de La Ceniza Fría)
 crusadeRouter.delete('/:id/signup', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const crusadeId = req.params.id;
+  const crusadeId = String(req.params.id || '');
   const userId = req.user?.userId;
 
   db.prepare('DELETE FROM crusade_signups WHERE crusade_id = ? AND user_id = ?').run(crusadeId, userId);

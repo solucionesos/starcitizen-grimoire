@@ -20,10 +20,12 @@ import { UpdateScheduler } from './cron/UpdateScheduler.js';
 // Feature routers
 import { authRouter } from './routes/authRoutes.js';
 import { altarRouter } from './routes/altarRoutes.js';
-import { councilRouter } from './routes/councilRoutes.js';
+import { createCouncilRouter } from './routes/councilRoutes.js';
+import { createProfileRouters } from './routes/profileRoutes.js';
 import { objectiveRouter } from './routes/objectiveRoutes.js';
 import { crusadeRouter } from './routes/crusadeRoutes.js';
 import { conclaveRouter } from './routes/conclaveRoutes.js';
+import { verifySyncToken } from './auth/syncToken.js';
 
 // Initialize SQLite database
 initDatabase();
@@ -53,9 +55,12 @@ const scheduler = new UpdateScheduler(syncUseCase);
 scheduler.start();
 
 // --- Feature Routes ---
+const { hermandadRouter, profileRouter } = createProfileRouters(repository);
 app.use('/api/auth', authRouter);
 app.use('/api/me/altar', altarRouter);
-app.use('/api/council', councilRouter);
+app.use('/api/hermandad', hermandadRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/council', createCouncilRouter(repository));
 app.use('/api/objectives', objectiveRouter);
 app.use('/api/crusades', crusadeRouter);
 app.use('/api/polls', conclaveRouter);
@@ -83,10 +88,7 @@ app.get('/api/chronicles', async (req, res) => {
 });
 
 const handleAgentCreateChronicle = async (req: express.Request, res: express.Response) => {
-  const expectedToken = process.env.SYNC_SECRET_TOKEN || 'ancalagon-sync-secret';
-  const providedToken = req.headers['x-sync-token'] || req.headers['x-agent-token'] || req.body?.agent_token;
-
-  if (providedToken !== expectedToken) {
+  if (!verifySyncToken(req)) {
     res.status(401).json({
       error: 'Sello del Oráculo inválido. Proporciona el encabezado X-Agent-Token o X-Sync-Token.',
     });

@@ -46,9 +46,10 @@ export class JSONFileRepository implements IGameDataRepository {
         }
       }
 
-      const cronTarget = path.join(process.cwd(), 'data/chronicles.json');
+      const cronTarget = path.join(path.dirname(this.filePath), 'chronicles.json');
       const cronBundled = path.join(process.cwd(), 'bundled_data/chronicles.json');
       if (!fs.pathExistsSync(cronTarget) && fs.pathExistsSync(cronBundled)) {
+        fs.ensureDirSync(path.dirname(cronTarget));
         fs.copyFileSync(cronBundled, cronTarget);
       }
     } catch (err) {
@@ -90,14 +91,14 @@ export class JSONFileRepository implements IGameDataRepository {
 
   async getAllChronicles(): Promise<any[]> {
     if (this.cachedChronicles) return this.cachedChronicles;
-    const cronPath = path.join(process.cwd(), 'data/chronicles.json');
+    const cronPath = path.join(path.dirname(this.filePath), 'chronicles.json');
     if (!(await fs.pathExists(cronPath))) return [];
     this.cachedChronicles = await fs.readJSON(cronPath);
     return this.cachedChronicles || [];
   }
 
   async saveChronicle(chronicle: any): Promise<any> {
-    const cronPath = path.join(process.cwd(), 'data/chronicles.json');
+    const cronPath = path.join(path.dirname(this.filePath), 'chronicles.json');
     const current = await this.getAllChronicles();
     const list = Array.isArray(current) ? [...current] : [];
 
@@ -117,6 +118,19 @@ export class JSONFileRepository implements IGameDataRepository {
     await fs.writeJSON(cronPath, list, { spaces: 2 });
     this.cachedChronicles = list;
     return savedItem;
+  }
+
+  async deleteChronicle(id: number): Promise<boolean> {
+    const cronPath = path.join(path.dirname(this.filePath), 'chronicles.json');
+    const current = await this.getAllChronicles();
+    const list = Array.isArray(current) ? [...current] : [];
+    const next = list.filter((c: any) => Number(c.id) !== Number(id));
+    if (next.length === list.length) {
+      return false;
+    }
+    await fs.writeJSON(cronPath, next, { spaces: 2 });
+    this.cachedChronicles = next;
+    return true;
   }
 
   async getAllShips(): Promise<any[]> {

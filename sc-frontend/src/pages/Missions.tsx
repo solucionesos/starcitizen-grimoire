@@ -14,10 +14,46 @@ const SYSTEM_COLORS: Record<string, { bg: string; text: string; border: string; 
     'Desconocido': { bg: 'rgba(100,100,100,0.1)', text: '#aaa', border: 'rgba(100,100,100,0.3)', label: '⬜ DESCONOCIDO' },
 };
 
+interface LegacyScriptItem {
+    id?: string;
+    name: string;
+    amount?: number;
+    count?: number;
+}
+
+interface LegacyTacticalTip {
+    type: string;
+    content?: string;
+    text?: string;
+}
+
+interface LegacyReward {
+    id?: string;
+    label?: string;
+    name?: string;
+}
+
+interface LegacyMission {
+    id: string;
+    name: string;
+    friendly_name?: string;
+    system?: string;
+    mission_type?: string;
+    faction?: string;
+    reputation_required?: string;
+    overview?: string;
+    description?: string;
+    credits?: number;
+    standing?: number;
+    script_items?: LegacyScriptItem[];
+    tactical_analysis?: LegacyTacticalTip[];
+    probability_rewards?: LegacyReward[];
+}
+
 const Missions: React.FC = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const [missions, setMissions] = useState<any[]>([]);
+    const [missions, setMissions] = useState<LegacyMission[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedFaction, setSelectedFaction] = useState<string | null>(null);
@@ -31,8 +67,8 @@ const Missions: React.FC = () => {
 
     useEffect(() => {
         getMissions()
-            .then(data => {
-                const list = Array.isArray(data) ? data : (data as any).missions || [];
+            .then((data: LegacyMission[] | { missions?: LegacyMission[] }) => {
+                const list = Array.isArray(data) ? data : data.missions || [];
                 setMissions(list);
             })
             .catch(err => console.error('Error loading missions:', err))
@@ -59,7 +95,7 @@ const Missions: React.FC = () => {
         let ms = missions;
         if (selectedSystem)  ms = ms.filter(m => m.system === selectedSystem);
         if (selectedFaction) ms = ms.filter(m => (m.faction || 'Independent') === selectedFaction);
-        return [...new Set(ms.map(m => m.reputation_required).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+        return [...new Set(ms.map(m => m.reputation_required).filter((r): r is string => Boolean(r)))].sort((a, b) => a.localeCompare(b));
     }, [missions, selectedSystem, selectedFaction]);
 
     const filteredMissions = useMemo(() => {
@@ -73,8 +109,8 @@ const Missions: React.FC = () => {
         if (selectedFaction) ms = ms.filter(m => (m.faction || 'Independent') === selectedFaction);
         if (selectedRep)     ms = ms.filter(m => m.reputation_required === selectedRep);
 
-        if (rewardFilter === 'blueprint') ms = ms.filter(m => m.probability_rewards?.length > 0);
-        else if (rewardFilter === 'scrip')   ms = ms.filter(m => m.script_items?.length > 0);
+        if (rewardFilter === 'blueprint') ms = ms.filter(m => (m.probability_rewards?.length ?? 0) > 0);
+        else if (rewardFilter === 'scrip')   ms = ms.filter(m => (m.script_items?.length ?? 0) > 0);
         else if (rewardFilter === 'credits') ms = ms.filter(m =>
             (!m.probability_rewards || m.probability_rewards.length === 0) &&
             (!m.script_items || m.script_items.length === 0));
@@ -370,7 +406,7 @@ const Missions: React.FC = () => {
                                         <strong>+{mission.standing || 0}</strong>
                                         <span style={{ fontSize: '0.6rem' }}>REP</span>
                                     </div>
-                                    {mission.script_items?.map((item: any) => (
+                                    {mission.script_items?.map((item) => (
                                         <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: '#c084fc' }}>
                                             <Award size={14} />
                                             <strong>{item.amount || 1}</strong>
@@ -394,7 +430,7 @@ const Missions: React.FC = () => {
                                 />
 
                                 {/* Tactical Analysis */}
-                                {mission.tactical_analysis?.length > 0 && (
+                                {(mission.tactical_analysis?.length ?? 0) > 0 && (
                                     <div style={{
                                         padding: '1rem',
                                         background: 'rgba(0,0,0,0.4)',
@@ -406,7 +442,7 @@ const Missions: React.FC = () => {
                                             <Zap size={14} /> INTELIGENCIA SAGRADA
                                         </div>
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                            {mission.tactical_analysis.map((tip: any) => {
+                                            {mission.tactical_analysis?.map((tip) => {
                                                 const isPro = tip.type === 'pro';
                                                 const borderCol = tip.type === 'bug_avoidance' ? '#ff4444' : isPro ? 'var(--secondary)' : 'var(--primary)';
                                                 const icon = tip.type === 'bug_avoidance' ? <Bug size={12} /> : isPro ? <Trophy size={12} /> : tip.type === 'loadout' ? <Shield size={12} /> : <Zap size={12} />;
@@ -428,13 +464,13 @@ const Missions: React.FC = () => {
                                 )}
 
                                 {/* Blueprint rewards */}
-                                {mission.probability_rewards?.length > 0 && (
+                                {(mission.probability_rewards?.length ?? 0) > 0 && (
                                     <div>
                                         <h4 style={{ fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--secondary)', marginBottom: '0.8rem', letterSpacing: '1px', fontFamily: 'var(--cinzel-font)' }}>
                                             <Award size={14} /> TECNOMILAGROS RELACIONADOS:
                                         </h4>
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                            {mission.probability_rewards.map((reward: any) => (
+                                            {mission.probability_rewards?.map((reward) => (
                                                 <button
                                                     key={reward.id}
                                                     className="filter-btn"

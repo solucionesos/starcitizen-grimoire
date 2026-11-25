@@ -1,33 +1,19 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useAuth } from './AuthContext';
+import { useAuth } from './useAuth';
+import {
+  AltarContext,
+  type AltarContextType,
+  type AltarRecipeInput,
+  type AltarRecipePart,
+  type CartItem,
+} from './useAltar';
 
-export interface CartItem {
-  id: string;
-  name: string;
-  parts: { name?: string; label?: string; amount: number; resourceId?: string }[];
-  quantity: number;
-}
-
-interface AltarContextType {
-  cart: CartItem[];
-  addToAltar: (recipe: any) => void;
-  removeFromAltar: (id: string) => void;
-  clearAltar: () => void;
-  getConsolidatedMaterials: () => Record<string, { label: string; amount: number; resourceId?: string }>;
-  isSyncing: boolean;
-}
-
-const AltarContext = createContext<AltarContextType | undefined>(undefined);
-
-export const useAltar = () => {
-  const context = useContext(AltarContext);
-  if (!context) throw new Error('useAltar must be used within AltarProvider');
-  return context;
-};
+export type { AltarContextType, AltarRecipeInput, AltarRecipePart, CartItem };
 
 export const AltarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
+  const userId = user?.id;
   const [cart, setCart] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('ancalagon_altar');
     return saved ? JSON.parse(saved) : [];
@@ -37,17 +23,20 @@ export const AltarProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Sync from server when user logs in
   useEffect(() => {
-    if (!user) {
+    if (!userId) {
       initialLoadDone.current = false;
       return;
     }
 
     let isMounted = true;
-    setIsSyncing(true);
 
-    axios
-      .get('/me/altar')
-      .then((res) => {
+    const syncFromServer = async () => {
+      await Promise.resolve();
+      if (!isMounted) return;
+      setIsSyncing(true);
+
+      try {
+        const res = await axios.get('/me/altar');
         if (!isMounted) return;
         const serverItems: CartItem[] = res.data.items || [];
         const localItems: CartItem[] = JSON.parse(localStorage.getItem('ancalagon_altar') || '[]');
@@ -72,21 +61,22 @@ export const AltarProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         if (localItems.length > 0) {
           axios.put('/me/altar', { items: merged }).catch(console.error);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error('Error fetching Altar from server:', err);
-      })
-      .finally(() => {
+      } finally {
         if (isMounted) {
           setIsSyncing(false);
           initialLoadDone.current = true;
         }
-      });
+      }
+    };
+
+    void syncFromServer();
 
     return () => {
       isMounted = false;
     };
-  }, [user?.id]);
+  }, [userId]);
 
   // Save to localStorage and server on every change
   useEffect(() => {
@@ -102,7 +92,7 @@ export const AltarProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [cart, user]);
 
-  const addToAltar = (recipe: any) => {
+  const addToAltar = (recipe: AltarRecipeInput) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === recipe.id);
       if (existing) {
@@ -115,7 +105,12 @@ export const AltarProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         {
           id: recipe.id,
           name: recipe.name || recipe.label || 'Tomo Desconocido',
-          parts: recipe.parts || [],
+          parts: (recipe.parts ?? []).map((part) => ({
+            name: part.name,
+            label: part.label,
+            amount: part.amount,
+            resourceId: part.resourceId ?? undefined,
+          })),
           quantity: 1,
         },
       ];

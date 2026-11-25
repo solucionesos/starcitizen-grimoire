@@ -1,25 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import type { BrotherProfile } from '../types';
+import { AuthContext, type AuthContextType } from './useAuth';
 
-interface AuthContextType {
-  user: BrotherProfile | null;
-  loading: boolean;
-  token: string | null;
-  loginWithDiscord: () => void;
-  devLogin: (roleOrHandle: string) => Promise<void>;
-  logout: () => Promise<void>;
-  refreshUser: () => Promise<void>;
-  updateProfile: (data: Partial<BrotherProfile>) => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within an AuthProvider');
-  return context;
-};
+export type { AuthContextType };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<BrotherProfile | null>(null);

@@ -1,5 +1,10 @@
 import { Router, Response } from 'express';
-import { requireApproved, AuthenticatedRequest } from '../auth/authMiddleware.js';
+import {
+  requireApproved,
+  verifySyncToken,
+  AuthenticatedRequest,
+} from '../auth/authMiddleware.js';
+import { logCouncilAction } from '../auth/authService.js';
 import { db } from '../database/sqlite.js';
 import crypto from 'node:crypto';
 
@@ -43,10 +48,7 @@ objectiveRouter.get('/', requireApproved, (req: AuthenticatedRequest, res: Respo
 
 // Endpoint directo en caliente para que el Oráculo / Agente IA proclame Designios por orden del usuario
 const handleAgentCreateObjective = (req: AuthenticatedRequest, res: Response) => {
-  const expectedToken = process.env.SYNC_SECRET_TOKEN || 'ancalagon-sync-secret';
-  const providedToken = req.headers['x-sync-token'] || req.headers['x-agent-token'] || req.body?.agent_token;
-
-  if (providedToken !== expectedToken) {
+  if (!verifySyncToken(req)) {
     return res.status(401).json({
       error: 'Sello del Oráculo inválido. Proporciona el encabezado X-Agent-Token o X-Sync-Token.',
     });
@@ -186,23 +188,60 @@ objectiveRouter.post('/', requireApproved, (req: AuthenticatedRequest, res: Resp
 
 // Actualizar progreso, estado o asignación de un Designio
 objectiveRouter.patch('/:id', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const id = req.params.id;
+  const id = String(req.params.id || '');
   const { progress, status, description, due_date, assigned_to } = req.body;
 
   const existing = db.prepare('SELECT * FROM objectives WHERE id = ?').get(id) as any;
   if (!existing) return res.status(404).json({ error: 'Designio no hallado en el Códice.' });
 
+  const userId = req.user!.userId;
+  const userRole = req.user!.role;
+  const isCommand = ['oficial', 'consejo', 'admin'].includes(userRole);
+  const isCreator = existing.creator_id === userId;
+  const isAssignee = existing.assigned_to === userId;
+
+  if (!isCommand && !isCreator && !isAssignee) {
+    return res.status(403).json({
+      error: 'No posees autoridad sobre este Designio Sagrado.',
+    });
+  }
+
+  if (!isCommand && existing.scope === 'org' && !isCreator) {
+    if (assigned_to !== undefined && (assigned_to || null) !== (existing.assigned_to || null)) {
+      return res.status(403).json({
+        error: 'Solo los Oficiales, Profetas o el Heraldo pueden reasignar un Designio de la Flota.',
+      });
+    }
+    if (status !== undefined && ['ceniza_fria', 'abandonado'].includes(status)) {
+      return res.status(403).json({
+        error: 'Solo los Oficiales, Profetas o el Heraldo pueden cancelar o arrojar a La Ceniza Fría un Designio de la Flota.',
+      });
+    }
+  }
+
   const updates: string[] = [];
   const params: any[] = [];
 
   if (progress !== undefined) {
-    const p = Math.max(0, Math.min(100, Number(progress)));
+    const parsedProgress =
+      progress === null ||
+      typeof progress === 'boolean' ||
+      typeof progress === 'object' ||
+      (typeof progress === 'string' && progress.trim() === '')
+        ? Number.NaN
+        : Number(progress);
+    if (!Number.isFinite(parsedProgress)) {
+      return res.status(400).json({ error: 'El progreso (progress) debe ser un número finito entre 0 y 100.' });
+    }
+    const p = Math.max(0, Math.min(100, parsedProgress));
     updates.push('progress = ?');
     params.push(p);
-    if (p === 100 && existing.status !== 'marca_del_abismo' && existing.status !== 'cumplido') {
-      updates.push("status = 'marca_del_abismo'");
-    } else if (p > 0 && p < 100 && existing.status === 'activo') {
-      updates.push("status = 'en_progreso'");
+    if (status === undefined) {
+      if (p === 100 && existing.status !== 'marca_del_abismo' && existing.status !== 'cumplido') {
+        updates.push("status = 'marca_del_abismo'");
+      } else if (p > 0 && p < 100 && existing.status === 'activo') {
+        updates.push("status = 'en_progreso'");
+      }
     }
   }
 
@@ -247,13 +286,18 @@ objectiveRouter.patch('/:id', requireApproved, (req: AuthenticatedRequest, res: 
 
 // Otorgar la Marca del Abismo (Verificación del Concilio / Voces del Abismo)
 objectiveRouter.post('/:id/verify', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const id = req.params.id;
-  const verifierId = req.user?.userId;
+  const id = String(req.params.id || '');
+  const verifierId = req.user!.userId;
 
   if (!['oficial', 'consejo', 'admin'].includes(req.user?.role || '')) {
     return res.status(403).json({
       error: 'Solo las Voces del Abismo, los Profetas de la Ruina o el Heraldo pueden otorgar la Marca del Abismo.',
     });
+  }
+
+  const existing = db.prepare('SELECT * FROM objectives WHERE id = ?').get(id) as any;
+  if (!existing) {
+    return res.status(404).json({ error: 'Designio no hallado en el Códice.' });
   }
 
   db.prepare(`
@@ -266,6 +310,13 @@ objectiveRouter.post('/:id/verify', requireApproved, (req: AuthenticatedRequest,
     WHERE id = ?
   `).run(verifierId, id);
 
+  if (['consejo', 'admin'].includes(req.user?.role || '')) {
+    logCouncilAction(verifierId, 'OBJECTIVE_VERIFIED', existing.assigned_to || null, {
+      objective_id: id,
+      title: existing.title,
+    });
+  }
+
   res.json({
     success: true,
     message: 'Marca del Abismo otorgada y sellada por el Concilio del Vacío. IN NOMINI OBLIVIONIS.',
@@ -274,7 +325,7 @@ objectiveRouter.post('/:id/verify', requireApproved, (req: AuthenticatedRequest,
 
 // Disolver Designio
 objectiveRouter.delete('/:id', requireApproved, (req: AuthenticatedRequest, res: Response) => {
-  const id = req.params.id;
+  const id = String(req.params.id || '');
   const existing = db.prepare('SELECT * FROM objectives WHERE id = ?').get(id) as any;
   if (!existing) return res.status(404).json({ error: 'Designio no hallado' });
 
@@ -283,5 +334,13 @@ objectiveRouter.delete('/:id', requireApproved, (req: AuthenticatedRequest, res:
   }
 
   db.prepare('DELETE FROM objectives WHERE id = ?').run(id);
+
+  if (['consejo', 'admin'].includes(req.user?.role || '')) {
+    logCouncilAction(req.user!.userId, 'OBJECTIVE_DELETED', existing.assigned_to || null, {
+      objective_id: id,
+      title: existing.title,
+    });
+  }
+
   res.json({ success: true, message: 'Designio arrojado a La Ceniza Fría.' });
 });
